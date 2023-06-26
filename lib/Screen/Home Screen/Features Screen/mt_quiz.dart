@@ -2,6 +2,7 @@ import 'package:cash_rocket/Provider/profile_provider.dart';
 import 'package:cash_rocket/Repositories/rewards_repo.dart';
 import 'package:cash_rocket/Screen/Home%20Screen/Features%20Screen/Quiz/mt_football.dart';
 import 'package:cash_rocket/generated/l10n.dart' as lang;
+import 'package:facebook_audience_network/facebook_audience_network.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -24,6 +25,37 @@ class MtQuiz extends StatefulWidget {
 }
 
 class _MtQuizState extends State<MtQuiz> {
+  bool isInterstitialLoaded=false;
+
+
+  @override
+  void initState() {
+    checkInternet();
+    super.initState();
+    FacebookAudienceNetwork.init(
+        testingId: "37b1da9d-b48c-4103-a393-2e095e734bd6", //optional
+        iOSAdvertiserTrackingEnabled: true
+    );//default false
+  }
+
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    loadInterstitial();
+  }
+
+  void loadInterstitial() {
+    FacebookInterstitialAd.loadInterstitialAd(
+      placementId: "IMG_16_9_APP_INSTALL#YOUR_PLACEMENT_ID", // add # your id after test id
+      listener: (result, value) {
+        if (result == InterstitialAdResult.LOADED)
+          FacebookInterstitialAd.showInterstitialAd(delay: 5000);
+      },
+    );
+  }
+
   void showPopUp(String amount, Quizzes quizzes) {
     showDialog(
       barrierDismissible: false,
@@ -128,7 +160,10 @@ class _MtQuizState extends State<MtQuiz> {
           ),
         );
       },
-    );
+    ).then((value) {
+      // This code block will execute after the dialog is closed
+      FacebookInterstitialAd.showInterstitialAd();
+    });
   }
 
   void showRewardsPopUp() {
@@ -212,7 +247,11 @@ class _MtQuizState extends State<MtQuiz> {
               ],
             ),
           );
-        });
+        },
+    ).then((value) {
+      // This code block will execute after the dialog is closed
+      FacebookInterstitialAd.showInterstitialAd();
+    });
   }
 
   List<Color> colorList = [
@@ -231,11 +270,6 @@ class _MtQuizState extends State<MtQuiz> {
     }
   }
 
-  @override
-  void initState() {
-    checkInternet();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {

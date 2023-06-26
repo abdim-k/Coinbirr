@@ -102,7 +102,8 @@ class CategoryQuiz {
     _name = json['name'];
     _description = json['description'];
     _image = json['image'];
-    _status = json['status'];
+    _status = int.tryParse(json['status'].toString()) ?? 0;
+
     _createdAt = json['created_at'];
     _updatedAt = json['updated_at'];
     if (json['quizzes'] != null) {
@@ -190,14 +191,19 @@ class Quizzes {
 
   Quizzes.fromJson(dynamic json) {
     _id = json['id'];
-    _categoryId = json['category_id'];
+    _categoryId = num.tryParse(json['category_id'].toString()) ?? 0;
+
     _name = json['name'];
     _image = json['image'];
-    _paidStatus = json['paid_status'];
+    _paidStatus = int.tryParse(json['paid_status'].toString()) ?? 0;
+
     _freeOrPaid = json['free_or_paid'];
-    _rewardPoint = json['reward_point'];
-    _retakePoint = json['retake_point'];
-    _status = json['status'];
+    _rewardPoint = int.tryParse(json['reward_point'].toString()) ?? 0;
+
+    _retakePoint = int.tryParse(json['retake_point'].toString()) ?? 0;
+
+    _status = int.tryParse(json['status'].toString()) ?? 0;
+
     _createdAt = json['created_at'];
     _updatedAt = json['updated_at'];
     if (json['questions'] != null) {
@@ -297,7 +303,8 @@ class Questions {
 
   Questions.fromJson(dynamic json) {
     _id = json['id'];
-    _quizId = json['quiz_id'];
+    _quizId = int.tryParse(json['quiz_id'].toString()) ?? 0;
+
     _question = json['question'];
     _optionA = json['option_a'];
     _optionB = json['option_b'];
@@ -305,7 +312,8 @@ class Questions {
     _optionD = json['option_d'];
     _answer = json['answer'];
     _image = json['image'];
-    _status = json['status'];
+    _status = int.tryParse(json['status'].toString()) ?? 0;
+
     _createdAt = json['created_at'];
     _updatedAt = json['updated_at'];
   }
