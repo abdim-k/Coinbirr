@@ -31,16 +31,16 @@ class _VideosState extends State<Videos> {
   List<String> imageList = [
     'images/bg1.png',
     'images/bg2.png',
-    'images/bg3.png',
-    'images/bg4.png',
+    // 'images/bg3.png',
+    // 'images/bg4.png',
     'images/bg2.png',
   ];
 
   List<String> logoList = [
     'images/app.png',
     'images/sa.png',
-    'images/am.png',
-    'images/an.png',
+    //'images/am.png',
+    // 'images/an.png',
     'images/an.png',
 
 
@@ -49,34 +49,36 @@ class _VideosState extends State<Videos> {
   List<String> titleList = [
     'AppLovin',
     'StartApp',
-    'AdMob',
-    'Audience Network',
-    'Unity Ads'
+   // 'AdMob',
+    //'Audience Network',
+    'Unity'
   ];
   List<String> subtitleList = [
     'Watch views and get Points',
     'Watch views and get Points',
-    'Watch views and get Points',
-    'Watch views and get Points',
+   // 'Watch views and get Points',
+  //  'Watch views and get Points',
     'Watch views and get Points',
   ];
 
   bool isBalanceShow = false;
   var startAppSdk = StartAppSdk();
-  Admob admob = Admob();
-  FacebookRewardVideoAd facebookRewardVideoAd = FacebookRewardVideoAd();
+  // Admob admob = Admob();
+//  FacebookRewardVideoAd facebookRewardVideoAd = FacebookRewardVideoAd();
   StartApp startApp = StartApp();
   AppLovin appLovin = AppLovin();
   AdManager adManager =
   AdManager();
 
-  void initialization() async{
+ /* void initialization() async{
     await AppLovinMAX.initialize(sdkKey);
     FacebookAudienceNetwork.init(
       testingId: "a77955ee-3304-4635-be65-81029b0f5201",
       iOSAdvertiserTrackingEnabled: true,
     );
   }
+
+  */
 
   Future<void> checkInternet() async {
     bool result = await InternetConnectionChecker().hasConnection;
@@ -88,9 +90,9 @@ class _VideosState extends State<Videos> {
   @override
   void initState() {
     checkInternet();
-    initialization();
-    facebookRewardVideoAd.loadRewardedVideoAd();
-    admob.createRewardedAd();
+   // initialization();
+ //   facebookRewardVideoAd.loadRewardedVideoAd();
+  //  admob.createRewardedAd();
 
     appLovin.loadAds();
     super.initState();
@@ -264,7 +266,7 @@ bool isFirst = true;
                             case 1:
                               startApp.showAds();
                               break;
-                            case 2:
+                         /*   case 2:
                               print('Ad not available');
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
@@ -275,7 +277,9 @@ bool isFirst = true;
                             case 3:
                               facebookRewardVideoAd.showRewardedAd();
                               break;
-                            case 4:
+
+                          */
+                            case 2:
                               await AdManager.showIntAd3(ref: ref);
                               break;
                             default:

@@ -56,6 +56,7 @@ class MyApp extends StatelessWidget {
           ],
           supportedLocales: S.delegate.supportedLocales,
           title: 'Cash Rocket',
+          debugShowCheckedModeBanner: false,
           theme: ThemeData(fontFamily: 'Display'),
           home: const SplashScreen(),
           builder: EasyLoading.init(),

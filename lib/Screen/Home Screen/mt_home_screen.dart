@@ -709,7 +709,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 )),
                               ],
                             ).onTap(
-                              () => const OffertoroOfferwall().launch(context),
+                              () =>  ComingSoonScreen().launch(context),
                             ),
                             Column(
                               children: [

@@ -12,6 +12,51 @@ import '../../Provider/profile_provider.dart';
 import '../Constant Data/constant.dart';
 import '../Home Screen/no_internet_screen.dart';
 
+
+class ComingSoonScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+          backgroundColor: Colors.deepPurple,
+        title: Text(''),
+      ),
+      body: Container(
+        color: Colors.deepPurple, // Choose your desired background color
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Coming Soon',
+                style: TextStyle(
+                  fontSize: 32,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 16),
+              Text(
+                'Stay tuned for exciting updates!',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+/*
 class OffertoroOfferwall extends StatefulWidget {
   const OffertoroOfferwall({Key? key}) : super(key: key);
 
@@ -293,3 +338,4 @@ class _OffertoroOfferwallState extends State<OffertoroOfferwall> {
     });
   }
 }
+*/

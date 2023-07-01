@@ -10,7 +10,41 @@ import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:cash_rocket/generated/l10n.dart' as lang;
 
-class Offers extends StatefulWidget {
+
+class ComingSoonScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        color: Colors.deepPurple, // Choose your desired background color
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Coming Soon',
+                style: TextStyle(
+                  fontSize: 32,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 16),
+              Text(
+                'Stay tuned for exciting updates!',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+/* class Offers extends StatefulWidget {
   const Offers({Key? key}) : super(key: key);
 
   @override
@@ -217,3 +251,5 @@ class _OffersState extends State<Offers> {
     );
   }
 }
+*/
+
