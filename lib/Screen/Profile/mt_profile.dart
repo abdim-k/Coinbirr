@@ -232,22 +232,7 @@ class _ProfileState extends State<Profile> {
                         trailing: const Icon(FeatherIcons.chevronRight),
                       )),
                 ).visible(false),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                  child: Card(
-                      elevation: 0.0,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0), side: BorderSide(color: kGreyTextColor.withOpacity(0.1), width: 1.0)),
-                      child: ListTile(
-                        onTap: (() => const MtTermsAndCondition().launch(context)),
-                        horizontalTitleGap: 2,
-                        leading: const Icon(
-                          BootstrapIcons.shield_check,
-                          color: kMainColor,
-                        ),
-                        title: Text(lang.S.of(context).termsOfService),
-                        trailing: const Icon(FeatherIcons.chevronRight),
-                      )),
-                ),
+
                 Padding(
                   padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                   child: Card(
@@ -267,19 +252,44 @@ class _ProfileState extends State<Profile> {
                 Padding(
                   padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                   child: Card(
+                    elevation: 0.0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      side: BorderSide(color: kGreyTextColor.withOpacity(0.1), width: 1.0),
+                    ),
+                    child: ListTile(
+                      onTap: (() => const MtPrivacyPolicy().launch(context)),
+                      horizontalTitleGap: 2,
+                      leading: Icon(
+                        Icons.info_outline,
+                        color: kMainColor,
+                      ),
+                      title: Text("About"),
+                      trailing: const Icon(FeatherIcons.chevronRight),
+                    ),
+                  ),
+                ),
+
+
+
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                  child: Card(
                       elevation: 0.0,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0), side: BorderSide(color: kGreyTextColor.withOpacity(0.1), width: 1.0)),
                       child: ListTile(
                         onTap: (() => const MtPrivacyPolicy().launch(context)),
                         horizontalTitleGap: 2,
                         leading: const Icon(
-                          FeatherIcons.info,
+                          BootstrapIcons.shield_check,
                           color: kMainColor,
                         ),
                         title: Text(lang.S.of(context).privacyPolicty),
                         trailing: const Icon(FeatherIcons.chevronRight),
                       )),
                 ),
+
+
                 Padding(
                   padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                   child: Card(

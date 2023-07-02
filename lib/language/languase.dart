@@ -74,7 +74,7 @@ class _LanguageState extends State<Language> {
                             } else if (selectedCountry == 'Amharic') {
                               context.read<LanguageChangeProvider>().changeLocale("am");
                             } else if (selectedCountry == 'Oromo') {
-                              context.read<LanguageChangeProvider>().changeLocale("om");
+                              context.read<LanguageChangeProvider>().changeLocale("or");
                             } else if (selectedCountry == 'Arabic') {
                               context.read<LanguageChangeProvider>().changeLocale("ar");
                             }  else if (selectedCountry == 'Spanish') {
