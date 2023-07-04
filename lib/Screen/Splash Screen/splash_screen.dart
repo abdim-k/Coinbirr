@@ -85,7 +85,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     image: AssetImage('images/logo.png'),
                   ),
                   Text(
-                    'Cash Rocket',
+                    'Coinbirr',
                     style: kTextStyle.copyWith(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20.0),
                   )
                 ],

@@ -18,18 +18,18 @@ class _OnBoardState extends State<OnBoard> {
   int currentIndexPage = 0;
   List<Map<String, dynamic>> sliderList = [
     {
-      "title": 'Welcome to Cash Rocket',
-      "description": 'Amet minim mollit non deserunt ullamc est sit aliqua dolor amet Velit officia\nconsequat amet minim',
+      "title": 'Welcome to Coinbirr',
+      "description": 'Watch, Play, Get Paid! Earn rewards for watching videos and winning quizzes. Turn your entertainment into earnings with this exciting app.',
       "icon": 'images/onboard1.png',
     },
     {
       "title": 'Redeem Your Points',
-      "description": 'Amet minim mollit non deserunt ullamc est sit aliqua dolor amet Velit officia\nconsequat amet minim',
+      "description": 'Easily redeem your hard-earned points with CoinBirr. Use TeleBirr, bank transfers, or airtime cards to cash out and enjoy your rewards. Cash out anytime, anywhere!',
       "icon": 'images/onboard2.png',
     },
     {
       "title": 'Secure Your Money',
-      "description": 'Amet minim mollit non deserunt ullamc est sit aliqua dolor amet Velit officia\nconsequat amet minim',
+      "description": 'Enjoy secure transactions and peace of mind while using CoinBirr to manage your earnings.',
       "icon": 'images/onboard3.png',
     },
   ];

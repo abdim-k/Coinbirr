@@ -53,10 +53,12 @@ class _HomeScreenState extends State<HomeScreen> {
     checkInternet();
     super.initState();
     // remove this code on final product
-    FacebookAudienceNetwork.init(
+   /* FacebookAudienceNetwork.init(
         testingId: "37b1da9d-b48c-4103-a393-2e095e734bd6", //optional
         iOSAdvertiserTrackingEnabled: true //default false
     );
+
+    */
   }
 
   @override
@@ -68,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void loadInterstitial() {
     FacebookInterstitialAd.loadInterstitialAd(
-      placementId: "IMG_16_9_APP_INSTALL#YOUR_PLACEMENT_ID", // add # your id after test id
+      placementId: "IMG_16_9_APP_INSTALL#793824048967170_813764000306508", // add # your id after test id
       listener: (result, value) {
         if (result == InterstitialAdResult.LOADED)
           FacebookInterstitialAd.showInterstitialAd(delay: 5000);
@@ -673,7 +675,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         if (i == 0) {
                           const Redeem().launch(context);
                         } else {
-                          Share.share('I have earned \$100 in a day. Use my refer code to earn \$10 on signup. My Refer Code is ${info.data?.user?.referCode ?? ''}');
+                          Share.share('I have earned \$10 in a day. Use my refer code to earn \$10 on signup. My Refer Code is ${info.data?.user?.referCode ?? ''}');
                         }
                       });
                     },
@@ -847,7 +849,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   )
                                 ],
                               ).onTap(
-                                  () => Share.share('I have earned \$100 in a day. Use my refer code to earn \$10 on signup. My Refer Code is ${info.data?.user?.referCode ?? ''}')),
+                                  () => Share.share('I have earned \$10 in a day. Use my refer code to earn \$10 on signup. My Refer Code is ${info.data?.user?.referCode ?? ''}')),
                             )
                           ],
                         )

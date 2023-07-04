@@ -12,10 +12,12 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:startapp_sdk/startapp.dart';
 import 'package:unity_ads_plugin/unity_ads_plugin.dart';
 
 import '../../../Repositories/rewards_repo.dart';
 import '../../../Videos/Admob/admob.dart';
+import '../../../Videos/StartApp/startapp.dart';
 import '../../../Videos/UnityAds/unity_ads.dart';
 import '../../../test/src/core/core.dart';
 import '../../../test/src/indicators/indicators.dart';
@@ -71,6 +73,9 @@ class _WheelState extends State<Wheel> {
 
   bool isBalanceShow = false;
   Admob admob = Admob();
+  var startAppSdk = StartAppSdk();
+  StartApp startApp = StartApp();
+  bool isFirst = true;
 
   void showRewardPopUp(String amount) {
     showDialog(
@@ -155,6 +160,8 @@ class _WheelState extends State<Wheel> {
 
   @override
   Widget build(BuildContext context) {
+
+
     final items = <String>[
       '10',
       '20',
@@ -168,8 +175,12 @@ class _WheelState extends State<Wheel> {
       '100',
     ];
     return SafeArea(
+
       child: Scaffold(
         body: Consumer(builder: (_, ref, watch) {
+          isFirst? startApp.loadRewardedVideoAd(ref: ref):null;
+          isFirst = true;
+          AsyncValue<UserProfileModel> profile = ref.watch(personalProfileProvider);
           AsyncValue<UserProfileModel> userInfo = ref.watch(personalProfileProvider);
           return Stack(
             alignment: Alignment.topCenter,
@@ -370,7 +381,7 @@ class _WheelState extends State<Wheel> {
                           const SizedBox(height: 50.0),
                           ButtonGlobal(buttontext: lang.S.of(context).watchVideoAndEarn, buttonDecoration: kButtonDecoration, onPressed: (){
                             // admob.showRewardedAd(ref: ref);
-                            AdManager.showIntAd(ref: ref);
+                            startApp.showAds();
                           }),
                         ],
                       ),

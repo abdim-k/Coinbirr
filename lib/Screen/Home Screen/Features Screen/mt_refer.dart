@@ -139,7 +139,7 @@ class _ReferState extends State<Refer> {
                         ButtonGlobal(
                           buttontext: lang.S.of(context).inviteNow,
                           buttonDecoration: kButtonDecoration,
-                          onPressed: (() => Share.share('I have earned \$100 in a day. Use my refer code to earn \$10 on signup. My Refer Code is ${code.data?.user?.referCode ?? ''}')),
+                          onPressed: (() => Share.share('I have earned \$10 in a day. Use my refer code to earn \$10 on signup. My Refer Code is ${code.data?.user?.referCode ?? ''}')),
                         ),
                       ],
                     ),

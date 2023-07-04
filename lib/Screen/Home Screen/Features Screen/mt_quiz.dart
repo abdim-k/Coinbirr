@@ -32,10 +32,12 @@ class _MtQuizState extends State<MtQuiz> {
   void initState() {
     checkInternet();
     super.initState();
-    FacebookAudienceNetwork.init(
+    /* FacebookAudienceNetwork.init(
         testingId: "37b1da9d-b48c-4103-a393-2e095e734bd6", //optional
         iOSAdvertiserTrackingEnabled: true
-    );//default false
+    );
+    //default false
+     */
   }
 
 
@@ -48,7 +50,7 @@ class _MtQuizState extends State<MtQuiz> {
 
   void loadInterstitial() {
     FacebookInterstitialAd.loadInterstitialAd(
-      placementId: "IMG_16_9_APP_INSTALL#YOUR_PLACEMENT_ID", // add # your id after test id
+      placementId: "IMG_16_9_APP_INSTALL#793824048967170_813764000306508", // add # your id after test id
       listener: (result, value) {
         if (result == InterstitialAdResult.LOADED)
           FacebookInterstitialAd.showInterstitialAd(delay: 5000);

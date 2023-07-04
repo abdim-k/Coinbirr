@@ -63,8 +63,8 @@ class S {
   /// `Cash Rocket`
   String get cashRocket {
     return Intl.message(
-      'Cash Rocket',
-      name: 'cashRocket',
+      'Coinbirr',
+      name: 'coinbirr',
       desc: '',
       args: [],
     );
@@ -833,8 +833,9 @@ class S {
   /// `Invite your friends to use Cash Rocket and you will receive 100 points for each one`
   String get inviteYourFriendtoUseCashRocket {
     return Intl.message(
-      'Invite your friends to use Cash Rocket and you will receive 100 points for each one',
-      name: 'inviteYourFriendtoUseCashRocket',
+      'Invite your friends to use Coinbirr and you will receive 100 points for each one',
+      name: 'inviteYourFriendtoUseCoinbirr'
+          '',
       desc: '',
       args: [],
     );
