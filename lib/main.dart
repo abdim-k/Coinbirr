@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: S.delegate.supportedLocales,
-          title: 'Cash Rocket',
+          title: 'Coinbirr',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(fontFamily: 'Display'),
           home: const SplashScreen(),

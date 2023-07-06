@@ -70,15 +70,17 @@ class _VideosState extends State<Videos> {
   AdManager adManager =
   AdManager();
 
- /* void initialization() async{
+  void initialization() async{
     await AppLovinMAX.initialize(sdkKey);
-    FacebookAudienceNetwork.init(
+  /*  FacebookAudienceNetwork.init(
       testingId: "a77955ee-3304-4635-be65-81029b0f5201",
       iOSAdvertiserTrackingEnabled: true,
     );
+
+   */
   }
 
-  */
+
 
   Future<void> checkInternet() async {
     bool result = await InternetConnectionChecker().hasConnection;
@@ -90,7 +92,7 @@ class _VideosState extends State<Videos> {
   @override
   void initState() {
     checkInternet();
-   // initialization();
+   initialization();
  //   facebookRewardVideoAd.loadRewardedVideoAd();
   //  admob.createRewardedAd();
 
