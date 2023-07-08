@@ -63,8 +63,8 @@ class S {
   /// `Cash Rocket`
   String get cashRocket {
     return Intl.message(
-      'Cash Rocket',
-      name: 'cashRocket',
+      'Coinbirr',
+      name: 'coinbirr',
       desc: '',
       args: [],
     );
@@ -483,8 +483,8 @@ class S {
   /// `Date Updated” (7 Jun 2021)`
   String get dateUpdated {
     return Intl.message(
-      'Date Updated” (7 Jun 2021)',
-      name: 'dateUpdated',
+      'Last updated July 06, 2023',
+      name: 'dateUpdatedc',
       desc: '',
       args: [],
     );
@@ -493,18 +493,18 @@ class S {
   /// `Privacy Policy`
   String get privicyPolcy {
     return Intl.message(
-      'Privacy Policy',
-      name: 'privicyPolcy',
+      'About',
+      name: 'privicyPolcyy',
       desc: '',
       args: [],
     );
   }
 
   /// `Privacy Policy | Cash Rocket`
-  String get privicyPolicyICashRocket {
+  String get privicyPolicyICoinbirr {
     return Intl.message(
-      'Privacy Policy | Cash Rocket',
-      name: 'privicyPolicyICashRocket',
+      'About | Coinbirr',
+      name: 'privicyPolicyICoinbirr ',
       desc: '',
       args: [],
     );
@@ -753,8 +753,8 @@ class S {
   /// `Withdraw Account`
   String get withdrawAccount {
     return Intl.message(
-      'Withdraw Account',
-      name: 'withdrawAccount',
+      'Withdraw Account or Number',
+      name: 'withdrawAccountt',
       desc: '',
       args: [],
     );
@@ -1285,12 +1285,14 @@ class S {
   /// `Lorem ipsum dolor sit amet, consectetur adip is ci ng elit. Neque nulla sed mauris feugiat eget. Augu e id neque nisl nibh ut facilisis massa,`
   String get loremipsum {
     return Intl.message(
-      'Lorem ipsum dolor sit amet, consectetur adip is ci ng elit. Neque nulla sed mauris feugiat eget. Augu e id neque nisl nibh ut facilisis massa,',
-      name: 'loremipsum',
+      'If you have any question or support Join our Telegram group chat or contact us Through  social media link',
+      name: 'loremipsumm',
+
       desc: '',
       args: [],
     );
   }
+
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

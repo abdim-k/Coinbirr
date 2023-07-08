@@ -13,6 +13,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../Provider/database_provider.dart';
 import '../../Repositories/authentication_repo.dart';
 import '../Constant Data/config.dart';
@@ -272,21 +273,37 @@ class _ProfileState extends State<Profile> {
 
 
 
+
+
                 Padding(
                   padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                   child: Card(
-                      elevation: 0.0,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0), side: BorderSide(color: kGreyTextColor.withOpacity(0.1), width: 1.0)),
-                      child: ListTile(
-                        onTap: (() => const MtPrivacyPolicy().launch(context)),
-                        horizontalTitleGap: 2,
-                        leading: const Icon(
-                          BootstrapIcons.shield_check,
-                          color: kMainColor,
-                        ),
-                        title: Text(lang.S.of(context).privacyPolicty),
-                        trailing: const Icon(FeatherIcons.chevronRight),
-                      )),
+                    elevation: 0.0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      side: BorderSide(
+                        color: kGreyTextColor.withOpacity(0.1),
+                        width: 1.0,
+                      ),
+                    ),
+                    child: ListTile(
+                      onTap: () async {
+                        const url = 'https://islamdaily.akonlinetutor.com/privacy-policy-for-coinbirr/'; // Replace with your privacy policy URL
+                        if (await canLaunch(url)) {
+                          await launch(url);
+                        } else {
+                          throw 'Could not launch $url';
+                        }
+                      },
+                      horizontalTitleGap: 2,
+                      leading: const Icon(
+                        BootstrapIcons.shield_check,
+                        color: kMainColor,
+                      ),
+                      title: Text(lang.S.of(context).privacyPolicty),
+                      trailing: const Icon(FeatherIcons.chevronRight),
+                    ),
+                  ),
                 ),
 
 
