@@ -16,12 +16,14 @@ import '../../Repositories/rewards_repo.dart';
 
 class AppLovin {
   var _rewardedAdRetryAttempt = 0;
+  var _interstitialRetryAttempt = 0;
 
   Future<void> loadAds() async {
     final String rewardedAdUnitId =  Platform.isAndroid ?await DataBase().retrieveString('applovinRewardedAdAndroid') ?? "b6a2ecde63205294" : await DataBase().retrieveString('applovinRewardedAdIos') ?? "b6a2ecde63205294";
-
+    final String interstitialAdUnitId = Platform.isAndroid ? "ded2daf815676443" : "ded2daf815676443";
     toast("Initializing SDK...");
     AppLovinMAX.loadRewardedAd(rewardedAdUnitId);
+    AppLovinMAX.loadInterstitial(interstitialAdUnitId);
   }
   void initializeRewardedAds({required WidgetRef ref}) {
     AppLovinMAX.setRewardedAdListener(RewardedAdListener(
@@ -89,4 +91,52 @@ class AppLovin {
       loadAds();
     }
   }
+  void initializeInterstitialAds() {
+    AppLovinMAX.setInterstitialListener(InterstitialListener(
+      onAdLoadedCallback: (ad) {
+        // Interstitial ad is ready to be shown. AppLovinMAX.isInterstitialAdReady(_interstitial_ad_unit_id) will now return 'true'
+        toast('Interstitial ad loaded from ${ad.networkName}');
+
+        // Reset retry attempt
+        _interstitialRetryAttempt = 0;
+      },
+      onAdLoadFailedCallback: (adUnitId, error) {
+        // Interstitial ad failed to load
+        // We recommend retrying with exponentially higher delays up to a maximum delay (in this case 64 seconds)
+        _interstitialRetryAttempt = _interstitialRetryAttempt + 1;
+
+        int retryDelay = pow(2, min(6, _interstitialRetryAttempt)).toInt();
+        toast('Interstitial ad failed to load with code ${error.code} - retrying in ${retryDelay}s');
+
+        Future.delayed(Duration(milliseconds: retryDelay * 1000), () {
+          loadAds();
+        });
+      },
+      onAdDisplayedCallback: (ad) {
+        toast('ad displayed from ${ad.networkName}');
+      },
+      onAdHiddenCallback: (ad) {
+        toast('');
+      },
+      onAdClickedCallback: (ad) {
+        toast('');
+      }, onAdDisplayFailedCallback: (MaxAd ad, MaxError error) { toast('Ad is not ready'); },
+    ));
+  }
+
+  void showInterstitialAd() async {
+    final String interstitialAdUnitId = Platform.isAndroid
+        ? await DataBase().retrieveString('applovinInterstitialAdAndroid') ?? "ded2daf815676443"
+        : await DataBase().retrieveString('applovinInterstitialAdIos') ?? "ded2daf815676443";
+
+    bool isReady = (await AppLovinMAX.isInterstitialReady(interstitialAdUnitId))!;
+    if (isReady) {
+      initializeInterstitialAds();
+      AppLovinMAX.showInterstitial(interstitialAdUnitId);
+      loadAds();
+    } else {
+      loadAds();
+    }
+  }
+
 }

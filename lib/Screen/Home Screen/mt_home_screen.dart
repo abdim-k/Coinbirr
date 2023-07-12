@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously, unused_result
 
+import 'package:applovin_max/applovin_max.dart';
 import 'package:cash_rocket/Model/user_profile_model.dart';
 import 'package:cash_rocket/Provider/profile_provider.dart';
 import 'package:cash_rocket/Repositories/authentication_repo.dart';
@@ -18,10 +19,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:unity_ads_plugin/unity_ads_plugin.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:cash_rocket/generated/l10n.dart' as lang;
 import '../../Model/purchase_model.dart';
 import '../../Provider/database_provider.dart';
+import '../../Videos/AppLovin/applovin.dart';
+import '../../Videos/UnityAds/unity_ads.dart';
 import '../Authentication/log_in.dart';
 import '../Constant Data/config.dart';
 import '../Offer Toro/offertoro_offerwall.dart';
@@ -37,8 +41,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
   Admob admob = Admob();
-  bool isInterstitialLoaded=false;
+  AppLovin appLovin = AppLovin();
+  AdManager adManager =
+  AdManager();
+ // bool isInterstitialLoaded=false;
   YoutubePlayerController videoController = YoutubePlayerController(
     flags: const YoutubePlayerFlags(
       autoPlay: false,
@@ -47,11 +55,33 @@ class _HomeScreenState extends State<HomeScreen> {
     initialVideoId: 'i3OVYC8MFDY',
   );
 
+  void initialization() async {
+    await AppLovinMAX.initialize(sdkKey);
+  }
 
   @override
   void initState() {
     checkInternet();
+    initialization();
+    //   facebookRewardVideoAd.loadRewardedVideoAd();
+    //  admob.createRewardedAd();
+
+    appLovin.loadAds();
     super.initState();
+    appLovin.loadAds();
+
+    UnityAds.init(
+      gameId: '5321840',
+      onComplete: () => print('Initialization Complete'),
+      onFailed: (error, message) =>
+          print('Initialization Failed: $error $message'),
+    );
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp)  {
+      // Create an instance of the AdManager class
+
+
+      adManager.loadUnityAd2();// Access the method through the instance
+    });
     // remove this code on final product
    /* FacebookAudienceNetwork.init(
         testingId: "37b1da9d-b48c-4103-a393-2e095e734bd6", //optional
@@ -61,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
     */
   }
 
-  @override
+  /* @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
@@ -77,6 +107,8 @@ class _HomeScreenState extends State<HomeScreen> {
       },
     );
   }
+
+   */
 
   void showRewardPopUp(String amount) {
     showDialog(
@@ -158,8 +190,9 @@ class _HomeScreenState extends State<HomeScreen> {
           );
         },
     ).then((value) {
+      AdManager.showIntAd2();
       // This code block will execute after the dialog is closed
-      FacebookInterstitialAd.showInterstitialAd();
+     // FacebookInterstitialAd.showInterstitialAd();
     });
   }
 
@@ -241,8 +274,9 @@ class _HomeScreenState extends State<HomeScreen> {
           );
         },
     ).then((value) {
+      appLovin.showInterstitialAd();
       // This code block will execute after the dialog is closed
-      FacebookInterstitialAd.showInterstitialAd();
+   //   FacebookInterstitialAd.showInterstitialAd();
     });
   }
 

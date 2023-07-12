@@ -102,4 +102,4 @@ List<String> saleStats = [
   'Yearly',
 ];
 
-const String sdkKey = "_f0BQOs31IIZKuF5T6sPNbXpNKTHaXU4abr7m1xHIqtyZJExud5E2ypR6yHvT_tye3k_EOJQ_30vHw4mg109DS";
+const String sdkKey = "i600E98_ysqQympmMBratH16to07ByoipdykOLSpvnJMTeHcg1AgatgkQyu7SIDPASogZJ8ypS3XEDl5z01n35";
