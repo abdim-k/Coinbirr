@@ -675,7 +675,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         if (i == 0) {
                           const Redeem().launch(context);
                         } else {
-                          Share.share('I have earned \$10 in a day. Use my refer code to earn \$10 on signup. My Refer Code is ${info.data?.user?.referCode ?? ''}');
+                          Share.share('I have earned \$10 in a day. Use my refer code to earn \$10 on signup. My Refer Code is ${info.data?.user?.referCode ?? ''}. Download the app now and start your journey of making money online: https://play.google.com/store/apps/details?id=com.pioneerdev.coinbirr&pli=1');
                         }
                       });
                     },
@@ -724,6 +724,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       lang.S.of(context).videos,
                                   style: kTextStyle.copyWith(color: kTitleColor, fontWeight: FontWeight.bold),
                                 )),
+
                               ],
                             ).onTap(
                               () => const Videos().launch(context),
@@ -849,7 +850,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   )
                                 ],
                               ).onTap(
-                                  () => Share.share('I have earned \$10 in a day. Use my refer code to earn \$10 on signup. My Refer Code is ${info.data?.user?.referCode ?? ''}')),
+                                  () => Share.share('I have earned \$10 in a day. Use my refer code to earn \$10 on signup. My Refer Code is ${info.data?.user?.referCode ?? ''}. Download the app now and start your journey of making money online: https://play.google.com/store/apps/details?id=com.pioneerdev.coinbirr&pli=1')),
                             )
                           ],
                         )

@@ -101,7 +101,7 @@ class _ReferState extends State<Refer> {
                         ),
                         const SizedBox(height: 5.0),
                         Text(
-                          lang.S.of(context).inviteYourFriendtoUseCashRocket,
+                          lang.S.of(context).inviteYourFriendtoUseCashRockett,
                           style: kTextStyle.copyWith(color: kGreyTextColor),
                           maxLines: 5,
                         ),
@@ -139,8 +139,9 @@ class _ReferState extends State<Refer> {
                         ButtonGlobal(
                           buttontext: lang.S.of(context).inviteNow,
                           buttonDecoration: kButtonDecoration,
-                          onPressed: (() => Share.share('I have earned \$10 in a day. Use my refer code to earn \$10 on signup. My Refer Code is ${code.data?.user?.referCode ?? ''}')),
+                          onPressed: (() => Share.share('I have earned \$10 in a day. Use my refer code to earn \$10 on signup. My Refer Code is ${code.data?.user?.referCode ?? ''}. Download the app now and start your journey of making money online: https://play.google.com/store/apps/details?id=com.pioneerdev.coinbirr&pli=1')),
                         ),
+
                       ],
                     ),
                   ),

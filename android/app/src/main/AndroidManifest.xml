@@ -7,6 +7,7 @@
         android:label="Coinbirr"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
+        android:networkSecurityConfig="@xml/network_security_config">
 
        <!-- TODO replace YOUR_APP_ID with actual value -->
        <meta-data

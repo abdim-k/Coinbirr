@@ -49,7 +49,7 @@ class _MtTermsAndConditionState extends State<MtTermsAndCondition> {
             ),
             const SizedBox(height: 10.0),
             Text(
-              lang.S.of(context).loremipsum,
+              lang.S.of(context).loremipsumm,
               style: kTextStyle.copyWith(color: kGreyTextColor),
             ),
             const SizedBox(height: 10.0),

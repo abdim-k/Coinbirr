@@ -63,8 +63,8 @@ class S {
   /// `Cash Rocket`
   String get cashRocket {
     return Intl.message(
-      'Coinbirr',
-      name: 'coinbirr',
+      'Cash Rocket',
+      name: 'cashRocket',
       desc: '',
       args: [],
     );
@@ -483,8 +483,8 @@ class S {
   /// `Date Updated” (7 Jun 2021)`
   String get dateUpdated {
     return Intl.message(
-      'Last updated July 06, 2023',
-      name: 'dateUpdatedc',
+      'Date Updated” (7 Jun 2021)',
+      name: 'dateUpdated',
       desc: '',
       args: [],
     );
@@ -493,18 +493,18 @@ class S {
   /// `Privacy Policy`
   String get privicyPolcy {
     return Intl.message(
-      'About',
-      name: 'privicyPolcyy',
+      'Privacy Policy',
+      name: 'privicyPolcy',
       desc: '',
       args: [],
     );
   }
 
   /// `Privacy Policy | Cash Rocket`
-  String get privicyPolicyICoinbirr {
+  String get privicyPolicyICashRockett {
     return Intl.message(
       'About | Coinbirr',
-      name: 'privicyPolicyICoinbirr ',
+      name: 'privicyPolicyICashRockett',
       desc: '',
       args: [],
     );
@@ -753,8 +753,8 @@ class S {
   /// `Withdraw Account`
   String get withdrawAccount {
     return Intl.message(
-      'Withdraw Account or Number',
-      name: 'withdrawAccountt',
+      'Withdraw Account',
+      name: 'withdrawAccount',
       desc: '',
       args: [],
     );
@@ -831,10 +831,10 @@ class S {
   }
 
   /// `Invite your friends to use Cash Rocket and you will receive 100 points for each one`
-  String get inviteYourFriendtoUseCashRocket {
+  String get inviteYourFriendtoUseCashRockett {
     return Intl.message(
-      'Invite your friends to use Coinbirr and you will receive 100 points for each one',
-      name: 'inviteYourFriendtoUseCoinbirr',
+      'Invite your friends to use Coinbirr and you will receive 500 points for each one',
+      name: 'inviteYourFriendtoUseCashRockett',
       desc: '',
       args: [],
     );
@@ -1283,16 +1283,14 @@ class S {
   }
 
   /// `Lorem ipsum dolor sit amet, consectetur adip is ci ng elit. Neque nulla sed mauris feugiat eget. Augu e id neque nisl nibh ut facilisis massa,`
-  String get loremipsum {
+  String get loremipsumm {
     return Intl.message(
-      'If you have any question or support Join our Telegram group chat or contact us Through  social media link',
+      'CoinBirr: The very first online money making app designed exclusively for Ethiopian users. Our mission is simple yet transformative: to provide a seamless platform where you can earn money while watching engaging videos and answering exciting quizzes.\n If you have any questions or need any assistance feel free to join our Telegram group  or contact me through my social media links.",',
       name: 'loremipsumm',
-
       desc: '',
       args: [],
     );
   }
-
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

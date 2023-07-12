@@ -38,7 +38,7 @@ class _MtPrivacyPolicyState extends State<MtPrivacyPolicy> {
             const SizedBox(height: 10.0),
 
             Text(
-              lang.S.of(context).privicyPolicyICoinbirr,
+              lang.S.of(context).privicyPolicyICashRockett,
               style: kTextStyle.copyWith(
                   color: kTitleColor,
                   fontWeight: FontWeight.bold,
@@ -92,7 +92,7 @@ class _MtPrivacyPolicyState extends State<MtPrivacyPolicy> {
 
             const SizedBox(height: 10.0),
             Text(
-              lang.S.of(context).loremipsum,
+              lang.S.of(context).loremipsumm,
               style: kTextStyle.copyWith(color: kGreyTextColor),
             ),
             Container(
