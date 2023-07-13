@@ -8,6 +8,7 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:share_plus/share_plus.dart';
 import '../../../../Model/quiz_model.dart';
 import '../../../../Repositories/rewards_repo.dart';
+import '../../../../Videos/Vungle/vungle.dart';
 import '../../../Constant Data/constant.dart';
 import '../../home.dart';
 import 'package:cash_rocket/generated/l10n.dart' as lang;
@@ -22,6 +23,15 @@ class MtLoser extends StatefulWidget {
 }
 
 class _MtLoserState extends State<MtLoser> {
+  VungleAd vungleAd = VungleAd();
+
+
+  @override
+  void initState() {
+
+    super.initState();
+    vungleAd.loadVungle2();
+  }
   void showPopUp(String retakePoint) {
     showDialog(
       barrierDismissible: false,
@@ -133,13 +143,14 @@ class _MtLoserState extends State<MtLoser> {
   }
 
   final InAppReview _inAppReview = InAppReview.instance;
-  String select = '';
+  String select = 'com.pioneerdev.coinbirr';
 
   List<String> option = [
     'Share Score',
     'Rate Us',
     'Home',
   ];
+
 
   void review() async {
     if (await _inAppReview.isAvailable()) {
@@ -348,8 +359,8 @@ class _MtLoserState extends State<MtLoser> {
                   ),
                   child: ListTile(
                     onTap: () {
-                      Share.share('check out my website https://example.com',
-                          subject: 'Look what I made!');
+                      Share.share('I have earned \$10 in a day. Use my refer code to earn \$10 on signup. . Download the app now and start your journey of making money online: https://play.google.com/store/apps/details?id=com.pioneerdev.coinbirr&pli=1',
+                          subject: 'Look what I made answering simple quiz about Ethiopia');
                     },
                     title: Text(
                       lang.S.of(context).shareSqure,
@@ -384,6 +395,7 @@ class _MtLoserState extends State<MtLoser> {
                   child: ListTile(
                     onTap: () {
                       setState(() {
+                        vungleAd.onPlayAd2();
                         const Home().launch(context);
                       });
                     },

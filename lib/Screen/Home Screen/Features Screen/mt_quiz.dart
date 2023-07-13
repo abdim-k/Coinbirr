@@ -25,7 +25,7 @@ class MtQuiz extends StatefulWidget {
 }
 
 class _MtQuizState extends State<MtQuiz> {
-  bool isInterstitialLoaded=false;
+  //bool isInterstitialLoaded=false;
 
 
   @override
@@ -40,7 +40,7 @@ class _MtQuizState extends State<MtQuiz> {
      */
   }
 
-
+/*
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
@@ -57,6 +57,8 @@ class _MtQuizState extends State<MtQuiz> {
       },
     );
   }
+
+ */
 
   void showPopUp(String amount, Quizzes quizzes) {
     showDialog(
@@ -164,7 +166,7 @@ class _MtQuizState extends State<MtQuiz> {
       },
     ).then((value) {
       // This code block will execute after the dialog is closed
-      FacebookInterstitialAd.showInterstitialAd();
+     // FacebookInterstitialAd.showInterstitialAd();
     });
   }
 
@@ -252,7 +254,7 @@ class _MtQuizState extends State<MtQuiz> {
         },
     ).then((value) {
       // This code block will execute after the dialog is closed
-      FacebookInterstitialAd.showInterstitialAd();
+     // FacebookInterstitialAd.showInterstitialAd();
     });
   }
 

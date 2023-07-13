@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:applovin_max/applovin_max.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
 
 import 'package:cash_rocket/Model/quiz_model.dart';
@@ -13,6 +14,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:nb_utils/nb_utils.dart';
 
+import '../../../../Videos/AppLovin/applovin.dart';
+import '../../../../Videos/UnityAds/unity_ads.dart';
 import '../../../Constant Data/button_global.dart';
 import '../../../Constant Data/config.dart';
 import '../../../Constant Data/constant.dart';
@@ -21,11 +24,19 @@ class MtFootball extends StatefulWidget {
   const MtFootball({Key? key, required this.quizzes}) : super(key: key);
   final Quizzes quizzes;
 
+
   @override
   State<MtFootball> createState() => _MtFootballState();
 }
 
 class _MtFootballState extends State<MtFootball> {
+  AppLovin appLovin = AppLovin();
+
+  void initialization() async {
+    await AppLovinMAX.initialize(sdkKey);
+  }
+
+
   void showPopUp() {
     showDialog(
       barrierDismissible: false,
@@ -143,7 +154,13 @@ class _MtFootballState extends State<MtFootball> {
   final assetsAudioPlayer = AssetsAudioPlayer();
   @override
   void initState() {
+    initialization();
+    //   facebookRewardVideoAd.loadRewardedVideoAd();
+    //  admob.createRewardedAd();
+
+    appLovin.loadAds();
     super.initState();
+
   }
 
   @override
@@ -477,6 +494,7 @@ class _MtFootballState extends State<MtFootball> {
                                     buttontext: lang.S.of(context).next,
                                     buttonDecoration: kButtonDecoration,
                                     onPressed: () async {
+
                                       assetsAudioPlayer.dispose();
                                       if (currentIndex + 1 ==
                                           widget.quizzes.questions!.length) {
@@ -497,13 +515,16 @@ class _MtFootballState extends State<MtFootball> {
                                                   '0',
                                                   '3');
                                           if (status) {
+                                            appLovin.showInterstitialAd();
                                             EasyLoading.showSuccess(
                                                 'Successful');
                                           } else {
+                                            appLovin.showInterstitialAd();
                                             EasyLoading.showError(
                                                 'Something went wrong');
                                           }
                                         } catch (e) {
+                                          appLovin.showInterstitialAd();
                                           EasyLoading.showError(e.toString());
                                         }
                                       }
@@ -513,6 +534,7 @@ class _MtFootballState extends State<MtFootball> {
                                                   widget
                                                       .quizzes.questions!.length
                                               ? Victory(
+
                                                   score: score.toString(),
                                                   questions: widget
                                                       .quizzes.questions!.length
@@ -555,8 +577,8 @@ class _MtFootballState extends State<MtFootball> {
                                             ),
                                           ),
                                         ).onTap(
-                                          () => showPopUp(),
-                                        ),
+                                          () => showPopUp()
+                                        )
                                       ),
                                       const SizedBox(width: 5.0),
                                       Expanded(
@@ -577,7 +599,7 @@ class _MtFootballState extends State<MtFootball> {
                                                   color: kGreyTextColor),
                                               textAlign: TextAlign.center,
                                             ),
-                                          ),
+                                          )
                                         ).onTap(
                                           () => null,
                                         ),

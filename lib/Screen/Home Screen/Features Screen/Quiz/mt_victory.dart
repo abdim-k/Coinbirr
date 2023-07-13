@@ -9,7 +9,9 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:cash_rocket/generated/l10n.dart' as lang;
+import 'package:unity_ads_plugin/unity_ads_plugin.dart';
 import '../../../../Provider/profile_provider.dart';
+import '../../../../Videos/UnityAds/unity_ads.dart';
 import '../../../Constant Data/constant.dart';
 
 class Victory extends StatefulWidget {
@@ -20,8 +22,10 @@ class Victory extends StatefulWidget {
 }
 
 class _VictoryState extends State<Victory> {
+  AdManager adManager =
+  AdManager();
   final InAppReview _inAppReview = InAppReview.instance;
-  String select = '';
+  String select = 'com.pioneerdev.coinbirr';
 
   List<String> option = [
     'Share Score',
@@ -35,6 +39,33 @@ class _VictoryState extends State<Victory> {
     } else {
       toast('Review Not Available');
     }
+  }
+
+  @override
+  void initState() {
+
+    super.initState();
+
+
+    UnityAds.init(
+      gameId: '5321840',
+      onComplete: () => print('Initialization Complete'),
+      onFailed: (error, message) =>
+          print('Initialization Failed: $error $message'),
+    );
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp)  {
+      // Create an instance of the AdManager class
+
+
+      adManager.loadUnityAd2();// Access the method through the instance
+    });
+    // remove this code on final product
+    /* FacebookAudienceNetwork.init(
+        testingId: "37b1da9d-b48c-4103-a393-2e095e734bd6", //optional
+        iOSAdvertiserTrackingEnabled: true //default false
+    );
+
+    */
   }
 
   @override
@@ -230,9 +261,8 @@ class _VictoryState extends State<Victory> {
                       ),
                       child: ListTile(
                         onTap: () {
-                          Share.share(
-                              'check out my website https://example.com',
-                              subject: 'Look what I made!');
+                          Share.share('I have earned \$10 in a day. Use my refer code to earn \$10 on signup. . Download the app now and start your journey of making money online: https://play.google.com/store/apps/details?id=com.pioneerdev.coinbirr&pli=1',
+                              subject: 'Look what I made answering simple quiz about Ethiopia');
                         },
                         title: Text(
                           lang.S.of(context).shareSqure,
@@ -269,6 +299,7 @@ class _VictoryState extends State<Victory> {
                       child: ListTile(
                         onTap: () {
                           setState(() {
+                            AdManager.showIntAd2();
                             const Home().launch(context);
                           });
                         },

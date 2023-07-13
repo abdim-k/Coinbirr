@@ -60,5 +60,32 @@ class VungleAd {
     }
   }
 
+  void loadVungle2() {
+    if (Platform.isAndroid) {
+      appId = '64adc886847c940a560e597a';
+      placementId = 'REWARD_AT_LOSE-6004691';
+      Vungle.init(appId!);
+    } else {
+      /* appId = '62dcea4266c52ee961b451df';
+      placementId = 'ROCKET-8900187';
+      Vungle.init(appId!);
+
+      */
+    }
+    Vungle.loadAd(placementId!);
+    onPlayAd();
+  }
+
+  void onPlayAd2() async {
+    if (await Vungle.isAdPlayable('REWARD_AT_LOSE-6004691')) {
+      Vungle.playAd('REWARD_AT_LOSE-6004691');
+
+    } else {
+      if (kDebugMode) {
+        print('Ad is not ready');
+      }
+    }
+  }
+
 
 }

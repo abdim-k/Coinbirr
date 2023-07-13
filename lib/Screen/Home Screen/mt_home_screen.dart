@@ -68,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     appLovin.loadAds();
     super.initState();
-    appLovin.loadAds();
+
 
     UnityAds.init(
       gameId: '5321840',
