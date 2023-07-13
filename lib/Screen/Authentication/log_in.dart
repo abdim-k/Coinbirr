@@ -74,7 +74,7 @@ class _LogInState extends State<LogIn> {
                           ),
                         ),
                         Text(
-                          lang.S.of(context).cashRocket,
+                          lang.S.of(context).cashRockett,
                           style: kTextStyle.copyWith(color: kTitleColor, fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(height: 40.0),

@@ -24,7 +24,7 @@ class _OnBoardState extends State<OnBoard> {
     },
     {
       "title": 'Redeem Your Points',
-      "description": 'Easily redeem your hard-earned points with CoinBirr. Use TeleBirr, bank transfers, or airtime cards to cash out and enjoy your rewards. Cash out anytime, anywhere!',
+      "description": 'Easily redeem your hard-earned points with CoinBirr. Use TeleBirr, Bank transfers, or Mobile airtime to cash out and enjoy your rewards. Cash out anytime, anywhere!',
       "icon": 'images/onboard2.png',
     },
     {

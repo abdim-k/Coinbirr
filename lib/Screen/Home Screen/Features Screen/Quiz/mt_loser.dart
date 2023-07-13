@@ -1,3 +1,4 @@
+import 'package:applovin_max/applovin_max.dart';
 import 'package:cash_rocket/Screen/Home%20Screen/Features%20Screen/Quiz/mt_football.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:share_plus/share_plus.dart';
 import '../../../../Model/quiz_model.dart';
 import '../../../../Repositories/rewards_repo.dart';
+import '../../../../Videos/AppLovin/applovin.dart';
 import '../../../../Videos/Vungle/vungle.dart';
 import '../../../Constant Data/constant.dart';
 import '../../home.dart';
@@ -23,16 +25,24 @@ class MtLoser extends StatefulWidget {
 }
 
 class _MtLoserState extends State<MtLoser> {
-  VungleAd vungleAd = VungleAd();
+  AppLovin appLovin = AppLovin();
 
+  void initialization() async {
+    await AppLovinMAX.initialize(sdkKey);
+  }
 
   @override
   void initState() {
 
+    initialization();
+    //   facebookRewardVideoAd.loadRewardedVideoAd();
+    //  admob.createRewardedAd();
+
+    appLovin.loadAds();
     super.initState();
-    vungleAd.loadVungle2();
   }
-  void showPopUp(String retakePoint) {
+
+    void showPopUp(String retakePoint) {
     showDialog(
       barrierDismissible: false,
       context: context,
@@ -395,7 +405,7 @@ class _MtLoserState extends State<MtLoser> {
                   child: ListTile(
                     onTap: () {
                       setState(() {
-                        vungleAd.onPlayAd2();
+                        appLovin.showAds2();
                         const Home().launch(context);
                       });
                     },

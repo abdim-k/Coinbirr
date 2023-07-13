@@ -105,7 +105,7 @@ class _VideosState extends State<Videos> {
     Appodeal.setAutoCache(AppodealAdType.Interstitial, false); //default - true
 
 // Set testing mode
-    Appodeal.setTesting(true); //default - false
+    Appodeal.setTesting(false); //default - false
 
 // Set Appodeal SDK logging level
     Appodeal.setLogLevel(Appodeal.LogLevelVerbose); //default - Appodeal.LogLevelNone

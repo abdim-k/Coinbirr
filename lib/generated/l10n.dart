@@ -19,7 +19,7 @@ class S {
 
   static S get current {
     assert(_current != null,
-        'No instance of S was loaded. Try to initialize the S delegate before accessing S.current.');
+    'No instance of S was loaded. Try to initialize the S delegate before accessing S.current.');
     return _current!;
   }
 
@@ -42,7 +42,7 @@ class S {
   static S of(BuildContext context) {
     final instance = S.maybeOf(context);
     assert(instance != null,
-        'No instance of S present in the widget tree. Did you add S.delegate in localizationsDelegates?');
+    'No instance of S present in the widget tree. Did you add S.delegate in localizationsDelegates?');
     return instance!;
   }
 
@@ -61,10 +61,10 @@ class S {
   }
 
   /// `Cash Rocket`
-  String get cashRocket {
+  String get cashRockett {
     return Intl.message(
-      'Cash Rocket',
-      name: 'cashRocket',
+      'Coinbirr',
+      name: 'cashRockett',
       desc: '',
       args: [],
     );

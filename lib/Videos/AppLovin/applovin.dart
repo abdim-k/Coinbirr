@@ -139,4 +139,57 @@ class AppLovin {
     }
   }
 
+  void initializeRewardedAds2() {
+    AppLovinMAX.setRewardedAdListener(RewardedAdListener(
+      onAdLoadedCallback: (ad) {
+        // Rewarded ad is ready to be shown. AppLovinMAX.isRewardedAdReady(_rewarded_ad_unit_id) will now return 'true'
+        toast('Rewarded ad loaded from ${ad.networkName}');
+
+        // Reset retry attempt
+        _rewardedAdRetryAttempt = 0;
+      },
+      onAdLoadFailedCallback: (adUnitId, error) {
+        // Rewarded ad failed to load
+        // We recommend retrying with exponentially higher delays up to a maximum delay (in this case 64 seconds)
+        _rewardedAdRetryAttempt = _rewardedAdRetryAttempt + 1;
+
+        int retryDelay = pow(2, min(6, _rewardedAdRetryAttempt)).toInt();
+        toast('Rewarded ad failed to load with code ${error.code} - retrying in ${retryDelay}s');
+
+        Future.delayed(Duration(milliseconds: retryDelay * 1000), () {
+          loadAds();
+        });
+      },
+      onAdDisplayedCallback: (ad) {
+        toast('Rewarded ad loaded from ${ad.networkName}');
+      },
+      onAdDisplayFailedCallback: (ad, error) {
+        toast(error.message.toString());
+      },
+      onAdClickedCallback: (ad) {
+        toast('Ad Clicked');
+      },
+      onAdHiddenCallback: (ad) {
+        toast('Ad Hidden');
+      },
+      onAdReceivedRewardCallback: (ad, reward) async {
+
+        }
+
+    ));
+  }
+
+  void showAds2() async {
+    final String rewardedAdUnitId =  Platform.isAndroid ?await DataBase().retrieveString('applovinRewardedAdAndroid') ?? "b6a2ecde63205294" : await DataBase().retrieveString('applovinRewardedAdIos') ?? "b6a2ecde63205294";
+
+    bool isReady = (await AppLovinMAX.isRewardedAdReady(rewardedAdUnitId))!;
+    if (isReady) {
+      initializeRewardedAds2();
+      AppLovinMAX.showRewardedAd(rewardedAdUnitId);
+      loadAds();
+    }else{
+      loadAds();
+    }
+  }
+
 }

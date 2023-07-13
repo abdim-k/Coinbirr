@@ -44,7 +44,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     ),
                   ),
                   Text(
-                    lang.S.of(context).cashRocket,
+                    lang.S.of(context).cashRockett,
                     style: kTextStyle.copyWith(
                         color: kTitleColor, fontWeight: FontWeight.bold),
                   ),
