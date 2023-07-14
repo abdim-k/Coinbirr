@@ -36,38 +36,41 @@ enum AdLoadState { notLoaded, loading, loaded }
 class _VideosState extends State<Videos> {
   List<String> imageList = [
 
-    'images/bg2.png',
+
     'images/bg1.png',
     'images/bg3.png',
     'images/bg4.png',
     'images/bg2.png',
+    //'images/bg2.png',
   ];
 
   List<String> logoList = [
 
-    'images/sa.png',
+
     'images/app.png',
     'images/am.png',
     'images/an.png',
     'images/an.png',
+   // 'images/sa.png',
 
 
   ];
 
   List<String> titleList = [
 
-    'StartApp',
+
     'AppLovin',
      'Unity',
     'Appodeal',
-    'Vungle'
+    'Vungle',
+    //'Startapp',
   ];
   List<String> subtitleList = [
     'Watch views and get Points',
     'Watch views and get Points',
     'Watch views and get Points',
   'Watch views and get Points',
-    'Watch views and get Points',
+   // 'Watch views and get Points',
   ];
 
   bool isBalanceShow = false;
@@ -340,29 +343,30 @@ bool isFirst = true;
                         ).onTap(() async {
                           switch (i) {
                             case 0:
-                              startApp.showAds();
+                              appLovin.showAds(ref: ref);
                               break;
                             case 1:
-                              appLovin.showAds(ref: ref);
 
+                              await AdManager.showIntAd3(ref: ref);
                               break;
                            case 2:
-                             await AdManager.showIntAd3(ref: ref);
+                             Appodeal.show(AppodealAdType.RewardedVideo);
                               break;
 
 
                             case 3:
-  // Show interstitial
-                                Appodeal.show(AppodealAdType.RewardedVideo);
+                              vungleAd.onPlayAd(); // Show interstitial
+
                               break;
 
 
                             case 4:
-                              vungleAd.onPlayAd();
+                            //  startApp.showAds();
+
 
                               break;
                             default:
-                              startApp.showAds();
+                              AdManager.showIntAd3(ref: ref);
                           }
                         });
                       },

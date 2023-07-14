@@ -26,7 +26,7 @@ class _MtPrivacyPolicyState extends State<MtPrivacyPolicy> {
         backgroundColor: kMainColor,
         elevation: 0.0,
         title: Text(
-          lang.S.of(context).privicyPolcy,
+          lang.S.of(context).privicyPolcyy,
           style: kTextStyle.copyWith(color: Colors.white),
         ),
       ),
@@ -46,7 +46,7 @@ class _MtPrivacyPolicyState extends State<MtPrivacyPolicy> {
             ),
             const SizedBox(height: 10.0),
             const Text(
-              'Coinbirr v 1.0.0',
+              'Coinbirr v 2.0.0',
               style: TextStyle(
                 fontSize: 10.0,
                 fontWeight: FontWeight.bold,
@@ -54,7 +54,7 @@ class _MtPrivacyPolicyState extends State<MtPrivacyPolicy> {
             ),
             SizedBox(height: 10,),
             Text(
-              lang.S.of(context).dateUpdated,
+              lang.S.of(context).dateUpdatedd,
               style: kTextStyle.copyWith(color: kGreyTextColor),
             ),
             Container(

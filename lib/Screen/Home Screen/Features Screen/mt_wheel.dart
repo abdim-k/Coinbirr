@@ -12,9 +12,11 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:stack_appodeal_flutter/stack_appodeal_flutter.dart';
 import 'package:startapp_sdk/startapp.dart';
 import 'package:unity_ads_plugin/unity_ads_plugin.dart';
 
+import '../../../Model/purchase_model.dart';
 import '../../../Repositories/rewards_repo.dart';
 import '../../../Videos/Admob/admob.dart';
 import '../../../Videos/StartApp/startapp.dart';
@@ -41,6 +43,10 @@ class _WheelState extends State<Wheel> {
       NoInternetScreen(screenName: widget).launch(context);
     }
   }
+
+  var isCanShow =  Appodeal.canShow(AppodealAdType.RewardedVideo);
+// Check that interstitial is loaded
+  var isLoaded =  Appodeal.isLoaded(AppodealAdType.RewardedVideo);
 
   @override
   void dispose() {
@@ -69,6 +75,59 @@ class _WheelState extends State<Wheel> {
       adManager.loadUnityAd2();// Access the method through the instance
     });
 
+    Appodeal.initialize(
+        appKey: "f68b186e0f441ab28d3b23c9e39d28f3a4a4df6f0bda3fce",
+        adTypes: [
+
+          AppodealAdType.RewardedVideo,
+
+        ],
+        onInitializationFinished: (errors) => {});
+    // Set ad auto caching enabled or disabled
+// By default autocache is enabled for all ad types
+    Appodeal.setAutoCache(AppodealAdType.Interstitial, false); //default - true
+
+// Set testing mode
+    Appodeal.setTesting(false); //default - false
+
+// Set Appodeal SDK logging level
+    Appodeal.setLogLevel(Appodeal.LogLevelVerbose); //default - Appodeal.LogLevelNone
+
+// Enable or disable child direct threatment
+    Appodeal.setChildDirectedTreatment(false); //default - false
+
+// Disable network for specific ad type
+    Appodeal.disableNetwork("admob");
+    Appodeal.disableNetwork("admob", AppodealAdType.Interstitial);
+
+    Appodeal.setRewardedVideoCallbacks(
+        onRewardedVideoLoaded: (isPrecache) => {},
+        onRewardedVideoFailedToLoad: () => {},
+        onRewardedVideoShown: () => {},
+        onRewardedVideoShowFailed: () => {},
+        onRewardedVideoFinished: (amount, reward) async {
+          try {
+            EasyLoading.show(status: 'Getting rewards');
+            bool isValid = await PurchaseModel().isActiveBuyer();
+            if (isValid) {
+              var response = await RewardRepo().addPoint('10', 'Appodeal Video Ads');
+              if (response) {
+                EasyLoading.showSuccess('You Have Earned 10 Coins');
+
+              } else {
+                EasyLoading.showError('Error Happened. Try Again');
+              }
+            } else {
+              EasyLoading.showError('Please check your purchase code');
+            }
+          } catch (e) {
+            EasyLoading.showError(e.toString());
+          }
+        },
+
+        onRewardedVideoClosed: (isFinished) => {},
+        onRewardedVideoExpired: () => {},
+        onRewardedVideoClicked: () => {});
   }
 
   bool isBalanceShow = false;
@@ -167,12 +226,7 @@ class _WheelState extends State<Wheel> {
       '20',
       '30',
       '40',
-      '50',
-      '60',
-      '70',
-      '80',
-      '90',
-      '100',
+
     ];
     return SafeArea(
 
@@ -381,7 +435,7 @@ class _WheelState extends State<Wheel> {
                           const SizedBox(height: 50.0),
                           ButtonGlobal(buttontext: lang.S.of(context).watchVideoAndEarn, buttonDecoration: kButtonDecoration, onPressed: (){
                             // admob.showRewardedAd(ref: ref);
-                            startApp.showAds();
+                            Appodeal.show(AppodealAdType.RewardedVideo);
                           }),
                         ],
                       ),

@@ -481,20 +481,20 @@ class S {
   }
 
   /// `Date Updated” (7 Jun 2021)`
-  String get dateUpdated {
+  String get dateUpdatedd {
     return Intl.message(
-      'Date Updated” (7 Jun 2021)',
-      name: 'dateUpdated',
+      'Date Updated” (15 Jul 2023)',
+      name: 'dateUpdatedd',
       desc: '',
       args: [],
     );
   }
 
   /// `Privacy Policy`
-  String get privicyPolcy {
+  String get privicyPolcyy {
     return Intl.message(
-      'Privacy Policy',
-      name: 'privicyPolcy',
+      'About',
+      name: 'privicyPolcyy',
       desc: '',
       args: [],
     );

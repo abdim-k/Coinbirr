@@ -44,7 +44,7 @@ class _MtTermsAndConditionState extends State<MtTermsAndCondition> {
             ),
             const SizedBox(height: 10.0),
             Text(
-              lang.S.of(context).dateUpdated,
+              lang.S.of(context).dateUpdatedd,
               style: kTextStyle.copyWith(color: kGreyTextColor),
             ),
             const SizedBox(height: 10.0),

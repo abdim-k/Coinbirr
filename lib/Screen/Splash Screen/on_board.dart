@@ -1,4 +1,5 @@
 import 'package:cash_rocket/Screen/Authentication/log_in.dart';
+import 'package:cash_rocket/Screen/Authentication/sign_up.dart';
 import 'package:cash_rocket/Screen/Constant%20Data/button_global.dart';
 import 'package:cash_rocket/Screen/Constant%20Data/constant.dart';
 import 'package:flutter/material.dart';
@@ -113,7 +114,7 @@ class _OnBoardState extends State<OnBoard> {
                                             : Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
-                                                  builder: (context) => const LogIn(),
+                                                  builder: (context) => const SignUp(),
                                                 ),
                                               );
                                       });
@@ -123,7 +124,7 @@ class _OnBoardState extends State<OnBoard> {
                                   lang.S.of(context).skipForNow,
                                   style: kTextStyle.copyWith(color: kGreyTextColor),
                                 ).onTap(
-                                  () async => const LogIn().launch(context),
+                                  () async => const SignUp().launch(context),
                                 ),
                                 const SizedBox(height: 20.0),
                               ],
