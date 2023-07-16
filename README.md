@@ -1,4 +1,4 @@
-# cash_rocket
+# Coinbirr
 
 A new Flutter project.
 
