@@ -1,6 +1,7 @@
 // ignore_for_file: unused_result
 
 import 'dart:async';
+import 'package:applovin_max/applovin_max.dart';
 import 'package:cash_rocket/generated/l10n.dart' as lang;
 import 'package:cash_rocket/Model/user_profile_model.dart';
 import 'package:cash_rocket/Provider/database_provider.dart';
@@ -19,6 +20,7 @@ import 'package:unity_ads_plugin/unity_ads_plugin.dart';
 import '../../../Model/purchase_model.dart';
 import '../../../Repositories/rewards_repo.dart';
 import '../../../Videos/Admob/admob.dart';
+import '../../../Videos/AppLovin/applovin.dart';
 import '../../../Videos/StartApp/startapp.dart';
 import '../../../Videos/UnityAds/unity_ads.dart';
 import '../../../test/src/core/core.dart';
@@ -37,6 +39,7 @@ class Wheel extends StatefulWidget {
 
 class _WheelState extends State<Wheel> {
   StreamController<int> selected = StreamController<int>();
+
   Future<void> checkInternet() async {
     bool result = await InternetConnectionChecker().hasConnection;
     if (!result && mounted) {
@@ -44,23 +47,30 @@ class _WheelState extends State<Wheel> {
     }
   }
 
-  var isCanShow =  Appodeal.canShow(AppodealAdType.RewardedVideo);
+  var isCanShow = Appodeal.canShow(AppodealAdType.RewardedVideo);
+
 // Check that interstitial is loaded
-  var isLoaded =  Appodeal.isLoaded(AppodealAdType.RewardedVideo);
+  var isLoaded = Appodeal.isLoaded(AppodealAdType.RewardedVideo);
+  AppLovin appLovin = AppLovin();
+
+  void initialization() async {
+    await AppLovinMAX.initialize(sdkKey);
+  }
 
   @override
   void dispose() {
     selected.close();
     super.dispose();
   }
-  AdManager adManager =
-  AdManager();
+
+  AdManager adManager = AdManager();
 
   @override
   void initState() {
     checkInternet();
-    admob.createRewardedAd();
-    admob.createInterstitialAd();
+    // admob.createRewardedAd();
+    //  admob.createInterstitialAd();
+    appLovin.loadAds();
     super.initState();
     UnityAds.init(
       gameId: '5321840',
@@ -68,14 +78,14 @@ class _WheelState extends State<Wheel> {
       onFailed: (error, message) =>
           print('Initialization Failed: $error $message'),
     );
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp)  {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       // Create an instance of the AdManager class
 
       adManager.loadUnityAd();
-      adManager.loadUnityAd2();// Access the method through the instance
+      adManager.loadUnityAd2(); // Access the method through the instance
     });
 
-    Appodeal.initialize(
+    /* Appodeal.initialize(
         appKey: "f68b186e0f441ab28d3b23c9e39d28f3a4a4df6f0bda3fce",
         adTypes: [
 
@@ -128,6 +138,8 @@ class _WheelState extends State<Wheel> {
         onRewardedVideoClosed: (isFinished) => {},
         onRewardedVideoExpired: () => {},
         onRewardedVideoClicked: () => {});
+
+    */
   }
 
   bool isBalanceShow = false;
@@ -171,7 +183,10 @@ class _WheelState extends State<Wheel> {
                               const SizedBox(height: 20.0),
                               Text(
                                 lang.S.of(context).congratulations,
-                                style: kTextStyle.copyWith(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18.0),
+                                style: kTextStyle.copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18.0),
                               ),
                               const SizedBox(height: 5.0),
                               Text(
@@ -183,14 +198,17 @@ class _WheelState extends State<Wheel> {
                               Container(
                                 padding: const EdgeInsets.all(5.0),
                                 decoration: BoxDecoration(
-                                  gradient: const LinearGradient(begin: Alignment.topCenter, colors: [
-                                    Color(0xFFFFBF53),
-                                    Color(0xFFFF8244),
-                                  ]),
+                                  gradient: const LinearGradient(
+                                      begin: Alignment.topCenter,
+                                      colors: [
+                                        Color(0xFFFFBF53),
+                                        Color(0xFFFF8244),
+                                      ]),
                                   borderRadius: BorderRadius.circular(30.0),
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                                  padding: const EdgeInsets.only(
+                                      left: 20.0, right: 20.0),
                                   child: Text(
                                     lang.S.of(context).ok,
                                     style: kTextStyle.copyWith(
@@ -219,23 +237,21 @@ class _WheelState extends State<Wheel> {
 
   @override
   Widget build(BuildContext context) {
-
-
     final items = <String>[
       '10',
       '20',
       '30',
       '40',
-
     ];
     return SafeArea(
-
       child: Scaffold(
         body: Consumer(builder: (_, ref, watch) {
-          isFirst? startApp.loadRewardedVideoAd(ref: ref):null;
+          isFirst ? startApp.loadRewardedVideoAd(ref: ref) : null;
           isFirst = true;
-          AsyncValue<UserProfileModel> profile = ref.watch(personalProfileProvider);
-          AsyncValue<UserProfileModel> userInfo = ref.watch(personalProfileProvider);
+          AsyncValue<UserProfileModel> profile =
+              ref.watch(personalProfileProvider);
+          AsyncValue<UserProfileModel> userInfo =
+              ref.watch(personalProfileProvider);
           return Stack(
             alignment: Alignment.topCenter,
             children: [
@@ -263,11 +279,16 @@ class _WheelState extends State<Wheel> {
                           const SizedBox(width: 5.0),
                           Text(
                             lang.S.of(context).wheel,
-                            style: kTextStyle.copyWith(color: Colors.white, fontSize: 18.0),
+                            style: kTextStyle.copyWith(
+                                color: Colors.white, fontSize: 18.0),
                           ),
                           const Spacer(),
                           Padding(
-                            padding: const EdgeInsets.only(left: 15.0, right: 30.0, bottom: 15.0, top: 15.0),
+                            padding: const EdgeInsets.only(
+                                left: 15.0,
+                                right: 30.0,
+                                bottom: 15.0,
+                                top: 15.0),
                             child: Container(
                               padding: const EdgeInsets.all(2.0),
                               decoration: BoxDecoration(
@@ -278,18 +299,22 @@ class _WheelState extends State<Wheel> {
                                 ),
                               ),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   AnimatedOpacity(
                                     opacity: !isBalanceShow ? 1.0 : 0.0,
-                                    duration: const Duration(milliseconds: 1000),
+                                    duration:
+                                        const Duration(milliseconds: 1000),
                                     child: Container(
                                       height: 20,
                                       width: 20,
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(30.0),
+                                        borderRadius:
+                                            BorderRadius.circular(30.0),
                                         color: kMainColor,
-                                        border: Border.all(color: Colors.white, width: 2.0),
+                                        border: Border.all(
+                                            color: Colors.white, width: 2.0),
                                       ),
                                       child: const Icon(
                                         FeatherIcons.dollarSign,
@@ -301,13 +326,17 @@ class _WheelState extends State<Wheel> {
                                   const SizedBox(width: 5.0),
                                   userInfo.when(data: (info) {
                                     return Text(
-                                      isBalanceShow ? '\$${info.data?.user?.wallet?.balance ?? ''}' : lang.S.of(context).balance,
-                                      style: kTextStyle.copyWith(color: Colors.white),
+                                      isBalanceShow
+                                          ? '\$${info.data?.user?.wallet?.balance ?? ''}'
+                                          : lang.S.of(context).balance,
+                                      style: kTextStyle.copyWith(
+                                          color: Colors.white),
                                     );
                                   }, error: (e, stack) {
                                     return Text(
                                       e.toString(),
-                                      style: kTextStyle.copyWith(color: Colors.white),
+                                      style: kTextStyle.copyWith(
+                                          color: Colors.white),
                                     );
                                   }, loading: () {
                                     return Container();
@@ -315,14 +344,17 @@ class _WheelState extends State<Wheel> {
                                   const SizedBox(width: 5.0),
                                   AnimatedOpacity(
                                     opacity: isBalanceShow ? 1.0 : 0.0,
-                                    duration: const Duration(milliseconds: 1000),
+                                    duration:
+                                        const Duration(milliseconds: 1000),
                                     child: Container(
                                       height: 20,
                                       width: 20,
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(30.0),
+                                        borderRadius:
+                                            BorderRadius.circular(30.0),
                                         color: kMainColor,
-                                        border: Border.all(color: Colors.white, width: 2.0),
+                                        border: Border.all(
+                                            color: Colors.white, width: 2.0),
                                       ),
                                       child: const Icon(
                                         FeatherIcons.dollarSign,
@@ -356,7 +388,9 @@ class _WheelState extends State<Wheel> {
                         children: [
                           Text(
                             lang.S.of(context).spinTheWheel,
-                            style: kTextStyle.copyWith(color: kTitleColor, fontWeight: FontWeight.bold),
+                            style: kTextStyle.copyWith(
+                                color: kTitleColor,
+                                fontWeight: FontWeight.bold),
                           ),
                           const SizedBox(height: 5.0),
                           Text(
@@ -377,20 +411,79 @@ class _WheelState extends State<Wheel> {
                               ),
                               GestureDetector(
                                 onTap: () async {
-                                  DataBase().saveString('spinTime', DateTime.now().toString());
+                                  SharedPreferences prefs =
+                                      await SharedPreferences.getInstance();
+                                  int spinCount =
+                                      prefs.getInt('spinCount') ?? 0;
+                                  String? spinTimeStr =
+                                      prefs.getString('spinTime');
+                                  DateTime? lastSpinTime;
+
+                                  // Check if the saved spin time is not null and in a valid format
+                                  if (spinTimeStr != null) {
+                                    try {
+                                      lastSpinTime =
+                                          DateTime.parse(spinTimeStr);
+                                    } catch (e) {
+                                      print('Error parsing spin time: $e');
+                                    }
+                                  }
+
+                                  // Check if the user has already spun the wheel 10 times within 24 hours
+                                  if (spinCount >= 10 &&
+                                      lastSpinTime != null &&
+                                      DateTime.now()
+                                              .difference(lastSpinTime)
+                                              .inHours <
+                                          24) {
+                                    // Show a dialog to inform the user about the spin limit
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: Text('Spin Limit Reached'),
+                                          content: Text(
+                                              'You have reached the maximum number of spins allowed within 24 hours.'),
+                                          actions: <Widget>[
+                                            TextButton(
+                                              child: Text('OK'),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                    return;
+                                  }
+
+                                  // Save the current spin time
+                                  prefs.setString(
+                                      'spinTime', DateTime.now().toString());
+
+                                  // Increment the spin count
+                                  spinCount++;
+                                  prefs.setInt('spinCount', spinCount);
+
                                   int se = Fortune.randomInt(0, items.length);
                                   selected.add(se);
-                                  await Future.delayed(const Duration(seconds: 5));
+                                  await Future.delayed(
+                                      const Duration(seconds: 5));
                                   try {
                                     EasyLoading.show(status: 'Getting rewards');
-                                    var response = await RewardRepo().addPoint(items[se], 'Spin Wheel Video Ads');
+                                    var response = await RewardRepo().addPoint(
+                                        items[se], 'Spin Wheel Video Ads');
                                     if (response) {
-                                      showRewardPopUp(items[se]);
-                                      EasyLoading.showSuccess('You Have Earned ${items[se]} Coins');
                                       AdManager.showIntAd2();
+                                      showRewardPopUp(items[se]);
+                                      EasyLoading.showSuccess(
+                                          'You Have Earned ${items[se]} Coins');
+
                                       ref.refresh(personalProfileProvider);
                                     } else {
-                                      EasyLoading.showError('Error Happened. Try Again');
+                                      EasyLoading.showError(
+                                          'Error Happened. Try Again');
                                     }
                                   } catch (e) {
                                     EasyLoading.showError(e.toString());
@@ -410,7 +503,8 @@ class _WheelState extends State<Wheel> {
                                             alignment: Alignment.topCenter,
                                             // <-- changing the position of the indicator
                                             child: TriangleIndicator(
-                                              color: Colors.yellow, // <-- changing the color of the indicator
+                                              color: Colors
+                                                  .yellow, // <-- changing the color of the indicator
                                             ),
                                           ),
                                         ],
@@ -433,10 +527,72 @@ class _WheelState extends State<Wheel> {
                             ],
                           ),
                           const SizedBox(height: 50.0),
-                          ButtonGlobal(buttontext: lang.S.of(context).watchVideoAndEarn, buttonDecoration: kButtonDecoration, onPressed: (){
-                            // admob.showRewardedAd(ref: ref);
-                            Appodeal.show(AppodealAdType.RewardedVideo);
-                          }),
+                          ButtonGlobal(
+                            buttontext: lang.S.of(context).watchVideoAndEarn,
+                            buttonDecoration: kButtonDecoration,
+                            onPressed: () async {
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              int buttonClickCount =
+                                  prefs.getInt('buttonClickCount') ?? 0;
+                              String? lastButtonClickTimeStr =
+                                  prefs.getString('lastButtonClickTime');
+                              DateTime? lastButtonClickTime;
+
+                              // Check if the saved button click time is not null and in a valid format
+                              if (lastButtonClickTimeStr != null) {
+                                try {
+                                  lastButtonClickTime =
+                                      DateTime.parse(lastButtonClickTimeStr);
+                                } catch (e) {
+                                  print('Error parsing button click time: $e');
+                                }
+                              }
+
+                              // Check if the user has already clicked the button 25 times within 24 hours
+                              if (buttonClickCount >= 20 &&
+                                  lastButtonClickTime != null &&
+                                  DateTime.now()
+                                          .difference(lastButtonClickTime)
+                                          .inHours <
+                                      24) {
+                                // Show a dialog to inform the user about the click limit
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text('Click Limit Reached'),
+                                      content: Text(
+                                          'You have reached the maximum number of clicks allowed within 24 hours.'),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          child: Text('OK'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                                return;
+                              }
+
+                              // Save the current button click time
+                              prefs.setString('lastButtonClickTime',
+                                  DateTime.now().toString());
+
+                              // Increment the button click count
+                              buttonClickCount++;
+                              prefs.setInt(
+                                  'buttonClickCount', buttonClickCount);
+
+                              // Show rewarded ads or perform other actions here
+                              // admob.showRewardedAd(ref: ref);
+                              // Appodeal.show(AppodealAdType.RewardedVideo);
+                              appLovin.showAds(ref: ref);
+                            },
+                          )
                         ],
                       ),
                     ),

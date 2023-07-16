@@ -828,7 +828,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   const SizedBox(height: 4.0),
                                   Center(
                                       child: Text(
-                                        lang.S.of(context).quiz,
+                                        lang.S.of(context).quizz,
                                     style: kTextStyle.copyWith(color: kTitleColor, fontWeight: FontWeight.bold),
                                   )),
                                 ],

@@ -691,10 +691,10 @@ class S {
   }
 
   /// `Quiz`
-  String get quiz {
+  String get quizz {
     return Intl.message(
-      'Quiz',
-      name: 'quiz',
+      'Daily Quiz',
+      name: 'quizz',
       desc: '',
       args: [],
     );

@@ -300,7 +300,7 @@ class _MtQuizState extends State<MtQuiz> {
             backgroundColor: kMainColor,
             elevation: 0.0,
             title: Text(
-              lang.S.of(context).quiz,
+              lang.S.of(context).quizz,
               style: kTextStyle.copyWith(color: Colors.white),
             ),
             actions: [

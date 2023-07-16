@@ -39,8 +39,8 @@ class _VideosState extends State<Videos> {
 
     'images/bg1.png',
     'images/bg3.png',
-    'images/bg4.png',
-    'images/bg2.png',
+   // 'images/bg4.png',
+    //'images/bg2.png',
     //'images/bg2.png',
   ];
 
@@ -49,8 +49,8 @@ class _VideosState extends State<Videos> {
 
     'images/app.png',
     'images/am.png',
-    'images/an.png',
-    'images/an.png',
+    //'images/an.png',
+    //'images/an.png',
    // 'images/sa.png',
 
 
@@ -61,20 +61,20 @@ class _VideosState extends State<Videos> {
 
     'AppLovin',
      'Unity',
-    'Appodeal',
-    'Vungle',
+   // 'Appodeal',
+   // 'Vungle',
     //'Startapp',
   ];
   List<String> subtitleList = [
     'Watch views and get Points',
     'Watch views and get Points',
-    'Watch views and get Points',
-  'Watch views and get Points',
+   // 'Watch views and get Points',
+ // 'Watch views and get Points',
    // 'Watch views and get Points',
   ];
 
   bool isBalanceShow = false;
-  var startAppSdk = StartAppSdk();
+  /* var startAppSdk = StartAppSdk();
   VungleAd vungleAd = VungleAd();
 
   // Check that interstitial
@@ -84,6 +84,8 @@ class _VideosState extends State<Videos> {
   // Admob admob = Admob();
 //  FacebookRewardVideoAd facebookRewardVideoAd = FacebookRewardVideoAd();
   StartApp startApp = StartApp();
+
+   */
   AppLovin appLovin = AppLovin();
   AdManager adManager =
   AdManager();
@@ -92,7 +94,7 @@ class _VideosState extends State<Videos> {
     await AppLovinMAX.initialize(sdkKey);
 
 
-    vungleAd.loadVungle();
+   /* vungleAd.loadVungle();
 
 
     Appodeal.initialize(
@@ -153,6 +155,8 @@ class _VideosState extends State<Videos> {
       iOSAdvertiserTrackingEnabled: true,
     );
 
+    */
+
    */
 
   }
@@ -193,7 +197,7 @@ bool isFirst = true;
   Widget build(BuildContext context) {
 
     return Consumer(builder: (_,ref,watch){
-      isFirst? startApp.loadRewardedVideoAd(ref: ref):null;
+     // isFirst? startApp.loadRewardedVideoAd(ref: ref):null;
       isFirst = true;
       AsyncValue<UserProfileModel> profile = ref.watch(personalProfileProvider);
       return profile.when(data: (info) {
@@ -278,7 +282,6 @@ bool isFirst = true;
           body: SingleChildScrollView(
             child: Column(
               children: [
-                Center(child: Text("ትኩረት ተጠቃሚዎች፡ መተግበሪያችንን በሚጠቀሙበት ጊዜ ገቢዎን ከፍ ለማድረግ፣ እባክዎ ቪዲዮዎችን ለመመልከት የተለያዩ የማስታወቂያ አውታረ መረቦችን መጠቀምዎን ያረጋግጡ። ይህ የእርስዎን እይታዎች ለማብዛት እና እምቅ ገቢዎትን ለመጨመር ይረዳል።")),
                 Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: GridView.count(
@@ -291,91 +294,131 @@ bool isFirst = true;
                     children: List.generate(
                       titleList.length,
                           (i) {
-                        return Stack(
-                          alignment: Alignment.topLeft,
-                          children: [
-                            Container(
-                              height: 150,
-                              width: 180,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                image: DecorationImage(
-                                    image: AssetImage(
-                                      imageList[i],
-                                    ),
-                                    fit: BoxFit.cover),
+                        return GestureDetector(
+                          onTap: () async {
+                            SharedPreferences prefs = await SharedPreferences.getInstance();
+                            int buttonClickCount = prefs.getInt('buttonClickCount') ?? 0;
+                            String? lastButtonClickTimeStr = prefs.getString('lastButtonClickTime');
+                            DateTime? lastButtonClickTime;
+
+                            // Check if the saved button click time is not null and in a valid format
+                            if (lastButtonClickTimeStr != null) {
+                              try {
+                                lastButtonClickTime = DateTime.parse(lastButtonClickTimeStr);
+                              } catch (e) {
+                                print('Error parsing button click time: $e');
+                              }
+                            }
+
+                            // Check if the user has already clicked the button 25 times within 24 hours
+                            if (buttonClickCount >= 40 && lastButtonClickTime != null && DateTime.now().difference(lastButtonClickTime).inHours < 24) {
+                              // Show a dialog to inform the user about the click limit
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Click Limit Reached'),
+                                    content: Text('You have reached the maximum number of clicks allowed within 24 hours.'),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: Text('OK'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                              return;
+                            }
+
+                            // Save the current button click time
+                            prefs.setString('lastButtonClickTime', DateTime.now().toString());
+
+                            // Increment the button click count
+                            buttonClickCount++;
+                            prefs.setInt('buttonClickCount', buttonClickCount);
+
+                            switch (i) {
+                              case 0:
+                                appLovin.showAds(ref: ref);
+                                break;
+                              case 1:
+                                await AdManager.showIntAd3(ref: ref);
+                                break;
+                              case 2:
+                              // Appodeal.show(AppodealAdType.RewardedVideo);
+                                break;
+                              case 3:
+                              // vungleAd.onPlayAd(); // Show interstitial
+                                break;
+                              case 4:
+                              // startApp.showAds();
+                                break;
+                              default:
+                                await AdManager.showIntAd3(ref: ref);
+                            }
+                          },
+                          child: Stack(
+                            alignment: Alignment.topLeft,
+                            children: [
+                              Container(
+                                height: 150,
+                                width: 180,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  image: DecorationImage(
+                                    image: AssetImage(imageList[i]),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  CircleAvatar(
-                                    backgroundColor: Colors.transparent,
-                                    radius: 20.0,
-                                    backgroundImage: AssetImage(
-                                      logoList[i],
+                              Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    CircleAvatar(
+                                      backgroundColor: Colors.transparent,
+                                      radius: 20.0,
+                                      backgroundImage: AssetImage(logoList[i]),
                                     ),
-                                  ),
-                                  const SizedBox(
-                                    height: 4.0,
-                                  ),
-                                  Text(
-                                    titleList[i],
-                                    style: kTextStyle.copyWith(
+                                    const SizedBox(
+                                      height: 4.0,
+                                    ),
+                                    Text(
+                                      titleList[i],
+                                      style: kTextStyle.copyWith(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 16.0),
-                                  ),
-                                  const SizedBox(
-                                    height: 4.0,
-                                  ),
-                                  Text(
-                                    subtitleList[i],
-                                    style: kTextStyle.copyWith(
-                                        color: Colors.white, fontSize: 12.0),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ).onTap(() async {
-                          switch (i) {
-                            case 0:
-                              appLovin.showAds(ref: ref);
-                              break;
-                            case 1:
-
-                              await AdManager.showIntAd3(ref: ref);
-                              break;
-                           case 2:
-                             Appodeal.show(AppodealAdType.RewardedVideo);
-                              break;
-
-
-                            case 3:
-                              vungleAd.onPlayAd(); // Show interstitial
-
-                              break;
-
-
-                            case 4:
-                            //  startApp.showAds();
-
-
-                              break;
-                            default:
-                              AdManager.showIntAd3(ref: ref);
-                          }
-                        });
+                                        fontSize: 16.0,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 4.0,
+                                    ),
+                                    Text(
+                                      subtitleList[i],
+                                      style: kTextStyle.copyWith(
+                                        color: Colors.white,
+                                        fontSize: 12.0,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        );
                       },
                     ),
                   ),
                 ),
               ],
             ),
-          ),
+          )
+
         );
       }, error: (e, stack) {
         return Center(

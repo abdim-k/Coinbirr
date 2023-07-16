@@ -162,7 +162,7 @@ class _HistoryState extends State<History> {
                         labelColor: kMainColor,
                         tabs: [
                           Tab(
-                            text: lang.S.of(context).quiz,
+                            text: lang.S.of(context).quizz,
                           ),
                           Tab(
                             text: lang.S.of(context).reward,
