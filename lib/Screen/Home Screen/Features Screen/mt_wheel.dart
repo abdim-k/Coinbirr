@@ -234,6 +234,7 @@ class _WheelState extends State<Wheel> {
   }
 
   bool isChecked = true;
+  bool isSpinning = false; // Add this boolean flag
 
   @override
   Widget build(BuildContext context) {
@@ -411,6 +412,13 @@ class _WheelState extends State<Wheel> {
                               ),
                               GestureDetector(
                                 onTap: () async {
+                                  if (isSpinning) {
+                                    return; // Return early if already spinning
+                                  }
+
+                                  isSpinning =
+                                      true; // Set the spinning state to true
+
                                   SharedPreferences prefs =
                                       await SharedPreferences.getInstance();
                                   int spinCount =
@@ -443,7 +451,8 @@ class _WheelState extends State<Wheel> {
                                         return AlertDialog(
                                           title: Text('Spin Limit Reached'),
                                           content: Text(
-                                              'You have reached the maximum number of spins allowed within 24 hours.'),
+                                            'You have reached the maximum number of spins allowed within 24 hours.',
+                                          ),
                                           actions: <Widget>[
                                             TextButton(
                                               child: Text('OK'),
@@ -455,6 +464,9 @@ class _WheelState extends State<Wheel> {
                                         );
                                       },
                                     );
+
+                                    isSpinning =
+                                        false; // Set the spinning state back to false
                                     return;
                                   }
 
@@ -470,16 +482,19 @@ class _WheelState extends State<Wheel> {
                                   selected.add(se);
                                   await Future.delayed(
                                       const Duration(seconds: 5));
+
                                   try {
                                     EasyLoading.show(status: 'Getting rewards');
                                     var response = await RewardRepo().addPoint(
-                                        items[se], 'Spin Wheel Video Ads');
+                                      items[se],
+                                      'Spin Wheel Video Ads',
+                                    );
+
                                     if (response) {
                                       AdManager.showIntAd2();
                                       showRewardPopUp(items[se]);
                                       EasyLoading.showSuccess(
                                           'You Have Earned ${items[se]} Coins');
-
                                       ref.refresh(personalProfileProvider);
                                     } else {
                                       EasyLoading.showError(
@@ -488,7 +503,12 @@ class _WheelState extends State<Wheel> {
                                   } catch (e) {
                                     EasyLoading.showError(e.toString());
                                   }
+
+                                  isSpinning =
+                                      false; // Set the spinning state back to false
                                 },
+                                // Rest of the code...
+
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [

@@ -14,10 +14,12 @@ import 'package:cash_rocket/Videos/Admob/admob.dart';
 import 'package:facebook_audience_network/facebook_audience_network.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:new_version/new_version.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:unity_ads_plugin/unity_ads_plugin.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -41,12 +43,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   Admob admob = Admob();
   AppLovin appLovin = AppLovin();
-  AdManager adManager =
-  AdManager();
- // bool isInterstitialLoaded=false;
+  AdManager adManager = AdManager();
+
+  // bool isInterstitialLoaded=false;
   YoutubePlayerController videoController = YoutubePlayerController(
     flags: const YoutubePlayerFlags(
       autoPlay: false,
@@ -59,6 +60,13 @@ class _HomeScreenState extends State<HomeScreen> {
     await AppLovinMAX.initialize(sdkKey);
   }
 
+  void _checkVersion() async {
+    final newVersion = NewVersion(
+      androidId: "com.pioneerdev.coinbirr",
+    );
+    newVersion.showAlertIfNecessary(context: context);
+  }
+
   @override
   void initState() {
     checkInternet();
@@ -69,6 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
     appLovin.loadAds();
     super.initState();
 
+    _checkVersion();
 
     UnityAds.init(
       gameId: '5321840',
@@ -76,14 +85,13 @@ class _HomeScreenState extends State<HomeScreen> {
       onFailed: (error, message) =>
           print('Initialization Failed: $error $message'),
     );
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp)  {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       // Create an instance of the AdManager class
 
-
-      adManager.loadUnityAd2();// Access the method through the instance
+      adManager.loadUnityAd2(); // Access the method through the instance
     });
     // remove this code on final product
-   /* FacebookAudienceNetwork.init(
+    /* FacebookAudienceNetwork.init(
         testingId: "37b1da9d-b48c-4103-a393-2e095e734bd6", //optional
         iOSAdvertiserTrackingEnabled: true //default false
     );
@@ -112,10 +120,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void showRewardPopUp(String amount) {
     showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (BuildContext context) {
-          return Dialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
             backgroundColor: Colors.transparent,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12.0),
@@ -145,7 +153,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               const SizedBox(height: 20.0),
                               Text(
                                 lang.S.of(context).congratulations,
-                                style: kTextStyle.copyWith(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18.0),
+                                style: kTextStyle.copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18.0),
                               ),
                               const SizedBox(height: 5.0),
                               Text(
@@ -157,14 +168,17 @@ class _HomeScreenState extends State<HomeScreen> {
                               Container(
                                 padding: const EdgeInsets.all(5.0),
                                 decoration: BoxDecoration(
-                                  gradient: const LinearGradient(begin: Alignment.topCenter, colors: [
-                                    Color(0xFFFFBF53),
-                                    Color(0xFFFF8244),
-                                  ]),
+                                  gradient: const LinearGradient(
+                                      begin: Alignment.topCenter,
+                                      colors: [
+                                        Color(0xFFFFBF53),
+                                        Color(0xFFFF8244),
+                                      ]),
                                   borderRadius: BorderRadius.circular(30.0),
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                                  padding: const EdgeInsets.only(
+                                      left: 20.0, right: 20.0),
                                   child: Text(
                                     lang.S.of(context).ok,
                                     style: kTextStyle.copyWith(
@@ -172,11 +186,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                   ),
                                 ),
-                              ).onTap(() => {
-
-                                    finish(context),
-                                    const Home().launch(context),
-                                  },
+                              ).onTap(
+                                () => {
+                                  finish(context),
+                                  const Home().launch(context),
+                                },
                               )
                             ],
                           ),
@@ -186,97 +200,102 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ],
               ),
-            )
-          );
-        },
+            ));
+      },
     ).then((value) {
       AdManager.showIntAd2();
       // This code block will execute after the dialog is closed
-     // FacebookInterstitialAd.showInterstitialAd();
+      // FacebookInterstitialAd.showInterstitialAd();
     });
   }
 
   void showRewardsPopUp() {
     showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (BuildContext context) {
-          return Dialog(
-            backgroundColor: Colors.transparent,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12.0),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Center(
-                  child: Stack(
-                    children: [
-                      Container(
-                        height: 150,
-                        width: 350,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12.0),
-                          image: const DecorationImage(
-                            image: AssetImage('images/banner3.png'),
-                          ),
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Center(
+                child: Stack(
+                  children: [
+                    Container(
+                      height: 150,
+                      width: 350,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12.0),
+                        image: const DecorationImage(
+                          image: AssetImage('images/banner3.png'),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(height: 10.0),
-                            Text(
-                              lang.S.of(context).dailyReward,
-                              style: kTextStyle.copyWith(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18.0),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 10.0),
+                          Text(
+                            lang.S.of(context).dailyReward,
+                            style: kTextStyle.copyWith(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18.0),
+                          ),
+                          const SizedBox(height: 10.0),
+                          Text(
+                            'Already rewarded\ncome back later',
+                            style: kTextStyle.copyWith(
+                                color: Colors.white, fontSize: 18.0),
+                            maxLines: 2,
+                          ),
+                          const SizedBox(height: 10.0),
+                          Container(
+                            padding: const EdgeInsets.all(5.0),
+                            decoration: BoxDecoration(
+                              gradient: const LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  colors: [
+                                    Color(0xFFFFBF53),
+                                    Color(0xFFFF8244),
+                                  ]),
+                              borderRadius: BorderRadius.circular(30.0),
                             ),
-                            const SizedBox(height: 10.0),
-                            Text(
-                              'Already rewarded\ncome back later',
-                              style: kTextStyle.copyWith(color: Colors.white, fontSize: 18.0),
-                              maxLines: 2,
-                            ),
-                            const SizedBox(height: 10.0),
-                            Container(
-                              padding: const EdgeInsets.all(5.0),
-                              decoration: BoxDecoration(
-                                gradient: const LinearGradient(begin: Alignment.topCenter, colors: [
-                                  Color(0xFFFFBF53),
-                                  Color(0xFFFF8244),
-                                ]),
-                                borderRadius: BorderRadius.circular(30.0),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                                child: Text(
-                                  lang.S.of(context).ok,
-                                  style: kTextStyle.copyWith(
-                                    color: Colors.white,
-                                  ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 15.0, right: 15.0),
+                              child: Text(
+                                lang.S.of(context).ok,
+                                style: kTextStyle.copyWith(
+                                  color: Colors.white,
                                 ),
                               ),
-                            ).onTap(() => {
-
-                                  finish(context),
-                                  const Home().launch(context),
-                                })
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
+                            ),
+                          ).onTap(() => {
+                                finish(context),
+                                const Home().launch(context),
+                              })
+                        ],
+                      ),
+                    )
+                  ],
                 ),
-              ],
-            ),
-          );
-        },
+              ),
+            ],
+          ),
+        );
+      },
     ).then((value) {
       appLovin.showInterstitialAd();
       // This code block will execute after the dialog is closed
-   //   FacebookInterstitialAd.showInterstitialAd();
+      //   FacebookInterstitialAd.showInterstitialAd();
     });
   }
 
@@ -509,7 +528,6 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (_, ref, watch) {
@@ -528,19 +546,24 @@ class _HomeScreenState extends State<HomeScreen> {
             elevation: 0.0,
             title: ListTile(
               leading: Container(
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(30.0), border: Border.all(color: Colors.white)),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30.0),
+                    border: Border.all(color: Colors.white)),
                 child: CircleAvatar(
                   radius: 18.0,
-                  backgroundImage: NetworkImage(info.data?.user?.image == Config.siteUrl
+                  backgroundImage: NetworkImage(info.data?.user?.image ==
+                          Config.siteUrl
                       ? 'https://raw.githubusercontent.com/Ashwinvalento/cartoon-avatar/master/lib/images/female/68.png'
-                      : info.data?.user?.image ?? 'https://raw.githubusercontent.com/Ashwinvalento/cartoon-avatar/master/lib/images/female/68.png'),
+                      : info.data?.user?.image ??
+                          'https://raw.githubusercontent.com/Ashwinvalento/cartoon-avatar/master/lib/images/female/68.png'),
                 ),
               ).onTap(
                 () => const Profile().launch(context),
               ),
               title: Text(
                 info.data?.user?.name ?? '',
-                style: kTextStyle.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+                style: kTextStyle.copyWith(
+                    color: Colors.white, fontWeight: FontWeight.bold),
               ),
             ),
             actions: [
@@ -576,7 +599,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       const SizedBox(width: 5.0),
-                      Text(isBalanceShow ? '${info.data?.user?.wallet?.balance ?? ''}' : lang.S.of(context).balance),
+                      Text(isBalanceShow
+                          ? '${info.data?.user?.wallet?.balance ?? ''}'
+                          : lang.S.of(context).balance),
                       const SizedBox(width: 5.0),
                       AnimatedOpacity(
                         opacity: isBalanceShow ? 1.0 : 0.0,
@@ -626,7 +651,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 30.0),
+                      padding: const EdgeInsets.only(
+                          left: 10.0, right: 10.0, top: 30.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -648,22 +674,30 @@ class _HomeScreenState extends State<HomeScreen> {
                               title: Center(
                                 child: Text(
                                   lang.S.of(context).collectDailyRewardNow,
-                                  style: kTextStyle.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+                                  style: kTextStyle.copyWith(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
                               trailing: Container(
                                   padding: const EdgeInsets.all(15.0),
-                                  decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+                                  decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.white),
                                   child: Text(
                                     '20+',
-                                    style: kTextStyle.copyWith(color: kMainColor, fontWeight: FontWeight.bold),
+                                    style: kTextStyle.copyWith(
+                                        color: kMainColor,
+                                        fontWeight: FontWeight.bold),
                                   )),
                             ),
                           ).onTap(
                             () async {
                               try {
-                                EasyLoading.show(status: 'Getting Today\'s Reward');
-                                bool isValid = await PurchaseModel().isActiveBuyer();
+                                EasyLoading.show(
+                                    status: 'Getting Today\'s Reward');
+                                bool isValid =
+                                    await PurchaseModel().isActiveBuyer();
                                 if (isValid) {
                                   var status = await AuthRepo().dailyRewards();
                                   if (status) {
@@ -672,7 +706,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     admob.showInterstitialAd();
                                     ref.refresh(personalProfileProvider);
                                   } else {
-                                    EasyLoading.showError('Already Rewarded. Try Again Later');
+                                    EasyLoading.showError(
+                                        'Already Rewarded. Try Again Later');
                                     showRewardsPopUp();
                                   }
                                 } else {
@@ -680,7 +715,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 }
                               } catch (e) {
                                 showRewardsPopUp();
-                                EasyLoading.showError(e.toString().replaceRange(0, 10, ''));
+                                EasyLoading.showError(
+                                    e.toString().replaceRange(0, 10, ''));
                               }
                             },
                           ),
@@ -709,7 +745,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         if (i == 0) {
                           const Redeem().launch(context);
                         } else {
-                          Share.share('I have earned \$10 in a day. Use my refer code to earn \$10 on signup. My Refer Code is ${info.data?.user?.referCode ?? ''}. Download the app now and start your journey of making money online: https://play.google.com/store/apps/details?id=com.pioneerdev.coinbirr&pli=1');
+                          Share.share(
+                              'I have earned \$10 in a day. Use my refer code to earn \$10 on signup. My Refer Code is ${info.data?.user?.referCode ?? ''}. Download the app now and start your journey of making money online: https://play.google.com/store/apps/details?id=com.pioneerdev.coinbirr&pli=1');
                         }
                       });
                     },
@@ -724,7 +761,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         Text(
                           lang.S.of(context).allFeatures,
-                          style: kTextStyle.copyWith(color: kTitleColor, fontWeight: FontWeight.bold),
+                          style: kTextStyle.copyWith(
+                              color: kTitleColor, fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(
                           height: 20.0,
@@ -740,12 +778,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                 const SizedBox(height: 4.0),
                                 Center(
                                     child: Text(
-                                   lang.S.of(context).offers,
-                                  style: kTextStyle.copyWith(color: kTitleColor, fontWeight: FontWeight.bold),
+                                  lang.S.of(context).offers,
+                                  style: kTextStyle.copyWith(
+                                      color: kTitleColor,
+                                      fontWeight: FontWeight.bold),
                                 )),
                               ],
                             ).onTap(
-                              () =>  ComingSoonScreen().launch(context),
+                              () => ComingSoonScreen().launch(context),
                             ),
                             Column(
                               children: [
@@ -755,10 +795,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                 const SizedBox(height: 4.0),
                                 Center(
                                     child: Text(
-                                      lang.S.of(context).videos,
-                                  style: kTextStyle.copyWith(color: kTitleColor, fontWeight: FontWeight.bold),
+                                  lang.S.of(context).videos,
+                                  style: kTextStyle.copyWith(
+                                      color: kTitleColor,
+                                      fontWeight: FontWeight.bold),
                                 )),
-
                               ],
                             ).onTap(
                               () => const Videos().launch(context),
@@ -771,8 +812,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                 const SizedBox(height: 4.0),
                                 Center(
                                     child: Text(
-                                      lang.S.of(context).wheel,
-                                  style: kTextStyle.copyWith(color: kTitleColor, fontWeight: FontWeight.bold),
+                                  lang.S.of(context).wheel,
+                                  style: kTextStyle.copyWith(
+                                      color: kTitleColor,
+                                      fontWeight: FontWeight.bold),
                                 )),
                               ],
                             ).onTap(
@@ -786,8 +829,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                 const SizedBox(height: 4.0),
                                 Center(
                                     child: Text(
-                                      lang.S.of(context).refer,
-                                  style: kTextStyle.copyWith(color: kTitleColor, fontWeight: FontWeight.bold),
+                                  lang.S.of(context).refer,
+                                  style: kTextStyle.copyWith(
+                                      color: kTitleColor,
+                                      fontWeight: FontWeight.bold),
                                 )),
                               ],
                             ).onTap(
@@ -811,8 +856,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                   const SizedBox(height: 4.0),
                                   Center(
                                       child: Text(
-                                        lang.S.of(context).redeem,
-                                    style: kTextStyle.copyWith(color: kTitleColor, fontWeight: FontWeight.bold),
+                                    lang.S.of(context).redeem,
+                                    style: kTextStyle.copyWith(
+                                        color: kTitleColor,
+                                        fontWeight: FontWeight.bold),
                                   )),
                                 ],
                               ).onTap(
@@ -828,8 +875,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                   const SizedBox(height: 4.0),
                                   Center(
                                       child: Text(
-                                        lang.S.of(context).quizz,
-                                    style: kTextStyle.copyWith(color: kTitleColor, fontWeight: FontWeight.bold),
+                                    lang.S.of(context).quizz,
+                                    style: kTextStyle.copyWith(
+                                        color: kTitleColor,
+                                        fontWeight: FontWeight.bold),
                                   )),
                                 ],
                               ).onTap(
@@ -860,8 +909,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                     const SizedBox(height: 4.0),
                                     Center(
                                         child: Text(
-                                          lang.S.of(context).tutorial,
-                                      style: kTextStyle.copyWith(color: kTitleColor, fontWeight: FontWeight.bold),
+                                      lang.S.of(context).tutorial,
+                                      style: kTextStyle.copyWith(
+                                          color: kTitleColor,
+                                          fontWeight: FontWeight.bold),
                                     )),
                                   ],
                                 ),
@@ -877,14 +928,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Center(
                                     child: Text(
                                       lang.S.of(context).share,
-                                       overflow: TextOverflow.ellipsis,
-                                       maxLines: 1,
-                                      style: kTextStyle.copyWith(color: kTitleColor, fontWeight: FontWeight.bold),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      style: kTextStyle.copyWith(
+                                          color: kTitleColor,
+                                          fontWeight: FontWeight.bold),
                                     ),
                                   )
                                 ],
-                              ).onTap(
-                                  () => Share.share('I have earned \$10 in a day. Use my refer code to earn \$10 on signup. My Refer Code is ${info.data?.user?.referCode ?? ''}. Download the app now and start your journey of making money online: https://play.google.com/store/apps/details?id=com.pioneerdev.coinbirr&pli=1')),
+                              ).onTap(() => Share.share(
+                                  'I have earned \$10 in a day. Use my refer code to earn \$10 on signup. My Refer Code is ${info.data?.user?.referCode ?? ''}. Download the app now and start your journey of making money online: https://play.google.com/store/apps/details?id=com.pioneerdev.coinbirr&pli=1')),
                             )
                           ],
                         )

@@ -1,13 +1,9 @@
-// ignore_for_file: use_build_context_synchronously
 
 import 'package:cash_rocket/Provider/database_provider.dart';
 import 'package:cash_rocket/Screen/Constant%20Data/constant.dart';
 import 'package:cash_rocket/Screen/Home%20Screen/home.dart';
 import 'package:cash_rocket/Screen/Home%20Screen/no_internet_screen.dart';
-import 'package:check_vpn_connection/check_vpn_connection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -38,29 +34,6 @@ class _SplashScreenState extends State<SplashScreen> {
     String token = await DataBase().retrieveString('token') ?? '';
     bool result = await InternetConnectionChecker().hasConnection;
 
-    // Check VPN connection
-    bool isConnected = await CheckVpnConnection.isVpnActive();
-    if (!isConnected) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('VPN Connection Required'),
-            content: Text('Please connect to a VPN to use this app.'),
-            actions: <Widget>[
-              TextButton(
-                child: Text('OK'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
-      return; // Exit the function if VPN is not connected
-    }
-
     if (result) {
       bool isValid = await PurchaseModel().isActiveBuyer();
       if (isValid) {
@@ -84,7 +57,6 @@ class _SplashScreenState extends State<SplashScreen> {
       ).launch(context);
     }
   }
-
 
   @override
   void setState(fn) {
