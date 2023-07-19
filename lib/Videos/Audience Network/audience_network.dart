@@ -14,10 +14,13 @@ import '../../Repositories/rewards_repo.dart';
 class FacebookRewardVideoAd {
 
   bool _isRewardedAdLoaded = false;
- 
-  void loadRewardedVideoAd() async{
 
-    final String rewardedAdUnitId =  Platform.isAndroid ?await DataBase().retrieveString('audienceNetworkRewardedAdAndroid') ?? "VID_HD_9_16_39S_APP_INSTALL" : await DataBase().retrieveString('audienceNetworkAdIos') ?? "VID_HD_9_16_39S_APP_INSTALL";
+  void loadRewardedVideoAd() async {
+    final String rewardedAdUnitId = Platform.isAndroid
+        ? await DataBase().retrieveString('audienceNetworkRewardedAdAndroid') ??
+        "VID_HD_9_16_39S_APP_INSTALL#793824048967170_812831447066430"
+        : await DataBase().retrieveString('audienceNetworkAdIos') ??
+        "VID_HD_9_16_39S_APP_INSTALL#793824048967170_812831447066430";
 
 
     FacebookAudienceNetwork.init(
@@ -31,25 +34,26 @@ class FacebookRewardVideoAd {
           _isRewardedAdLoaded = true;
         }
         if (result == RewardedVideoAdResult.VIDEO_COMPLETE) {
-          try{
+          try {
             EasyLoading.show(status: 'Getting rewards');
             var response = await RewardRepo().addPoint('10', 'Admob Video Ads');
-            if(response){
+            if (response) {
               EasyLoading.showSuccess('You Have Earned 10 Coins');
-            }else{
+            } else {
               EasyLoading.showError('Error Happened. Try Again');
             }
-          }catch(e){
+          } catch (e) {
             EasyLoading.showError(e.toString());
           }
         }
-          /// Once a Rewarded Ad has been closed and becomes invalidated,
-          /// load a fresh Ad by calling this function.
-          if (result == RewardedVideoAdResult.VIDEO_CLOSED &&
-              (value == true || value["invalidated"] == true)) {
-            _isRewardedAdLoaded = false;
-            loadRewardedVideoAd();
-          }
+
+        /// Once a Rewarded Ad has been closed and becomes invalidated,
+        /// load a fresh Ad by calling this function.
+        if (result == RewardedVideoAdResult.VIDEO_CLOSED &&
+            (value == true || value["invalidated"] == true)) {
+          _isRewardedAdLoaded = false;
+          loadRewardedVideoAd();
+        }
       },
     );
   }
@@ -58,9 +62,9 @@ class FacebookRewardVideoAd {
     if (_isRewardedAdLoaded == true) {
       FacebookRewardedVideoAd.showRewardedVideoAd();
     } else {
+      print('Rewarded ad not available'); // Add this line for logging
       toast('Ad Not available');
     }
     loadRewardedVideoAd();
   }
-
 }

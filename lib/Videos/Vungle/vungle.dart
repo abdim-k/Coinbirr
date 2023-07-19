@@ -21,11 +21,11 @@ class VungleAd {
       placementId = 'DEFAULT-1975454';
       Vungle.init(appId!);
     } else {
-     /* appId = '62dcea4266c52ee961b451df';
+     appId = '62dcea4266c52ee961b451df';
       placementId = 'ROCKET-8900187';
       Vungle.init(appId!);
 
-      */
+
     }
     Vungle.loadAd(placementId!);
     onPlayAd();
@@ -66,11 +66,11 @@ class VungleAd {
       placementId = 'REWARD_AT_LOSE-6004691';
       Vungle.init(appId!);
     } else {
-      /* appId = '62dcea4266c52ee961b451df';
+       appId = '62dcea4266c52ee961b451df';
       placementId = 'ROCKET-8900187';
       Vungle.init(appId!);
 
-      */
+
     }
     Vungle.loadAd(placementId!);
     onPlayAd();
