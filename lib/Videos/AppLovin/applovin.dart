@@ -21,6 +21,7 @@ class AppLovin {
   Future<void> loadAds() async {
     final String rewardedAdUnitId =  Platform.isAndroid ?await DataBase().retrieveString('applovinRewardedAdAndroid') ?? "b6a2ecde63205294" : await DataBase().retrieveString('applovinRewardedAdIos') ?? "b6a2ecde63205294";
     final String interstitialAdUnitId = Platform.isAndroid ? "ded2daf815676443" : "ded2daf815676443";
+
     toast("Initializing SDK...");
     AppLovinMAX.loadRewardedAd(rewardedAdUnitId);
     AppLovinMAX.loadInterstitial(interstitialAdUnitId);

@@ -75,7 +75,6 @@ dependencies:
   provider: ^6.0.5
   check_vpn_connection: ^0.0.2
   stack_appodeal_flutter: ^3.0.2
-  new_version: ^0.3.1
 
 
 

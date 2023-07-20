@@ -1,5 +1,9 @@
 // ignore_for_file: use_build_context_synchronously, unused_result
 
+
+
+import 'dart:io';
+
 import 'package:applovin_max/applovin_max.dart';
 import 'package:cash_rocket/Model/user_profile_model.dart';
 import 'package:cash_rocket/Provider/profile_provider.dart';
@@ -19,7 +23,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:new_version/new_version.dart';
+
 import 'package:share_plus/share_plus.dart';
 import 'package:unity_ads_plugin/unity_ads_plugin.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -43,9 +47,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final String _banner_ad_unit_id = Platform.isAndroid ? "25e43923a6a0120c" : "IOS_BANNER_AD_UNIT_ID";
   Admob admob = Admob();
   AppLovin appLovin = AppLovin();
   AdManager adManager = AdManager();
+
 
   // bool isInterstitialLoaded=false;
   YoutubePlayerController videoController = YoutubePlayerController(
@@ -58,14 +64,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void initialization() async {
     await AppLovinMAX.initialize(sdkKey);
+    AppLovinMAX.createBanner(_banner_ad_unit_id, AdViewPosition.topCenter);
+
+
   }
 
-  void _checkVersion() async {
-    final newVersion = NewVersion(
-      androidId: "com.pioneerdev.coinbirr",
-    );
-    newVersion.showAlertIfNecessary(context: context);
-  }
+
+
 
   @override
   void initState() {
@@ -77,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
     appLovin.loadAds();
     super.initState();
 
-    _checkVersion();
+
 
     UnityAds.init(
       gameId: '5321840',
@@ -538,415 +543,445 @@ class _HomeScreenState extends State<HomeScreen> {
           EasyLoading.showError('You Are Disable!');
           const LogIn().launch(context, isNewTask: true);
         }
-        return Scaffold(
-          appBar: AppBar(
-            titleSpacing: 0.0,
-            automaticallyImplyLeading: false,
-            backgroundColor: kMainColor,
-            elevation: 0.0,
-            title: ListTile(
-              leading: Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30.0),
-                    border: Border.all(color: Colors.white)),
-                child: CircleAvatar(
-                  radius: 18.0,
-                  backgroundImage: NetworkImage(info.data?.user?.image ==
-                          Config.siteUrl
-                      ? 'https://raw.githubusercontent.com/Ashwinvalento/cartoon-avatar/master/lib/images/female/68.png'
-                      : info.data?.user?.image ??
-                          'https://raw.githubusercontent.com/Ashwinvalento/cartoon-avatar/master/lib/images/female/68.png'),
-                ),
-              ).onTap(
-                () => const Profile().launch(context),
-              ),
-              title: Text(
-                info.data?.user?.name ?? '',
-                style: kTextStyle.copyWith(
-                    color: Colors.white, fontWeight: FontWeight.bold),
-              ),
-            ),
-            actions: [
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Container(
-                  padding: const EdgeInsets.all(2.0),
+
+        return Padding(
+          padding: const EdgeInsets.only(top: 20.0),
+          child: Scaffold(
+            appBar: AppBar(
+
+              titleSpacing: 0.0,
+              automaticallyImplyLeading: false,
+              backgroundColor: kMainColor,
+              elevation: 0.0,
+              title: ListTile(
+                leading: Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30.0),
-                    color: Colors.white.withOpacity(0.3),
-                    border: Border.all(
-                      color: Colors.white,
-                    ),
+                      borderRadius: BorderRadius.circular(30.0),
+                      border: Border.all(color: Colors.white)),
+                  child: CircleAvatar(
+                    radius: 18.0,
+                    backgroundImage: NetworkImage(info.data?.user?.image ==
+                            Config.siteUrl
+                        ? 'https://raw.githubusercontent.com/Ashwinvalento/cartoon-avatar/master/lib/images/female/68.png'
+                        : info.data?.user?.image ??
+                            'https://raw.githubusercontent.com/Ashwinvalento/cartoon-avatar/master/lib/images/female/68.png'),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      AnimatedOpacity(
-                        opacity: !isBalanceShow ? 1.0 : 0.0,
-                        duration: const Duration(milliseconds: 1000),
-                        child: Container(
-                          height: 20,
-                          width: 20,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30.0),
-                            color: kMainColor,
-                            border: Border.all(color: Colors.white, width: 2.0),
-                          ),
-                          child: const Icon(
-                            FeatherIcons.dollarSign,
-                            size: 15.0,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 5.0),
-                      Text(isBalanceShow
-                          ? '${info.data?.user?.wallet?.balance ?? ''}'
-                          : lang.S.of(context).balance),
-                      const SizedBox(width: 5.0),
-                      AnimatedOpacity(
-                        opacity: isBalanceShow ? 1.0 : 0.0,
-                        duration: const Duration(milliseconds: 1000),
-                        child: Container(
-                          height: 20,
-                          width: 20,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30.0),
-                            color: kMainColor,
-                            border: Border.all(color: Colors.white, width: 2.0),
-                          ),
-                          child: const Icon(
-                            FeatherIcons.dollarSign,
-                            size: 15.0,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ).onTap(() {
-                  setState(() {
-                    isBalanceShow = !isBalanceShow;
-                  });
-                }),
+                ).onTap(
+                  () => const Profile().launch(context),
+                ),
+                title: Text(
+                  info.data?.user?.name ?? '',
+                  style: kTextStyle.copyWith(
+                      color: Colors.white, fontWeight: FontWeight.bold),
+                ),
               ),
-            ],
-          ),
-          body: RefreshIndicator(
-            onRefresh: () async {
-              ref.refresh(personalProfileProvider);
-              ref.refresh(withdrawHistoryProvider);
-              ref.refresh(userHistoryProvider);
-            },
-            child: SingleChildScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: context.width(),
-                    decoration: const BoxDecoration(
-                      color: kMainColor,
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(30.0),
-                        bottomRight: Radius.circular(30.0),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Container(
+                    padding: const EdgeInsets.all(2.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30.0),
+                      color: Colors.white.withOpacity(0.3),
+                      border: Border.all(
+                        color: Colors.white,
                       ),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 10.0, right: 10.0, top: 30.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        AnimatedOpacity(
+                          opacity: !isBalanceShow ? 1.0 : 0.0,
+                          duration: const Duration(milliseconds: 1000),
+                          child: Container(
+                            height: 20,
+                            width: 20,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30.0),
+                              color: kMainColor,
+                              border: Border.all(color: Colors.white, width: 2.0),
+                            ),
+                            child: const Icon(
+                              FeatherIcons.dollarSign,
+                              size: 15.0,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 5.0),
+                        Text(isBalanceShow
+                            ? '${info.data?.user?.wallet?.balance ?? ''}'
+                            : lang.S.of(context).balance),
+                        const SizedBox(width: 5.0),
+                        AnimatedOpacity(
+                          opacity: isBalanceShow ? 1.0 : 0.0,
+                          duration: const Duration(milliseconds: 1000),
+                          child: Container(
+                            height: 20,
+                            width: 20,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30.0),
+                              color: kMainColor,
+                              border: Border.all(color: Colors.white, width: 2.0),
+                            ),
+                            child: const Icon(
+                              FeatherIcons.dollarSign,
+                              size: 15.0,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ).onTap(() {
+                    setState(() {
+                      isBalanceShow = !isBalanceShow;
+                    });
+                  }),
+                ),
+              ],
+            ),
+            body: RefreshIndicator(
+              onRefresh: () async {
+                ref.refresh(personalProfileProvider);
+                ref.refresh(withdrawHistoryProvider);
+                ref.refresh(userHistoryProvider);
+              },
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: context.width(),
+                      decoration: const BoxDecoration(
+                        color: kMainColor,
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(30.0),
+                          bottomRight: Radius.circular(30.0),
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            left: 10.0, right: 10.0, top: 30.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30.0),
+                                border: Border.all(
+                                  color: Colors.white.withOpacity(0.3),
+                                ),
+                                color: Colors.white.withOpacity(0.5),
+                              ),
+                              child: ListTile(
+                                contentPadding: const EdgeInsets.only(left: 4.0),
+                                leading: const CircleAvatar(
+                                  backgroundColor: Colors.transparent,
+                                  radius: 25,
+                                  backgroundImage: AssetImage('images/meter.png'),
+                                ),
+                                title: Center(
+                                  child: Text(
+                                    lang.S.of(context).collectDailyRewardNow,
+                                    style: kTextStyle.copyWith(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                trailing: Container(
+                                    padding: const EdgeInsets.all(15.0),
+                                    decoration: const BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Colors.white),
+                                    child: Text(
+                                      '20+',
+                                      style: kTextStyle.copyWith(
+                                          color: kMainColor,
+                                          fontWeight: FontWeight.bold),
+                                    )),
+                              ),
+                            ).onTap(
+                              () async {
+                                try {
+                                  EasyLoading.show(
+                                      status: 'Getting Today\'s Reward');
+                                  bool isValid =
+                                      await PurchaseModel().isActiveBuyer();
+                                  if (isValid) {
+                                    var status = await AuthRepo().dailyRewards();
+                                    if (status) {
+                                      showRewardPopUp('100');
+                                      EasyLoading.showSuccess('Reward Added');
+                                      admob.showInterstitialAd();
+                                      ref.refresh(personalProfileProvider);
+                                    } else {
+                                      EasyLoading.showError(
+                                          'Already Rewarded. Try Again Later');
+                                      showRewardsPopUp();
+                                    }
+                                  } else {
+                                    showLicense(context: context);
+                                  }
+                                } catch (e) {
+                                  showRewardsPopUp();
+                                  EasyLoading.showError(
+                                      e.toString().replaceRange(0, 10, ''));
+                                }
+                              },
+                            ),
+                            const SizedBox(height: 10.0),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10.0,
+                    ),
+                    HorizontalList(
+                      itemCount: bannerList.length,
+                      itemBuilder: (_, i) {
+                        return Container(
+                          height: 150,
+                          width: 305,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage(
+                                bannerList[i],
+                              ),
+                            ),
+                          ),
+                        ).onTap(() {
+                          if (i == 0) {
+                            const Redeem().launch(context);
+                          } else {
+                            Share.share(
+                                'I have earned \$10 in a day. Use my refer code to earn \$10 on signup. My Refer Code is ${info.data?.user?.referCode ?? ''}. Download the app now and start your journey of making money online: https://play.google.com/store/apps/details?id=com.pioneerdev.coinbirr&pli=1');
+                          }
+                        });
+                      },
+                    ),
+                    const SizedBox(
+                      height: 10.0,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30.0),
-                              border: Border.all(
-                                color: Colors.white.withOpacity(0.3),
-                              ),
-                              color: Colors.white.withOpacity(0.5),
-                            ),
-                            child: ListTile(
-                              contentPadding: const EdgeInsets.only(left: 4.0),
-                              leading: const CircleAvatar(
-                                backgroundColor: Colors.transparent,
-                                radius: 25,
-                                backgroundImage: AssetImage('images/meter.png'),
-                              ),
-                              title: Center(
-                                child: Text(
-                                  lang.S.of(context).collectDailyRewardNow,
-                                  style: kTextStyle.copyWith(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              trailing: Container(
-                                  padding: const EdgeInsets.all(15.0),
-                                  decoration: const BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.white),
-                                  child: Text(
-                                    '20+',
-                                    style: kTextStyle.copyWith(
-                                        color: kMainColor,
-                                        fontWeight: FontWeight.bold),
-                                  )),
-                            ),
-                          ).onTap(
-                            () async {
-                              try {
-                                EasyLoading.show(
-                                    status: 'Getting Today\'s Reward');
-                                bool isValid =
-                                    await PurchaseModel().isActiveBuyer();
-                                if (isValid) {
-                                  var status = await AuthRepo().dailyRewards();
-                                  if (status) {
-                                    showRewardPopUp('100');
-                                    EasyLoading.showSuccess('Reward Added');
-                                    admob.showInterstitialAd();
-                                    ref.refresh(personalProfileProvider);
-                                  } else {
-                                    EasyLoading.showError(
-                                        'Already Rewarded. Try Again Later');
-                                    showRewardsPopUp();
-                                  }
-                                } else {
-                                  showLicense(context: context);
-                                }
-                              } catch (e) {
-                                showRewardsPopUp();
-                                EasyLoading.showError(
-                                    e.toString().replaceRange(0, 10, ''));
-                              }
-                            },
+                          Text(
+                            lang.S.of(context).allFeatures,
+                            style: kTextStyle.copyWith(
+                                color: kTitleColor, fontWeight: FontWeight.bold),
                           ),
-                          const SizedBox(height: 10.0),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10.0,
-                  ),
-                  HorizontalList(
-                    itemCount: bannerList.length,
-                    itemBuilder: (_, i) {
-                      return Container(
-                        height: 150,
-                        width: 305,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage(
-                              bannerList[i],
-                            ),
+                          const SizedBox(
+                            height: 20.0,
                           ),
-                        ),
-                      ).onTap(() {
-                        if (i == 0) {
-                          const Redeem().launch(context);
-                        } else {
-                          Share.share(
-                              'I have earned \$10 in a day. Use my refer code to earn \$10 on signup. My Refer Code is ${info.data?.user?.referCode ?? ''}. Download the app now and start your journey of making money online: https://play.google.com/store/apps/details?id=com.pioneerdev.coinbirr&pli=1');
-                        }
-                      });
-                    },
-                  ),
-                  const SizedBox(
-                    height: 10.0,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          lang.S.of(context).allFeatures,
-                          style: kTextStyle.copyWith(
-                              color: kTitleColor, fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(
-                          height: 20.0,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Column(
-                              children: [
-                                const Image(
-                                  image: AssetImage('images/offer.png'),
-                                ),
-                                const SizedBox(height: 4.0),
-                                Center(
-                                    child: Text(
-                                  lang.S.of(context).offers,
-                                  style: kTextStyle.copyWith(
-                                      color: kTitleColor,
-                                      fontWeight: FontWeight.bold),
-                                )),
-                              ],
-                            ).onTap(
-                              () => ComingSoonScreen().launch(context),
-                            ),
-                            Column(
-                              children: [
-                                const Image(
-                                  image: AssetImage('images/videos.png'),
-                                ),
-                                const SizedBox(height: 4.0),
-                                Center(
-                                    child: Text(
-                                  lang.S.of(context).videos,
-                                  style: kTextStyle.copyWith(
-                                      color: kTitleColor,
-                                      fontWeight: FontWeight.bold),
-                                )),
-                              ],
-                            ).onTap(
-                              () => const Videos().launch(context),
-                            ),
-                            Column(
-                              children: [
-                                const Image(
-                                  image: AssetImage('images/wheel.png'),
-                                ),
-                                const SizedBox(height: 4.0),
-                                Center(
-                                    child: Text(
-                                  lang.S.of(context).wheel,
-                                  style: kTextStyle.copyWith(
-                                      color: kTitleColor,
-                                      fontWeight: FontWeight.bold),
-                                )),
-                              ],
-                            ).onTap(
-                              () => const Wheel().launch(context),
-                            ),
-                            Column(
-                              children: [
-                                const Image(
-                                  image: AssetImage('images/refer.png'),
-                                ),
-                                const SizedBox(height: 4.0),
-                                Center(
-                                    child: Text(
-                                  lang.S.of(context).refer,
-                                  style: kTextStyle.copyWith(
-                                      color: kTitleColor,
-                                      fontWeight: FontWeight.bold),
-                                )),
-                              ],
-                            ).onTap(
-                              () => const Refer().launch(context),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 15.0,
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Expanded(
-                              child: Column(
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Column(
                                 children: [
                                   const Image(
-                                    image: AssetImage('images/reedem.png'),
+                                    image: AssetImage('images/offer.png'),
                                   ),
                                   const SizedBox(height: 4.0),
                                   Center(
                                       child: Text(
-                                    lang.S.of(context).redeem,
+                                    lang.S.of(context).offers,
                                     style: kTextStyle.copyWith(
                                         color: kTitleColor,
                                         fontWeight: FontWeight.bold),
                                   )),
                                 ],
                               ).onTap(
-                                () => const Redeem().launch(context),
+                                () => ComingSoonScreen().launch(context),
                               ),
-                            ),
-                            Expanded(
-                              child: Column(
+                              Column(
                                 children: [
                                   const Image(
-                                    image: AssetImage('images/quiz.png'),
+                                    image: AssetImage('images/videos.png'),
                                   ),
                                   const SizedBox(height: 4.0),
                                   Center(
                                       child: Text(
-                                    lang.S.of(context).quizz,
+                                    lang.S.of(context).videos,
                                     style: kTextStyle.copyWith(
                                         color: kTitleColor,
                                         fontWeight: FontWeight.bold),
                                   )),
                                 ],
                               ).onTap(
-                                () => const MtQuiz().launch(context),
+                                () => const Videos().launch(context),
                               ),
-                            ),
-                            Expanded(
-                              child: GestureDetector(
-                                onTap: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return Dialog(
-                                        child: YoutubePlayer(
-                                          controller: videoController,
-                                          showVideoProgressIndicator: true,
-                                          onReady: () {},
-                                        ),
-                                      );
-                                    },
-                                  );
-                                },
+                              Column(
+                                children: [
+                                  const Image(
+                                    image: AssetImage('images/wheel.png'),
+                                  ),
+                                  const SizedBox(height: 4.0),
+                                  Center(
+                                      child: Text(
+                                    lang.S.of(context).wheel,
+                                    style: kTextStyle.copyWith(
+                                        color: kTitleColor,
+                                        fontWeight: FontWeight.bold),
+                                  )),
+                                ],
+                              ).onTap(
+                                () => const Wheel().launch(context),
+                              ),
+                              Column(
+                                children: [
+                                  const Image(
+                                    image: AssetImage('images/refer.png'),
+                                  ),
+                                  const SizedBox(height: 4.0),
+                                  Center(
+                                      child: Text(
+                                    lang.S.of(context).refer,
+                                    style: kTextStyle.copyWith(
+                                        color: kTitleColor,
+                                        fontWeight: FontWeight.bold),
+                                  )),
+                                ],
+                              ).onTap(
+                                () => const Refer().launch(context),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 15.0,
+
+                          ),
+
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Expanded(
+
                                 child: Column(
                                   children: [
                                     const Image(
-                                      image: AssetImage('images/tutorial.png'),
+                                      image: AssetImage('images/reedem.png'),
                                     ),
                                     const SizedBox(height: 4.0),
                                     Center(
                                         child: Text(
-                                      lang.S.of(context).tutorial,
+                                      lang.S.of(context).redeem,
                                       style: kTextStyle.copyWith(
                                           color: kTitleColor,
                                           fontWeight: FontWeight.bold),
                                     )),
                                   ],
+                                ).onTap(
+                                  () => const Redeem().launch(context),
                                 ),
                               ),
-                            ),
-                            Expanded(
-                              child: Column(
-                                children: [
-                                  const Image(
-                                    image: AssetImage('images/share.png'),
-                                  ),
-                                  const SizedBox(height: 4.0),
-                                  Center(
-                                    child: Text(
-                                      lang.S.of(context).share,
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    const Image(
+                                      image: AssetImage('images/quiz.png'),
+                                    ),
+                                    const SizedBox(height: 4.0),
+                                    Center(
+                                        child: Text(
+                                      lang.S.of(context).quizz,
                                       style: kTextStyle.copyWith(
                                           color: kTitleColor,
                                           fontWeight: FontWeight.bold),
+                                    )),
+                                  ],
+                                ).onTap(
+                                  () => const MtQuiz().launch(context),
+                                ),
+                              ),
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return Dialog(
+                                          child: YoutubePlayer(
+                                            controller: videoController,
+                                            showVideoProgressIndicator: true,
+                                            onReady: () {},
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  },
+                                  child: Column(
+                                    children: [
+                                      const Image(
+                                        image: AssetImage('images/tutorial.png'),
+                                      ),
+                                      const SizedBox(height: 4.0),
+                                      Center(
+                                          child: Text(
+                                        lang.S.of(context).tutorial,
+                                        style: kTextStyle.copyWith(
+                                            color: kTitleColor,
+                                            fontWeight: FontWeight.bold),
+                                      )),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    const Image(
+                                      image: AssetImage('images/share.png'),
                                     ),
-                                  )
-                                ],
-                              ).onTap(() => Share.share(
-                                  'I have earned \$10 in a day. Use my refer code to earn \$10 on signup. My Refer Code is ${info.data?.user?.referCode ?? ''}. Download the app now and start your journey of making money online: https://play.google.com/store/apps/details?id=com.pioneerdev.coinbirr&pli=1')),
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                  )
-                ],
+                                    const SizedBox(height: 4.0),
+                                    Center(
+                                      child: Text(
+                                        lang.S.of(context).share,
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                        style: kTextStyle.copyWith(
+                                            color: kTitleColor,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    )
+                                  ],
+                                ).onTap(() => Share.share(
+                                    'I have earned \$10 in a day. Use my refer code to earn \$10 on signup. My Refer Code is ${info.data?.user?.referCode ?? ''}. Download the app now and start your journey of making money online: https://play.google.com/store/apps/details?id=com.pioneerdev.coinbirr&pli=1')),
+                              )
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: FutureBuilder(
+                                  future: Future.delayed(Duration.zero, () {
+                                    AppLovinMAX.showBanner(_banner_ad_unit_id);
+                                  }),
+                                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                                    if (snapshot.connectionState == ConnectionState.waiting) {
+                                      return Container(); // or a loading spinner
+                                    } else {
+                                      if (snapshot.hasError)
+                                        return Text('Error: ${snapshot.error}');
+                                      else
+                                        return Container(); // Your ad will be shown here
+                                    }
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
+
           ),
         );
       }, error: (e, stack) {

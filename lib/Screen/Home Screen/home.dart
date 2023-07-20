@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:applovin_max/applovin_max.dart';
 import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:bottom_bar/bottom_bar.dart';
 import 'package:cash_rocket/Screen/History/mt_history.dart';
@@ -19,7 +22,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int _currentPage = 0;
 
-  static const List<Widget> _widgetOptions = <Widget>[
+    static const List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
     MtQuiz(),
     History(),
@@ -31,6 +34,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: _widgetOptions.elementAt(_currentPage),
+
       bottomNavigationBar: BottomBar(
         backgroundColor: Colors.white,
         items: [
@@ -81,6 +85,7 @@ class _HomeState extends State<Home> {
         },
         selectedIndex: _currentPage,
       ),
+
     );
   }
 }
