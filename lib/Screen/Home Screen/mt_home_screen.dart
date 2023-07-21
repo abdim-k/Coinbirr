@@ -21,8 +21,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:in_app_update/in_app_update.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:new_version/new_version.dart';
 
 import 'package:share_plus/share_plus.dart';
 import 'package:unity_ads_plugin/unity_ads_plugin.dart';
@@ -75,7 +77,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     checkInternet();
+    checkAndUpdate();
     initialization();
+
+
     //   facebookRewardVideoAd.loadRewardedVideoAd();
     //  admob.createRewardedAd();
 
@@ -122,6 +127,37 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
    */
+
+
+  void checkAndUpdate() {
+    InAppUpdate.checkForUpdate().then((updateInfo) {
+      if (updateInfo.updateAvailability == UpdateAvailability.updateAvailable) {
+        if (updateInfo.immediateUpdateAllowed) {
+          // Perform immediate update
+          InAppUpdate.performImmediateUpdate().then((appUpdateResult) {
+            if (appUpdateResult == AppUpdateResult.success) {
+              // App Update successful
+              // You can show a message or perform any post-update logic here
+            } else {
+              // Handle update failure or user cancellation
+            }
+          });
+        } else if (updateInfo.flexibleUpdateAllowed) {
+          // Perform flexible update
+          InAppUpdate.startFlexibleUpdate().then((appUpdateResult) {
+            if (appUpdateResult == AppUpdateResult.success) {
+              // App Update successful
+              InAppUpdate.completeFlexibleUpdate();
+              // You can show a message or perform any post-update logic here
+            } else {
+              // Handle update failure or user cancellation
+            }
+          });
+        }
+      }
+    });
+  }
+
 
   void showRewardPopUp(String amount) {
     showDialog(

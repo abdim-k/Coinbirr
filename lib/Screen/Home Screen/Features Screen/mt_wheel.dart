@@ -243,8 +243,7 @@ class _WheelState extends State<Wheel> {
       '20',
       '30',
       '40',
-      '50',
-      '60',
+
     ];
     return SafeArea(
       child: Scaffold(
