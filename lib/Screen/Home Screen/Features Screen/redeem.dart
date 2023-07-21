@@ -413,6 +413,23 @@ class _RedeemState extends State<Redeem> {
                         }
                       }),
                     ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+
+                    SizedBox(width: 8),
+                    Text(
+                      "Attention: Withdrawal Limits \n \nየ Coin መጠን 1000 ወይም ከዚያ በላይ በሚሆንበት ጊዜ ብቻ ማውጣት ይችላሉ። \n \n እባኮትን Withdraw ከማድረግዎ በፊት የሚፈለገውን የ Coin ቀሪ ሂሳብ ማሟላትዎን ያረጋግጡ።",
+
+
+                      style: TextStyle(
+                        color: Colors.black, // Customize the text color as needed
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+
                   ],
                 ),
               ),

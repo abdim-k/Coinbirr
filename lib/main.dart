@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:unity_ads_plugin/unity_ads_plugin.dart';
+import 'package:upgrader/upgrader.dart';
 import 'Screen/Constant Data/constant.dart';
 import 'Screen/Splash Screen/splash_screen.dart';
 import 'package:provider/provider.dart' as pro;
@@ -58,7 +59,7 @@ class MyApp extends StatelessWidget {
           title: 'Coinbirr',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(fontFamily: 'Display'),
-          home: const SplashScreen(),
+          home: UpgradeAlert(child: const SplashScreen(),),
           builder: EasyLoading.init(),
         ),
       ),
