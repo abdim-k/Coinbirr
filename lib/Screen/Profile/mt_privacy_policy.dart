@@ -102,7 +102,7 @@ class _MtPrivacyPolicyState extends State<MtPrivacyPolicy> {
                 children: <Widget>[
                   IconButton(
                     icon: const FaIcon(FontAwesomeIcons.telegram),
-                    onPressed: () => launch('https://t.me/+XJeLD5gRpCIxOTM0'),
+                    onPressed: () => launch('https://t.me/+CvEp1jdU52tkNTNk'),
                   ),
                   IconButton(
                     icon: const FaIcon(FontAwesomeIcons.instagram),

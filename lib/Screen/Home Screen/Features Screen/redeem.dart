@@ -97,7 +97,7 @@ class _RedeemState extends State<Redeem> {
             backgroundColor: kMainColor,
             elevation: 0.0,
             title: Text(
-              lang.S.of(context).redeem,
+              lang.S.of(context).redeemm,
               style: kTextStyle.copyWith(color: Colors.white),
             ),
             actions: [
@@ -419,7 +419,7 @@ class _RedeemState extends State<Redeem> {
 
                     SizedBox(width: 8),
                     Text(
-                      "Attention: Withdrawal Limits \n \nየ Coin መጠን 1000 ወይም ከዚያ በላይ በሚሆንበት ጊዜ ብቻ ማውጣት ይችላሉ። \n \n እባኮትን Withdraw ከማድረግዎ በፊት የሚፈለገውን የ Coin ቀሪ ሂሳብ ማሟላትዎን ያረጋግጡ።",
+                      "Attention: Withdrawal Limits \n \nየ Coin መጠን 1000 ወይም ከዚያ በላይ በሚሆንበት ጊዜ ብቻ ማውጣት ይችላሉ። \n \n እባኮትን Withdraw ከማድረግዎ በፊት የእርስዎ 'balance' 1000 ወይም ከዚያ በላይ መሆኑን ያረጋግጡ።",
 
 
                       style: TextStyle(

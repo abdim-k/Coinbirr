@@ -1,3 +1,111 @@
+import 'package:cash_rocket/Screen/Constant%20Data/constant.dart';
+import 'package:flutter/material.dart';
+import 'dart:math';
+
+class Refer extends StatefulWidget {
+  const Refer({Key? key}) : super(key: key);
+
+  @override
+  State<Refer> createState() => _ReferState();
+}
+
+class _ReferState extends State<Refer> with TickerProviderStateMixin {
+  late AnimationController _glitchController;
+  late Animation<Offset> _glitchAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _glitchController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 500),
+    )..repeat(reverse: true);
+
+    _glitchAnimation = Tween<Offset>(
+      begin: Offset(0.0, 0.0),
+      end: Offset(0.1, 0.1),
+    ).animate(
+      CurvedAnimation(parent: _glitchController, curve: Curves.easeInOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _glitchController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(
+        children: [
+          Image(
+            image: AssetImage('images/bg.png'),
+            // Replace with your background image
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            fit: BoxFit.cover,
+          ),
+          Positioned.fill(
+            child: SlideTransition(
+              position: _glitchAnimation,
+              child: Container(
+                color: Colors.green, // Replace with your desired glitch color
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+              ),
+            ),
+          ),
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Service Disabled',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    'We are sorry, but the refer service is currently disabled for maintenance and to prevent fraud. We are working on fixing the issues and will bring back the service soon. Thank you for your understanding.',
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: 20),
+                  Center(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Navigate back to the Home screen
+                        Navigator.pop(context);
+
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: kMainColor, // Button background color
+                        onPrimary: Colors.white, // Text color
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                      ),
+                      child: Text('Back to Home'),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/*
 import 'package:cash_rocket/Model/user_profile_model.dart';
 import 'package:cash_rocket/Screen/Constant%20Data/button_global.dart';
 import 'package:feather_icons/feather_icons.dart';
@@ -14,6 +122,8 @@ import '../../Authentication/log_in.dart';
 import '../../Constant Data/constant.dart';
 import '../no_internet_screen.dart';
 import 'package:cash_rocket/generated/l10n.dart' as lang;
+
+
 
 class Refer extends StatefulWidget {
   const Refer({Key? key}) : super(key: key);
@@ -162,3 +272,5 @@ class _ReferState extends State<Refer> {
     );
   }
 }
+
+ */

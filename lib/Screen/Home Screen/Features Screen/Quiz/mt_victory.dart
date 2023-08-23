@@ -1,5 +1,6 @@
 // ignore_for_file: unused_result
 
+import 'package:applovin_max/applovin_max.dart';
 import 'package:cash_rocket/Screen/Home%20Screen/home.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +10,10 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:cash_rocket/generated/l10n.dart' as lang;
+import 'package:stack_appodeal_flutter/stack_appodeal_flutter.dart';
 import 'package:unity_ads_plugin/unity_ads_plugin.dart';
 import '../../../../Provider/profile_provider.dart';
+import '../../../../Videos/AppLovin/applovin.dart';
 import '../../../../Videos/UnityAds/unity_ads.dart';
 import '../../../Constant Data/constant.dart';
 
@@ -22,6 +25,12 @@ class Victory extends StatefulWidget {
 }
 
 class _VictoryState extends State<Victory> {
+
+  var isCanShow =  Appodeal.canShow(AppodealAdType.RewardedVideo);
+// Check that interstitial is loaded
+  var isLoaded =  Appodeal.isLoaded(AppodealAdType.RewardedVideo);
+  AppLovin appLovin = AppLovin();
+  // Admob admob = Admob();
   AdManager adManager =
   AdManager();
   final InAppReview _inAppReview = InAppReview.instance;
@@ -40,10 +49,56 @@ class _VictoryState extends State<Victory> {
       toast('Review Not Available');
     }
   }
+  void initialization() async {
+    await AppLovinMAX.initialize(sdkKey);
+
+
+    Appodeal.initialize(
+        appKey: "8abe453f94ee0c37eebaac9843e988973d535af009e5ebdd",
+        adTypes: [
+
+          AppodealAdType.RewardedVideo,
+
+        ],
+        onInitializationFinished: (errors) => {});
+    // Set ad auto caching enabled or disabled
+// By default autocache is enabled for all ad types
+    Appodeal.setAutoCache(AppodealAdType.Interstitial, false); //default - true
+
+// Set testing mode
+    Appodeal.setTesting(false); //default - false
+
+// Set Appodeal SDK logging level
+    Appodeal.setLogLevel(Appodeal.LogLevelVerbose); //default - Appodeal.LogLevelNone
+
+// Enable or disable child direct threatment
+    Appodeal.setChildDirectedTreatment(false); //default - false
+
+// Disable network for specific ad type
+    Appodeal.disableNetwork("admob");
+    Appodeal.disableNetwork("admob", AppodealAdType.Interstitial);
+
+    Appodeal.setRewardedVideoCallbacks(
+      onRewardedVideoLoaded: (isPrecache) => {},
+      onRewardedVideoFailedToLoad: () {
+        // Appodeal rewarded video failed to load
+        // Implement logic to show alternative ad networks
+        showAlternativeAdNetworks();
+      },
+      onRewardedVideoShown: () => {},
+      onRewardedVideoShowFailed: () => {},
+      onRewardedVideoFinished: (amount, reward) async {},
+      onRewardedVideoClosed: (isFinished) => {},
+      onRewardedVideoExpired: () => {},
+      onRewardedVideoClicked: () => {},
+    );
+
+  }
 
   @override
   void initState() {
-
+    appLovin.loadAds();
+    initialization();
     super.initState();
 
 
@@ -67,6 +122,15 @@ class _VictoryState extends State<Victory> {
 
     */
   }
+
+  void showAlternativeAdNetworks() {
+    // Logic to show alternative ad networks, e.g., AppLovin, other networks
+    // For AppLovin:
+    appLovin.showInterstitialAd();
+    // You can add more alternative ad networks here
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -299,7 +363,7 @@ class _VictoryState extends State<Victory> {
                       child: ListTile(
                         onTap: () {
                           setState(() {
-                            AdManager.showIntAd2();
+                            Appodeal.show(AppodealAdType.RewardedVideo);
                             const Home().launch(context);
                           });
                         },

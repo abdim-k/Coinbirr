@@ -26,6 +26,8 @@ class MtLoser extends StatefulWidget {
 
 class _MtLoserState extends State<MtLoser> {
   AppLovin appLovin = AppLovin();
+  VungleAd vungleAd2 = VungleAd();
+
 
   void initialization() async {
     await AppLovinMAX.initialize(sdkKey);
@@ -34,11 +36,12 @@ class _MtLoserState extends State<MtLoser> {
   @override
   void initState() {
 
-    initialization();
+  //  initialization();
     //   facebookRewardVideoAd.loadRewardedVideoAd();
     //  admob.createRewardedAd();
 
-    appLovin.loadAds();
+   // appLovin.loadAds();
+  //  vungleAd2.loadVungle2();
     super.initState();
   }
 
@@ -405,7 +408,8 @@ class _MtLoserState extends State<MtLoser> {
                   child: ListTile(
                     onTap: () {
                       setState(() {
-                        appLovin.showAds2();
+                       // appLovin.showAds2();
+                      //  vungleAd2.onPlayAd2();
                         const Home().launch(context);
                       });
                     },

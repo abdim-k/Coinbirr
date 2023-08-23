@@ -15,38 +15,40 @@ class StartApp {
   int? reward;
   bool isBalanceShow = false;
   var startAppSdk = StartAppSdk();
+
   void loadRewardedVideoAd({required WidgetRef ref}) {
     startAppSdk.setTestAdsEnabled(false);
     startAppSdk.loadRewardedVideoAd(
       onAdNotDisplayed: () {
         debugPrint('onAdNotDisplayed: rewarded video');
-          rewardedVideoAd?.dispose();
-          rewardedVideoAd = null;
+        rewardedVideoAd?.dispose();
+        rewardedVideoAd = null;
       },
       onAdHidden: () {
         debugPrint('onAdHidden: rewarded video');
         EasyLoading.showSuccess('You Have Earned 10 Coins');
         ref.refresh(personalProfileProvider);
 
-          rewardedVideoAd?.dispose();
-          rewardedVideoAd = null;
+        rewardedVideoAd?.dispose();
+        rewardedVideoAd = null;
       },
-      onVideoCompleted: () async{
-        try{
+      onVideoCompleted: () async {
+        try {
           EasyLoading.show(status: 'Getting rewards');
-          var response = await RewardRepo().addPoint('10', 'Startapp Video Ads');
-          if(response){
+          var response = await RewardRepo().addPoint(
+              '10', 'Startapp Video Ads');
+          if (response) {
             EasyLoading.showSuccess('You Have Earned 10 Coins');
             ref.refresh(personalProfileProvider);
-          }else{
+          } else {
             EasyLoading.showError('Error Happened. Try Again');
           }
-        }catch(e){
+        } catch (e) {
           EasyLoading.showError(e.toString());
         }
       },
     ).then((rewardedVideoAd) {
-        this.rewardedVideoAd = rewardedVideoAd;
+      this.rewardedVideoAd = rewardedVideoAd;
     }).onError((ex, stackTrace) {
       debugPrint("Error loading Rewarded Video ad: ${ex.toString()}");
     }).onError((error, stackTrace) {
@@ -54,12 +56,13 @@ class StartApp {
     });
   }
 
-  void showAds(){
+  void showAds() {
     if (rewardedVideoAd != null) {
       rewardedVideoAd!.show().onError((error, stackTrace) {
         toast("Error showing Rewarded Video ad: $error");
         return false;
       });
     }
-  }
+  } // second ad
+
 }

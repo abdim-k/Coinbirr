@@ -681,10 +681,10 @@ class S {
   }
 
   /// `Redeem`
-  String get redeem {
+  String get redeemm {
     return Intl.message(
-      'Redeem',
-      name: 'redeem',
+      'Withdraw',
+      name: 'redeemm',
       desc: '',
       args: [],
     );

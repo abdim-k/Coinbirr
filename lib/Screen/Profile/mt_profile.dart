@@ -306,6 +306,37 @@ class _ProfileState extends State<Profile> {
                   ),
                 ),
 
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                  child: Card(
+                    elevation: 0.0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      side: BorderSide(
+                        color: kGreyTextColor.withOpacity(0.1),
+                        width: 1.0,
+                      ),
+                    ),
+                    child: ListTile(
+                      onTap: () async {
+                        const url = 'https://play.google.com/store/apps/developer?id=Pioneer+Web+Developer'; // Replace with your privacy policy URL
+                        if (await canLaunch(url)) {
+                          await launch(url);
+                        } else {
+                          throw 'Could not launch $url';
+                        }
+                      },
+                      horizontalTitleGap: 2,
+                      leading: const Icon(
+                        Icons.more,
+                        color: kMainColor,
+                      ),
+                      title: Text("More Apps"),
+                      trailing: const Icon(FeatherIcons.chevronRight),
+                    ),
+                  ),
+                ),
+
 
                 Padding(
                   padding: const EdgeInsets.only(left: 10.0, right: 10.0),

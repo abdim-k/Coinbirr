@@ -27,7 +27,6 @@ void configLoading() {
     ..dismissOnTap = false;
 }
 
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   MobileAds.instance.initialize();
@@ -44,11 +43,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  pro.ChangeNotifierProvider<LanguageChangeProvider>(
+    return pro.ChangeNotifierProvider<LanguageChangeProvider>(
       create: (context) => LanguageChangeProvider(),
       child: Builder(
         builder: (context) => MaterialApp(
-          locale: pro.Provider.of<LanguageChangeProvider>(context, listen: true).currentLocale,
+          locale: pro.Provider.of<LanguageChangeProvider>(context, listen: true)
+              .currentLocale,
           localizationsDelegates: const [
             S.delegate,
             GlobalMaterialLocalizations.delegate,
@@ -64,6 +64,5 @@ class MyApp extends StatelessWidget {
         ),
       ),
     );
-
   }
 }

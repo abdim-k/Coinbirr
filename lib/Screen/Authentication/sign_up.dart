@@ -257,17 +257,7 @@ class _SignUpState extends State<SignUp> {
                           ),
                         ),
                         const SizedBox(height: 15.0),
-                        AppTextField(
-                          showCursor: false,
-                          textFieldType: TextFieldType.NAME,
-                          controller: referController,
-                          decoration: kInputDecoration.copyWith(
-                            labelText: lang.S.of(context).invitationCode,
-                            labelStyle: kTextStyle.copyWith(color: kTitleColor),
-                            hintText: lang.S.of(context).enterinvantationCode,
-                            hintStyle: kTextStyle.copyWith(color: kGreyTextColor),
-                          ),
-                        ),
+
                         const SizedBox(height: 15.0),
                         ButtonGlobal(
                             buttontext: lang.S.of(context).signUp,

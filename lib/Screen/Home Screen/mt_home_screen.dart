@@ -24,9 +24,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:in_app_update/in_app_update.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:new_version/new_version.dart';
+
 
 import 'package:share_plus/share_plus.dart';
+import 'package:stack_appodeal_flutter/stack_appodeal_flutter.dart';
 import 'package:unity_ads_plugin/unity_ads_plugin.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:cash_rocket/generated/l10n.dart' as lang;
@@ -54,7 +55,12 @@ class _HomeScreenState extends State<HomeScreen> {
   AppLovin appLovin = AppLovin();
   AdManager adManager = AdManager();
 
-
+  var isCanShow =  Appodeal.canShow(AppodealAdType.RewardedVideo);
+// Check that interstitial is loaded
+  var isLoaded =  Appodeal.isLoaded(AppodealAdType.RewardedVideo);
+  // Admob admob = Admob();
+//  FacebookRewardVideoAd facebookRewardVideoAd = FacebookRewardVideoAd();
+  //
   // bool isInterstitialLoaded=false;
   YoutubePlayerController videoController = YoutubePlayerController(
     flags: const YoutubePlayerFlags(
@@ -68,7 +74,54 @@ class _HomeScreenState extends State<HomeScreen> {
     await AppLovinMAX.initialize(sdkKey);
     AppLovinMAX.createBanner(_banner_ad_unit_id, AdViewPosition.topCenter);
 
+    Appodeal.initialize(
+        appKey: "8abe453f94ee0c37eebaac9843e988973d535af009e5ebdd",
+        adTypes: [
 
+          AppodealAdType.RewardedVideo,
+
+        ],
+        onInitializationFinished: (errors) => {});
+    // Set ad auto caching enabled or disabled
+// By default autocache is enabled for all ad types
+    Appodeal.setAutoCache(AppodealAdType.Interstitial, false); //default - true
+
+// Set testing mode
+    Appodeal.setTesting(false); //default - false
+
+// Set Appodeal SDK logging level
+    Appodeal.setLogLevel(Appodeal.LogLevelVerbose); //default - Appodeal.LogLevelNone
+
+// Enable or disable child direct threatment
+    Appodeal.setChildDirectedTreatment(false); //default - false
+
+// Disable network for specific ad type
+    Appodeal.disableNetwork("admob");
+    Appodeal.disableNetwork("admob", AppodealAdType.Interstitial);
+
+    Appodeal.setRewardedVideoCallbacks(
+      onRewardedVideoLoaded: (isPrecache) => {},
+      onRewardedVideoFailedToLoad: () {
+        // Appodeal rewarded video failed to load
+        // Implement logic to show alternative ad networks
+        showAlternativeAdNetworks();
+      },
+      onRewardedVideoShown: () => {},
+      onRewardedVideoShowFailed: () => {},
+      onRewardedVideoFinished: (amount, reward) async {},
+      onRewardedVideoClosed: (isFinished) => {},
+      onRewardedVideoExpired: () => {},
+      onRewardedVideoClicked: () => {},
+    );
+
+  }
+
+
+  void showAlternativeAdNetworks() {
+    // Logic to show alternative ad networks, e.g., AppLovin, other networks
+    // For AppLovin:
+    appLovin.showInterstitialAd();
+    // You can add more alternative ad networks here
   }
 
 
@@ -78,13 +131,14 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     checkInternet();
     checkAndUpdate();
+    appLovin.loadAds();
     initialization();
 
 
     //   facebookRewardVideoAd.loadRewardedVideoAd();
     //  admob.createRewardedAd();
 
-    appLovin.loadAds();
+
     super.initState();
 
 
@@ -228,7 +282,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 ),
                               ).onTap(
-                                () => {
+                                    () => {
                                   finish(context),
                                   const Home().launch(context),
                                 },
@@ -244,9 +298,9 @@ class _HomeScreenState extends State<HomeScreen> {
             ));
       },
     ).then((value) {
-      AdManager.showIntAd2();
+      Appodeal.show(AppodealAdType.RewardedVideo);
       // This code block will execute after the dialog is closed
-      // FacebookInterstitialAd.showInterstitialAd();
+      //   FacebookInterstitialAd.showInterstitialAd();
     });
   }
 
@@ -320,9 +374,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ),
                           ).onTap(() => {
-                                finish(context),
-                                const Home().launch(context),
-                              })
+                            finish(context),
+                            const Home().launch(context),
+                          })
                         ],
                       ),
                     )
@@ -334,7 +388,7 @@ class _HomeScreenState extends State<HomeScreen> {
         );
       },
     ).then((value) {
-      appLovin.showInterstitialAd();
+      Appodeal.show(AppodealAdType.RewardedVideo);
       // This code block will execute after the dialog is closed
       //   FacebookInterstitialAd.showInterstitialAd();
     });
@@ -597,13 +651,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: CircleAvatar(
                     radius: 18.0,
                     backgroundImage: NetworkImage(info.data?.user?.image ==
-                            Config.siteUrl
+                        Config.siteUrl
                         ? 'https://raw.githubusercontent.com/Ashwinvalento/cartoon-avatar/master/lib/images/female/68.png'
                         : info.data?.user?.image ??
-                            'https://raw.githubusercontent.com/Ashwinvalento/cartoon-avatar/master/lib/images/female/68.png'),
+                        'https://raw.githubusercontent.com/Ashwinvalento/cartoon-avatar/master/lib/images/female/68.png'),
                   ),
                 ).onTap(
-                  () => const Profile().launch(context),
+                      () => const Profile().launch(context),
                 ),
                 title: Text(
                   info.data?.user?.name ?? '',
@@ -737,12 +791,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                     )),
                               ),
                             ).onTap(
-                              () async {
+                                  () async {
                                 try {
                                   EasyLoading.show(
                                       status: 'Getting Today\'s Reward');
                                   bool isValid =
-                                      await PurchaseModel().isActiveBuyer();
+                                  await PurchaseModel().isActiveBuyer();
                                   if (isValid) {
                                     var status = await AuthRepo().dailyRewards();
                                     if (status) {
@@ -818,20 +872,39 @@ class _HomeScreenState extends State<HomeScreen> {
                               Column(
                                 children: [
                                   const Image(
+                                    image: AssetImage('images/quiz.png'),
+                                  ),
+                                  const SizedBox(height: 4.0),
+                                  Center(
+                                      child: Text(
+                                        lang.S.of(context).quizz,
+                                        style: kTextStyle.copyWith(
+                                            color: kTitleColor,
+                                            fontWeight: FontWeight.bold),
+                                      )),
+                                ],
+                              ).onTap(
+                                    () => const MtQuiz().launch(context),
+                              ),
+                             /* Column(
+                                children: [
+                                  const Image(
                                     image: AssetImage('images/offer.png'),
                                   ),
                                   const SizedBox(height: 4.0),
                                   Center(
                                       child: Text(
-                                    lang.S.of(context).offers,
-                                    style: kTextStyle.copyWith(
-                                        color: kTitleColor,
-                                        fontWeight: FontWeight.bold),
-                                  )),
+                                        lang.S.of(context).offers,
+                                        style: kTextStyle.copyWith(
+                                            color: kTitleColor,
+                                            fontWeight: FontWeight.bold),
+                                      )),
                                 ],
                               ).onTap(
-                                () => ComingSoonScreen().launch(context),
+                                    () => ComingSoonScreen().launch(context),
                               ),
+
+                              */
                               Column(
                                 children: [
                                   const Image(
@@ -840,14 +913,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                   const SizedBox(height: 4.0),
                                   Center(
                                       child: Text(
-                                    lang.S.of(context).videos,
-                                    style: kTextStyle.copyWith(
-                                        color: kTitleColor,
-                                        fontWeight: FontWeight.bold),
-                                  )),
+                                        lang.S.of(context).videos,
+                                        style: kTextStyle.copyWith(
+                                            color: kTitleColor,
+                                            fontWeight: FontWeight.bold),
+                                      )),
                                 ],
                               ).onTap(
-                                () => const Videos().launch(context),
+                                    () => const Videos().launch(context),
                               ),
                               Column(
                                 children: [
@@ -857,16 +930,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                   const SizedBox(height: 4.0),
                                   Center(
                                       child: Text(
-                                    lang.S.of(context).wheel,
-                                    style: kTextStyle.copyWith(
-                                        color: kTitleColor,
-                                        fontWeight: FontWeight.bold),
-                                  )),
+                                        lang.S.of(context).wheel,
+                                        style: kTextStyle.copyWith(
+                                            color: kTitleColor,
+                                            fontWeight: FontWeight.bold),
+                                      )),
                                 ],
                               ).onTap(
-                                () => const Wheel().launch(context),
+                                    () => const Wheel().launch(context),
                               ),
-                              Column(
+                              /*Column(
                                 children: [
                                   const Image(
                                     image: AssetImage('images/refer.png'),
@@ -874,15 +947,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                   const SizedBox(height: 4.0),
                                   Center(
                                       child: Text(
-                                    lang.S.of(context).refer,
-                                    style: kTextStyle.copyWith(
-                                        color: kTitleColor,
-                                        fontWeight: FontWeight.bold),
-                                  )),
+                                        lang.S.of(context).refer,
+                                        style: kTextStyle.copyWith(
+                                            color: kTitleColor,
+                                            fontWeight: FontWeight.bold),
+                                      )),
                                 ],
                               ).onTap(
-                                () => const Refer().launch(context),
+                                    () => const Refer().launch(context),
                               ),
+
+                               */
                             ],
                           ),
                           const SizedBox(
@@ -904,35 +979,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                     const SizedBox(height: 4.0),
                                     Center(
                                         child: Text(
-                                      lang.S.of(context).redeem,
-                                      style: kTextStyle.copyWith(
-                                          color: kTitleColor,
-                                          fontWeight: FontWeight.bold),
-                                    )),
+                                          lang.S.of(context).redeemm,
+                                          style: kTextStyle.copyWith(
+                                              color: kTitleColor,
+                                              fontWeight: FontWeight.bold),
+                                        )),
                                   ],
                                 ).onTap(
-                                  () => const Redeem().launch(context),
+                                      () => const Redeem().launch(context),
                                 ),
                               ),
-                              Expanded(
-                                child: Column(
-                                  children: [
-                                    const Image(
-                                      image: AssetImage('images/quiz.png'),
-                                    ),
-                                    const SizedBox(height: 4.0),
-                                    Center(
-                                        child: Text(
-                                      lang.S.of(context).quizz,
-                                      style: kTextStyle.copyWith(
-                                          color: kTitleColor,
-                                          fontWeight: FontWeight.bold),
-                                    )),
-                                  ],
-                                ).onTap(
-                                  () => const MtQuiz().launch(context),
-                                ),
-                              ),
+
                               Expanded(
                                 child: GestureDetector(
                                   onTap: () {
@@ -957,11 +1014,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                       const SizedBox(height: 4.0),
                                       Center(
                                           child: Text(
-                                        lang.S.of(context).tutorial,
-                                        style: kTextStyle.copyWith(
-                                            color: kTitleColor,
-                                            fontWeight: FontWeight.bold),
-                                      )),
+                                            lang.S.of(context).tutorial,
+                                            style: kTextStyle.copyWith(
+                                                color: kTitleColor,
+                                                fontWeight: FontWeight.bold),
+                                          )),
                                     ],
                                   ),
                                 ),

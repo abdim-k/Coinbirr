@@ -35,44 +35,41 @@ enum AdLoadState { notLoaded, loading, loaded }
 
 class _VideosState extends State<Videos> {
   List<String> imageList = [
-    'images/bg1.png',
+   // 'images/bg1.png',
     'images/bg3.png',
-    //
     'images/bg2.png',
-    'images/bg4.png',
-    'images/bg2.png',
+   'images/bg4.png',
+   'images/bg2.png',
   ];
 
   List<String> logoList = [
-    'images/app.png',
+   // 'images/app.png',
     'images/am.png',
-    //
-    'images/an.png',
-    'images/an.png',
-    'images/sa.png',
+   'images/adgem.png',
+    'images/adcolony.png',
+   'images/sa.png',
   ];
 
   List<String> titleList = [
-    'AppLovin',
-    'Unity',
-    //
-    'Meta',
-    'Appodeal',
-    'Vungle',
+   // '',
+    '',
+   '',
+   '',
+  '',
   ];
   List<String> subtitleList = [
+  //  'Watch views and get Points',
     'Watch views and get Points',
     'Watch views and get Points',
-    'Watch views and get Points',
-    'Watch views and get Points',
-    'Watch views and get Points',
+   'Watch views and get Points',
+   'Watch views and get Points',
   ];
 
   bool isBalanceShow = false;
-  FacebookRewardVideoAd facebookRewardVideoAd = FacebookRewardVideoAd();
+ // FacebookRewardVideoAd facebookRewardVideoAd = FacebookRewardVideoAd();
 
-  //var startAppSdk = StartAppSdk();
-  VungleAd vungleAd = VungleAd();
+  var startAppSdk = StartAppSdk();
+ VungleAd vungleAd = VungleAd();
 
   // Check that interstitial
   var isCanShow =  Appodeal.canShow(AppodealAdType.RewardedVideo);
@@ -80,25 +77,32 @@ class _VideosState extends State<Videos> {
   var isLoaded =  Appodeal.isLoaded(AppodealAdType.RewardedVideo);
   // Admob admob = Admob();
 //  FacebookRewardVideoAd facebookRewardVideoAd = FacebookRewardVideoAd();
- // StartApp startApp = StartApp();
+ //
+
+
+
 
 
   AppLovin appLovin = AppLovin();
+  StartApp startApp = StartApp();
+
   AdManager adManager = AdManager();
 
   void initialization() async {
     await AppLovinMAX.initialize(sdkKey);
 
-    FacebookAudienceNetwork.init(
+   /* FacebookAudienceNetwork.init(
       testingId: "a77955ee-3304-4635-be65-81029b0f5201",
       iOSAdvertiserTrackingEnabled: true,
     );
 
-     vungleAd.loadVungle();
+   */
+
+    vungleAd.loadVungle();
 
 
     Appodeal.initialize(
-        appKey: "a4f75d1f98907f64b9ec82a20252a6d3681846aa5ed70091",
+        appKey: "8abe453f94ee0c37eebaac9843e988973d535af009e5ebdd",
         adTypes: [
 
           AppodealAdType.RewardedVideo,
@@ -150,9 +154,9 @@ class _VideosState extends State<Videos> {
         onRewardedVideoClosed: (isFinished) => {},
         onRewardedVideoExpired: () => {},
         onRewardedVideoClicked: () => {});
-  /*
 
-    */
+
+
 
 
   }
@@ -169,7 +173,7 @@ class _VideosState extends State<Videos> {
     checkInternet();
 
     initialization();
-    facebookRewardVideoAd.loadRewardedVideoAd();
+   // facebookRewardVideoAd.loadRewardedVideoAd();
     //  admob.createRewardedAd();
 
     appLovin.loadAds();
@@ -191,7 +195,7 @@ class _VideosState extends State<Videos> {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (_, ref, watch) {
-      // isFirst? startApp.loadRewardedVideoAd(ref: ref):null;
+      isFirst? startApp.loadRewardedVideoAd(ref: ref):null;
       isFirst = true;
       AsyncValue<UserProfileModel> profile = ref.watch(personalProfileProvider);
       return profile.when(data: (info) {
@@ -280,6 +284,7 @@ class _VideosState extends State<Videos> {
             body: SingleChildScrollView(
               child: Column(
                 children: [
+                  Text("እባክዎን የተለያዩ ቪዲዮዎችን ማየትዎን ያረጋግጡ። በዚህ መንገድ ማስታወቂያ ሁል ጊዜ የሚገኝ ይሆናል።", style: TextStyle(fontSize: 19, color: Colors.black, fontWeight: FontWeight.bold),),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: GridView.count(
@@ -313,12 +318,12 @@ class _VideosState extends State<Videos> {
                               }
 
                               // Check if the user has already clicked the button 25 times within 24 hours
-                              if (buttonClickCount >= 100 &&
+                              if (buttonClickCount >= 30 &&
                                   lastButtonClickTime != null &&
                                   DateTime.now()
                                           .difference(lastButtonClickTime)
                                           .inHours <
-                                      24) {
+                                      6) {
                                 // Show a dialog to inform the user about the click limit
                                 showDialog(
                                   context: context,
@@ -326,7 +331,7 @@ class _VideosState extends State<Videos> {
                                     return AlertDialog(
                                       title: Text('Click Limit Reached'),
                                       content: Text(
-                                          'You have reached the maximum number of clicks allowed within 24 hours.'),
+                                          'You have reached the maximum number of clicks allowed within 6 hours. \n እባክዎ ከ 6 ሰዓታት በኋላ ይመለሱ'),
                                       actions: <Widget>[
                                         TextButton(
                                           child: Text('OK'),
@@ -352,22 +357,29 @@ class _VideosState extends State<Videos> {
 
                               switch (i) {
                                 case 0:
-                                  appLovin.showAds(ref: ref);
+                                  startApp.showAds();
+
                                   break;
                                 case 1:
-                                  await AdManager.showIntAd3(ref: ref);
+
+                                  Appodeal.show(AppodealAdType.RewardedVideo);
+                                //  await AdManager.showIntAd3(ref: ref);
                                   break;
                                 case 2:
-                                  facebookRewardVideoAd.showRewardedAd();
-                                  //
+                                  appLovin.showAds(ref: ref);
+
+
+                                //  facebookRewardVideoAd.showRewardedAd();
+
                                   break;
                                 case 3:
-                                  Appodeal.show(AppodealAdType.RewardedVideo);
+                                  vungleAd.onPlayAd();
+
                                   //  // Show interstitial
                                   break;
                                 case 4:
-                                  vungleAd.onPlayAd();
-                                  // startApp.showAds();
+                               //
+                                  //
                                   break;
                                 default:
                                   await AdManager.showIntAd3(ref: ref);
