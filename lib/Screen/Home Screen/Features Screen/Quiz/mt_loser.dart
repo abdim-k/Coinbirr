@@ -26,7 +26,6 @@ class MtLoser extends StatefulWidget {
 
 class _MtLoserState extends State<MtLoser> {
   AppLovin appLovin = AppLovin();
-  VungleAd vungleAd2 = VungleAd();
 
 
   void initialization() async {

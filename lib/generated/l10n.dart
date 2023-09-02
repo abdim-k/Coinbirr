@@ -694,6 +694,7 @@ class S {
   String get quizz {
     return Intl.message(
       'Daily Quiz',
+
       name: 'quizz',
       desc: '',
       args: [],

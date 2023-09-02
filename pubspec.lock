@@ -429,14 +429,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.3"
-  google_mobile_ads:
-    dependency: "direct main"
-    description:
-      name: google_mobile_ads
-      sha256: "7a39fe63007764115395550fc3eaf0d469de685298208040138c373d5444ab48"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.3.0"
   http:
     dependency: "direct main"
     description:
@@ -521,10 +513,10 @@ packages:
     dependency: "direct main"
     description:
       name: in_app_update
-      sha256: a220c46e649ae6cfaa80ea6688efb22e73eaa9ec538d8666f5814cc04c08a696
+      sha256: fc02898f8cf45d23d731d0783171864d4765080bc8547ec517bfafe0b5c8e15b
       url: "https://pub.dev"
     source: hosted
-    version: "4.1.4"
+    version: "4.2.0"
   internet_connection_checker:
     dependency: "direct main"
     description:
@@ -541,6 +533,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.17.0"
+  ironsource_mediation:
+    dependency: "direct main"
+    description:
+      name: ironsource_mediation
+      sha256: "89941c08ed39d1e81127fb5e30173527946245d36c6cdd6a71944f6df40589bb"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.0"
   js:
     dependency: transitive
     description:
@@ -565,6 +565,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.1"
+  logger:
+    dependency: transitive
+    description:
+      name: logger
+      sha256: "7ad7215c15420a102ec687bb320a7312afd449bac63bfb1c60d9787c27b9767f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.4.0"
   lottie:
     dependency: "direct main"
     description:
@@ -930,14 +938,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.11.0"
-  startapp_sdk:
-    dependency: "direct main"
-    description:
-      name: startapp_sdk
-      sha256: b625cf3a1d84e11ef69237865291048df8da3f696877ff74b3de40b513ea3bb1
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.4.1"
   state_notifier:
     dependency: transitive
     description:
@@ -994,14 +994,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.1"
-  unity_ads_plugin:
-    dependency: "direct main"
-    description:
-      name: unity_ads_plugin
-      sha256: "2b19ff02089e5a0d1a6549a2cd9d2baf5f8733bdda296d947d411a293f0bffda"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.3.8"
   url_launcher:
     dependency: "direct main"
     description:
@@ -1082,22 +1074,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
-  visibility_detector:
-    dependency: transitive
-    description:
-      name: visibility_detector
-      sha256: "15c54a459ec2c17b4705450483f3d5a2858e733aee893dcee9d75fd04814940d"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.3.3"
-  vungle:
-    dependency: "direct main"
-    description:
-      name: vungle
-      sha256: "2bc6dc20182d99dbfddf52522927c4eafe1a7e18f07bdb4aa946ac0b5ab9c938"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.6.12"
   win32:
     dependency: transitive
     description:

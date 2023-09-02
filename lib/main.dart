@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:unity_ads_plugin/unity_ads_plugin.dart';
+
 
 import 'Screen/Constant Data/constant.dart';
 import 'Screen/Splash Screen/splash_screen.dart';
@@ -29,7 +28,7 @@ void configLoading() {
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  MobileAds.instance.initialize();
+
   runApp(
     const ProviderScope(
       child: MyApp(),

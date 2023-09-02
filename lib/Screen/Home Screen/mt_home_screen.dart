@@ -28,7 +28,7 @@ import 'package:nb_utils/nb_utils.dart';
 
 import 'package:share_plus/share_plus.dart';
 import 'package:stack_appodeal_flutter/stack_appodeal_flutter.dart';
-import 'package:unity_ads_plugin/unity_ads_plugin.dart';
+
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:cash_rocket/generated/l10n.dart' as lang;
 import '../../Model/purchase_model.dart';
@@ -50,10 +50,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final String _banner_ad_unit_id = Platform.isAndroid ? "25e43923a6a0120c" : "IOS_BANNER_AD_UNIT_ID";
-  Admob admob = Admob();
+  final String _banner_ad_unit_id = Platform.isAndroid ? "a1166258f03aacc2" : "IOS_BANNER_AD_UNIT_ID";
+
   AppLovin appLovin = AppLovin();
-  AdManager adManager = AdManager();
+
 
   var isCanShow =  Appodeal.canShow(AppodealAdType.RewardedVideo);
 // Check that interstitial is loaded
@@ -104,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
       onRewardedVideoFailedToLoad: () {
         // Appodeal rewarded video failed to load
         // Implement logic to show alternative ad networks
-        showAlternativeAdNetworks();
+      //  showAlternativeAdNetworks();
       },
       onRewardedVideoShown: () => {},
       onRewardedVideoShowFailed: () => {},
@@ -116,13 +116,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   }
 
-
+/*
   void showAlternativeAdNetworks() {
     // Logic to show alternative ad networks, e.g., AppLovin, other networks
     // For AppLovin:
     appLovin.showInterstitialAd();
     // You can add more alternative ad networks here
   }
+
+ */
 
 
 
@@ -143,17 +145,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
 
-    UnityAds.init(
-      gameId: '5321840',
-      onComplete: () => print('Initialization Complete'),
-      onFailed: (error, message) =>
-          print('Initialization Failed: $error $message'),
-    );
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      // Create an instance of the AdManager class
 
-      adManager.loadUnityAd2(); // Access the method through the instance
-    });
     // remove this code on final product
     /* FacebookAudienceNetwork.init(
         testingId: "37b1da9d-b48c-4103-a393-2e095e734bd6", //optional
@@ -298,7 +290,8 @@ class _HomeScreenState extends State<HomeScreen> {
             ));
       },
     ).then((value) {
-      Appodeal.show(AppodealAdType.RewardedVideo);
+      appLovin.showInterstitialAd();
+     // Appodeal.show(AppodealAdType.RewardedVideo);
       // This code block will execute after the dialog is closed
       //   FacebookInterstitialAd.showInterstitialAd();
     });
@@ -394,209 +387,6 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  // void showPopUp() {
-  //   showDialog(
-  //       barrierDismissible: false,
-  //       context: context,
-  //       builder: (BuildContext context) {
-  //         return Stack(
-  //           alignment: Alignment.topCenter,
-  //           children: [
-  //             Dialog(
-  //               shape: RoundedRectangleBorder(
-  //                 borderRadius: BorderRadius.circular(20.0),
-  //               ),
-  //               child: SizedBox(
-  //                 height: 330.0,
-  //                 child: Padding(
-  //                   padding: const EdgeInsets.all(10.0),
-  //                   child: Column(
-  //                     crossAxisAlignment: CrossAxisAlignment.start,
-  //                     children: [
-  //                       const SizedBox(height: 60.0),
-  //                       Row(
-  //                         mainAxisAlignment: MainAxisAlignment.spaceAround,
-  //                         children: [
-  //                           Column(
-  //                             children: [
-  //                               Stack(
-  //                                 alignment: Alignment.center,
-  //                                 children: [
-  //                                   const Icon(
-  //                                     FontAwesomeIcons.solidStar,
-  //                                     size: 45.0,
-  //                                     color: kMainColor,
-  //                                   ),
-  //                                   Text(
-  //                                     '+10',
-  //                                     style: kTextStyle.copyWith(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16.0),
-  //                                   )
-  //                                 ],
-  //                               ),
-  //                               Text(
-  //                                 'Monday',
-  //                                 style: kTextStyle.copyWith(color: kGreyTextColor),
-  //                               ),
-  //                             ],
-  //                           ).onTap(() => showRewardsPopUp()),
-  //                           Column(
-  //                             children: [
-  //                               Stack(
-  //                                 alignment: Alignment.center,
-  //                                 children: [
-  //                                   const Icon(
-  //                                     FontAwesomeIcons.solidStar,
-  //                                     size: 45.0,
-  //                                     color: kMainColor,
-  //                                   ),
-  //                                   Text(
-  //                                     '+10',
-  //                                     style: kTextStyle.copyWith(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16.0),
-  //                                   )
-  //                                 ],
-  //                               ),
-  //                               Text(
-  //                                 'Tuesday',
-  //                                 style: kTextStyle.copyWith(color: kGreyTextColor),
-  //                               ),
-  //                             ],
-  //                           ).onTap(() => showRewardsPopUp()),
-  //                           Column(
-  //                             children: [
-  //                               Stack(
-  //                                 alignment: Alignment.center,
-  //                                 children: [
-  //                                   const Icon(
-  //                                     FontAwesomeIcons.solidStar,
-  //                                     size: 45.0,
-  //                                     color: kMainColor,
-  //                                   ),
-  //                                   Text(
-  //                                     '+10',
-  //                                     style: kTextStyle.copyWith(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16.0),
-  //                                   )
-  //                                 ],
-  //                               ),
-  //                               Text(
-  //                                 'Wednes',
-  //                                 style: kTextStyle.copyWith(color: kGreyTextColor),
-  //                               ),
-  //                             ],
-  //                           ).onTap(() => showRewardsPopUp()),
-  //                         ],
-  //                       ),
-  //                       const SizedBox(height: 20.0),
-  //                       Row(
-  //                         mainAxisAlignment: MainAxisAlignment.spaceAround,
-  //                         children: [
-  //                           Column(
-  //                             children: [
-  //                               Stack(
-  //                                 alignment: Alignment.center,
-  //                                 children: [
-  //                                   const Icon(
-  //                                     FontAwesomeIcons.solidStar,
-  //                                     size: 45.0,
-  //                                     color: kMainColor,
-  //                                   ),
-  //                                   Text(
-  //                                     '+10',
-  //                                     style: kTextStyle.copyWith(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16.0),
-  //                                   )
-  //                                 ],
-  //                               ),
-  //                               Text(
-  //                                 'Thursday',
-  //                                 style: kTextStyle.copyWith(color: kGreyTextColor),
-  //                               ),
-  //                             ],
-  //                           ).onTap(() => showRewardsPopUp()),
-  //                           Column(
-  //                             children: [
-  //                               Stack(
-  //                                 alignment: Alignment.center,
-  //                                 children: [
-  //                                   const Icon(
-  //                                     FontAwesomeIcons.solidStar,
-  //                                     size: 45.0,
-  //                                     color: kMainColor,
-  //                                   ),
-  //                                   Text(
-  //                                     '+10',
-  //                                     style: kTextStyle.copyWith(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16.0),
-  //                                   )
-  //                                 ],
-  //                               ),
-  //                               Text(
-  //                                 'Friday',
-  //                                 style: kTextStyle.copyWith(color: kGreyTextColor),
-  //                               ),
-  //                             ],
-  //                           ).onTap(() => showRewardsPopUp()),
-  //                           Column(
-  //                             children: [
-  //                               Stack(
-  //                                 alignment: Alignment.center,
-  //                                 children: [
-  //                                   const Icon(
-  //                                     FontAwesomeIcons.solidStar,
-  //                                     size: 45.0,
-  //                                     color: kMainColor,
-  //                                   ),
-  //                                   Text(
-  //                                     '+10',
-  //                                     style: kTextStyle.copyWith(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16.0),
-  //                                   )
-  //                                 ],
-  //                               ),
-  //                               Text(
-  //                                 'Saturday',
-  //                                 style: kTextStyle.copyWith(color: kGreyTextColor),
-  //                               ),
-  //                             ],
-  //                           ).onTap(() => showRewardsPopUp()),
-  //                         ],
-  //                       ),
-  //                       const SizedBox(height: 20.0),
-  //                       Center(
-  //                         child: Column(
-  //                           children: [
-  //                             Stack(
-  //                               alignment: Alignment.center,
-  //                               children: [
-  //                                 const Icon(
-  //                                   FontAwesomeIcons.solidStar,
-  //                                   size: 45.0,
-  //                                   color: kMainColor,
-  //                                 ),
-  //                                 Text(
-  //                                   '+10',
-  //                                   style: kTextStyle.copyWith(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16.0),
-  //                                 )
-  //                               ],
-  //                             ),
-  //                             Text(
-  //                               'Sunday',
-  //                               style: kTextStyle.copyWith(color: kGreyTextColor),
-  //                             ),
-  //                           ],
-  //                         ),
-  //                       ).onTap(() => showRewardsPopUp()),
-  //                     ],
-  //                   ),
-  //                 ),
-  //               ),
-  //             ),
-  //             const Padding(
-  //               padding: EdgeInsets.only(top: 87),
-  //               child: Image(
-  //                 image: AssetImage('images/star.png'),
-  //               ),
-  //             ),
-  //           ],
-  //         );
-  //       });
-  // }
 
   List<String> bannerList = [
     'images/banner1.png',
@@ -802,7 +592,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     if (status) {
                                       showRewardPopUp('100');
                                       EasyLoading.showSuccess('Reward Added');
-                                      admob.showInterstitialAd();
+                                    //  admob.showInterstitialAd();
                                       ref.refresh(personalProfileProvider);
                                     } else {
                                       EasyLoading.showError(

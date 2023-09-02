@@ -14,8 +14,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:stack_appodeal_flutter/stack_appodeal_flutter.dart';
-import 'package:startapp_sdk/startapp.dart';
-import 'package:unity_ads_plugin/unity_ads_plugin.dart';
+
+
 
 import '../../../Model/purchase_model.dart';
 import '../../../Repositories/rewards_repo.dart';
@@ -66,7 +66,7 @@ class _WheelState extends State<Wheel> {
     super.dispose();
   }
 
-  AdManager adManager = AdManager();
+  // AdManager adManager = AdManager();
 
   @override
   void initState() {
@@ -94,9 +94,7 @@ class _WheelState extends State<Wheel> {
     Appodeal.initialize(
         appKey: "8abe453f94ee0c37eebaac9843e988973d535af009e5ebdd",
         adTypes: [
-
           AppodealAdType.RewardedVideo,
-
         ],
         onInitializationFinished: (errors) => {});
     // Set ad auto caching enabled or disabled
@@ -127,8 +125,8 @@ class _WheelState extends State<Wheel> {
             EasyLoading.show(status: 'Getting rewards');
             bool isValid = await PurchaseModel().isActiveBuyer();
             if (isValid) {
-              var response = await RewardRepo().addPoint(
-                  '10', 'Appodeal Video Ads');
+              var response =
+                  await RewardRepo().addPoint('10', 'Appodeal Video Ads');
               if (response) {
                 EasyLoading.showSuccess('You Have Earned 10 Coins');
               } else {
@@ -141,18 +139,15 @@ class _WheelState extends State<Wheel> {
             EasyLoading.showError(e.toString());
           }
         },
-
         onRewardedVideoClosed: (isFinished) => {},
         onRewardedVideoExpired: () => {},
         onRewardedVideoClicked: () => {});
   }
 
   bool isBalanceShow = false;
-  Admob admob = Admob();
-  var startAppSdk = StartAppSdk();
-  StartApp startApp = StartApp();
-  bool isFirst = true;
 
+
+  bool isFirst = true;
 
   void showRewardPopUp(String amount) {
     showDialog(
@@ -188,9 +183,7 @@ class _WheelState extends State<Wheel> {
                             children: [
                               const SizedBox(height: 20.0),
                               Text(
-                                lang.S
-                                    .of(context)
-                                    .congratulations,
+                                lang.S.of(context).congratulations,
                                 style: kTextStyle.copyWith(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
@@ -198,9 +191,7 @@ class _WheelState extends State<Wheel> {
                               ),
                               const SizedBox(height: 5.0),
                               Text(
-                                '$amount ${lang.S
-                                    .of(context)
-                                    .pointRecived}',
+                                '$amount ${lang.S.of(context).pointRecived}',
                                 style: kTextStyle.copyWith(color: Colors.white),
                                 maxLines: 2,
                               ),
@@ -220,19 +211,16 @@ class _WheelState extends State<Wheel> {
                                   padding: const EdgeInsets.only(
                                       left: 20.0, right: 20.0),
                                   child: Text(
-                                    lang.S
-                                        .of(context)
-                                        .ok,
+                                    lang.S.of(context).ok,
                                     style: kTextStyle.copyWith(
                                       color: Colors.white,
                                     ),
                                   ),
                                 ),
-                              ).onTap(() =>
-                              {
-                                finish(context),
-                                const Home().launch(context),
-                              })
+                              ).onTap(() => {
+                                    finish(context),
+                                    const Home().launch(context),
+                                  })
                             ],
                           ),
                         )
@@ -256,25 +244,21 @@ class _WheelState extends State<Wheel> {
       '20',
       '30',
       '40',
-      '50',
-
-
+      '50'
 
     ];
     return Consumer(builder: (_, ref, watch) {
-      isFirst ? startApp.loadRewardedVideoAd(ref: ref) : null;
-      isFirst = true;
+
       AsyncValue<UserProfileModel> profile = ref.watch(personalProfileProvider);
       return profile.when(data: (info) {
         return SafeArea(
           child: Scaffold(
             body: Consumer(builder: (_, ref, watch) {
-              isFirst ? startApp.loadRewardedVideoAd(ref: ref) : null;
-              isFirst = true;
+
               AsyncValue<UserProfileModel> profile =
-              ref.watch(personalProfileProvider);
+                  ref.watch(personalProfileProvider);
               AsyncValue<UserProfileModel> userInfo =
-              ref.watch(personalProfileProvider);
+                  ref.watch(personalProfileProvider);
               return Stack(
                 alignment: Alignment.topCenter,
                 children: [
@@ -297,13 +281,11 @@ class _WheelState extends State<Wheel> {
                                 FeatherIcons.arrowLeft,
                                 color: Colors.white,
                               ).onTap(
-                                    () => Navigator.pop(context),
+                                () => Navigator.pop(context),
                               ),
                               const SizedBox(width: 5.0),
                               Text(
-                                lang.S
-                                    .of(context)
-                                    .wheel,
+                                lang.S.of(context).wheel,
                                 style: kTextStyle.copyWith(
                                     color: Colors.white, fontSize: 18.0),
                               ),
@@ -325,18 +307,18 @@ class _WheelState extends State<Wheel> {
                                   ),
                                   child: Row(
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       AnimatedOpacity(
                                         opacity: !isBalanceShow ? 1.0 : 0.0,
                                         duration:
-                                        const Duration(milliseconds: 1000),
+                                            const Duration(milliseconds: 1000),
                                         child: Container(
                                           height: 20,
                                           width: 20,
                                           decoration: BoxDecoration(
                                             borderRadius:
-                                            BorderRadius.circular(30.0),
+                                                BorderRadius.circular(30.0),
                                             color: kMainColor,
                                             border: Border.all(
                                                 color: Colors.white,
@@ -353,11 +335,8 @@ class _WheelState extends State<Wheel> {
                                       userInfo.when(data: (info) {
                                         return Text(
                                           isBalanceShow
-                                              ? '\$${info.data?.user?.wallet
-                                              ?.balance ?? ''}'
-                                              : lang.S
-                                              .of(context)
-                                              .balance,
+                                              ? '\$${info.data?.user?.wallet?.balance ?? ''}'
+                                              : lang.S.of(context).balance,
                                           style: kTextStyle.copyWith(
                                               color: Colors.white),
                                         );
@@ -374,13 +353,13 @@ class _WheelState extends State<Wheel> {
                                       AnimatedOpacity(
                                         opacity: isBalanceShow ? 1.0 : 0.0,
                                         duration:
-                                        const Duration(milliseconds: 1000),
+                                            const Duration(milliseconds: 1000),
                                         child: Container(
                                           height: 20,
                                           width: 20,
                                           decoration: BoxDecoration(
                                             borderRadius:
-                                            BorderRadius.circular(30.0),
+                                                BorderRadius.circular(30.0),
                                             color: kMainColor,
                                             border: Border.all(
                                                 color: Colors.white,
@@ -417,20 +396,16 @@ class _WheelState extends State<Wheel> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                lang.S
-                                    .of(context)
-                                    .spinTheWheel,
+                                lang.S.of(context).spinTheWheel,
                                 style: kTextStyle.copyWith(
                                     color: kTitleColor,
                                     fontWeight: FontWeight.bold),
                               ),
                               const SizedBox(height: 5.0),
                               Text(
-                                lang.S
-                                    .of(context)
-                                    .pressTheSpinWheel,
-                                style: kTextStyle.copyWith(
-                                    color: kGreyTextColor),
+                                lang.S.of(context).pressTheSpinWheel,
+                                style:
+                                    kTextStyle.copyWith(color: kGreyTextColor),
                               ),
                               Stack(
                                 alignment: Alignment.bottomCenter,
@@ -452,14 +427,14 @@ class _WheelState extends State<Wheel> {
                                       }
 
                                       isSpinning =
-                                      true; // Set the spinning state to true
+                                          true; // Set the spinning state to true
 
                                       SharedPreferences prefs =
-                                      await SharedPreferences.getInstance();
+                                          await SharedPreferences.getInstance();
                                       int spinCount =
                                           prefs.getInt('spinCount') ?? 0;
                                       String? spinTimeStr =
-                                      prefs.getString('spinTime');
+                                          prefs.getString('spinTime');
                                       DateTime? lastSpinTime;
 
                                       // Check if the saved spin time is not null and in a valid format
@@ -472,22 +447,25 @@ class _WheelState extends State<Wheel> {
                                         }
                                       }
 
-                                      // Check if the user has already spun the wheel 10 times within 24 hours
+                                      print('Initial spinCount: $spinCount');
+                                      print(
+                                          'Initial lastSpinTime: $lastSpinTime');
+
+                                      // Check if the user has already spun the wheel 5 times within 6 hours
                                       if (spinCount >= 5 &&
                                           lastSpinTime != null &&
-                                          DateTime
-                                              .now()
-                                              .difference(lastSpinTime)
-                                              .inHours <
-                                              6) {
-                                        // Show a dialog to inform the user about the spin limit
+                                          DateTime.now()
+                                                  .difference(lastSpinTime)
+                                                  .inHours <
+                                              22) {
+                                        // Show a dialog...
                                         showDialog(
                                           context: context,
                                           builder: (BuildContext context) {
                                             return AlertDialog(
                                               title: Text('Spin Limit Reached'),
                                               content: Text(
-                                                'You have reached the maximum number of spins allowed within 6 hours. \n እባክዎ ከ 6 ሰዓታት በኋላ ይመለሱ',
+                                                'You have reached the maximum number of clicks allowed within 22 hours. \n እባክዎ ነገ ይመለሱ',
                                               ),
                                               actions: <Widget>[
                                                 TextButton(
@@ -502,21 +480,34 @@ class _WheelState extends State<Wheel> {
                                         );
 
                                         isSpinning =
-                                        false; // Set the spinning state back to false
+                                            false; // Set the spinning state back to false
+                                        print('Spin limit reached');
                                         return;
                                       }
 
+                                      // Check if the user waited for 4 minutes since the last spin
+                                      if (lastSpinTime != null &&
+                                          DateTime.now()
+                                                  .difference(lastSpinTime)
+                                                  .inHours >=
+                                              22) {
+                                        spinCount =
+                                            0; // Reset the spin count to 0
+                                        print('Spin count reset to 0');
+                                      }
+
                                       // Save the current spin time
-                                      prefs.setString(
-                                          'spinTime',
+                                      prefs.setString('spinTime',
                                           DateTime.now().toString());
 
                                       // Increment the spin count
                                       spinCount++;
+
+                                      // Commit the updated spin count to shared preferences
                                       prefs.setInt('spinCount', spinCount);
 
-                                      int se = Fortune.randomInt(
-                                          0, items.length);
+                                      int se =
+                                          Fortune.randomInt(0, items.length);
                                       selected.add(se);
                                       await Future.delayed(
                                           const Duration(seconds: 5));
@@ -524,15 +515,15 @@ class _WheelState extends State<Wheel> {
                                       try {
                                         EasyLoading.show(
                                             status: 'Getting rewards');
-                                        var response = await RewardRepo()
-                                            .addPoint(
+                                        var response =
+                                            await RewardRepo().addPoint(
                                           items[se],
                                           'Spin Wheel Video Ads',
                                         );
 
                                         if (response) {
-                                          startApp.showAds();
-                                          //AdManager.showIntAd2();
+                                        //////////////////
+                                          appLovin.showAds2();
                                           showRewardPopUp(items[se]);
                                           EasyLoading.showSuccess(
                                               'You Have Earned ${items[se]} Coins');
@@ -546,13 +537,14 @@ class _WheelState extends State<Wheel> {
                                       }
 
                                       isSpinning =
-                                      false; // Set the spinning state back to false
+                                          false; // Set the spinning state back to false
+                                      print('Spinning completed');
                                     },
                                     // Rest of the code...
 
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment
-                                          .center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
                                       children: [
                                         SizedBox(
                                           height: 200,
@@ -591,72 +583,96 @@ class _WheelState extends State<Wheel> {
                               ),
                               const SizedBox(height: 50.0),
                               ButtonGlobal(
-                                  buttontext: lang.S.of(context).watchVideoAndEarn,
-                                  buttonDecoration: kButtonDecoration,
-                                  onPressed: () async {
-                                    SharedPreferences prefs =
-                                    await SharedPreferences.getInstance();
-                                    int buttonClickCount =
-                                        prefs.getInt('buttonClickCount') ?? 0;
-                                    String? lastButtonClickTimeStr =
-                                    prefs.getString('lastButtonClickTime');
-                                    DateTime? lastButtonClickTime;
+                                buttontext:
+                                    lang.S.of(context).watchVideoAndEarn,
+                                buttonDecoration: kButtonDecoration,
+                                onPressed: () async {
+                                  SharedPreferences prefs =
+                                      await SharedPreferences.getInstance();
+                                  int buttonClickCount =
+                                      prefs.getInt('buttonClickCount') ?? 0;
+                                  String? lastButtonClickTimeStr =
+                                      prefs.getString('lastButtonClickTime');
+                                  DateTime? lastButtonClickTime;
 
-                                    // Check if the saved button click time is not null and in a valid format
-                                    if (lastButtonClickTimeStr != null) {
-                                      try {
-                                        lastButtonClickTime =
-                                            DateTime.parse(lastButtonClickTimeStr);
-                                      } catch (e) {
-                                        print('Error parsing button click time: $e');
-                                      }
+                                  // Check if the saved button click time is not null and in a valid format
+                                  if (lastButtonClickTimeStr != null) {
+                                    try {
+                                      lastButtonClickTime = DateTime.parse(
+                                          lastButtonClickTimeStr);
+                                    } catch (e) {
+                                      print(
+                                          'Error parsing button click time: $e');
                                     }
+                                  }
 
-                                    // Check if the user has already clicked the button 25 times within 24 hours
-                                    if (buttonClickCount >= 10 &&
-                                        lastButtonClickTime != null &&
-                                        DateTime.now()
-                                            .difference(lastButtonClickTime)
-                                            .inHours <
-                                            6) {
-                                      // Show a dialog to inform the user about the click limit
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            title: Text('Click Limit Reached'),
-                                            content: Text(
-                                                'You have reached the maximum number of clicks allowed within 6 hours. \n እባክዎ ከ 6 ሰዓታት በኋላ ይመለሱ'),
-                                            actions: <Widget>[
-                                              TextButton(
-                                                child: Text('OK'),
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                },
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      );
-                                      return;
-                                    }
+                                  print(
+                                      'Initial buttonClickCount: $buttonClickCount');
+                                  print(
+                                      'Initial lastButtonClickTime: $lastButtonClickTime');
 
-                                    // Save the current button click time
-                                    prefs.setString('lastButtonClickTime',
-                                        DateTime.now().toString());
+                                  // Check if the user has already clicked the button 10 times within 6 hours
+                                  if (buttonClickCount >= 10 &&
+                                      lastButtonClickTime != null &&
+                                      DateTime.now()
+                                              .difference(lastButtonClickTime)
+                                              .inHours <
+                                          22) {
+                                    // Show a dialog...
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: Text('Click Limit Reached'),
+                                          content: Text(
+                                            'You have reached the maximum number of clicks allowed within 22 hours. \n እባክዎ ነገ ይመለሱ',
+                                          ),
+                                          actions: <Widget>[
+                                            TextButton(
+                                              child: Text('OK'),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                    return;
+                                  }
 
-                                    // Increment the button click count
-                                    buttonClickCount++;
-                                    prefs.setInt(
-                                        'buttonClickCount', buttonClickCount);
+                                  // Check if the user waited for 4 minutes since the last click
+                                  if (lastButtonClickTime != null &&
+                                      DateTime.now()
+                                              .difference(lastButtonClickTime)
+                                              .inHours >=
+                                          22) {
+                                    buttonClickCount =
+                                        0; // Reset the click count to 0
+                                  }
 
-                                    // Show rewarded ads or perform other actions here
-                                    // admob.showRewardedAd(ref: ref);
-                                    Appodeal.show(AppodealAdType.RewardedVideo);
-                                 //   appLovin.showAds(ref: ref);
-                                  },
+                                  // Save the current button click time
+                                  prefs.setString('lastButtonClickTime',
+                                      DateTime.now().toString());
+
+                                  // Increment the button click count
+                                  buttonClickCount++;
+
+                                  // Commit the updated button click count to shared preferences
+                                  prefs.setInt(
+                                      'buttonClickCount', buttonClickCount);
+
+                                  print(
+                                      'Updated buttonClickCount: $buttonClickCount');
+                                  print(
+                                      'Updated lastButtonClickTime: ${DateTime.now()}');
+
+                                  // Show rewarded ads or perform other actions here
+                                  // admob.showRewardedAd(ref: ref);
+                                   Appodeal.show(AppodealAdType.RewardedVideo);
+                                  // appLovin.showAds(ref: ref);
+                                },
                               )
-
                             ],
                           ),
                         ),
@@ -680,4 +696,3 @@ class _WheelState extends State<Wheel> {
     });
   }
 }
-

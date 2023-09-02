@@ -11,7 +11,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:cash_rocket/generated/l10n.dart' as lang;
 import 'package:stack_appodeal_flutter/stack_appodeal_flutter.dart';
-import 'package:unity_ads_plugin/unity_ads_plugin.dart';
+
 import '../../../../Provider/profile_provider.dart';
 import '../../../../Videos/AppLovin/applovin.dart';
 import '../../../../Videos/UnityAds/unity_ads.dart';
@@ -31,8 +31,7 @@ class _VictoryState extends State<Victory> {
   var isLoaded =  Appodeal.isLoaded(AppodealAdType.RewardedVideo);
   AppLovin appLovin = AppLovin();
   // Admob admob = Admob();
-  AdManager adManager =
-  AdManager();
+
   final InAppReview _inAppReview = InAppReview.instance;
   String select = 'com.pioneerdev.coinbirr';
 
@@ -102,18 +101,6 @@ class _VictoryState extends State<Victory> {
     super.initState();
 
 
-    UnityAds.init(
-      gameId: '5321840',
-      onComplete: () => print('Initialization Complete'),
-      onFailed: (error, message) =>
-          print('Initialization Failed: $error $message'),
-    );
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp)  {
-      // Create an instance of the AdManager class
-
-
-      adManager.loadUnityAd2();// Access the method through the instance
-    });
     // remove this code on final product
     /* FacebookAudienceNetwork.init(
         testingId: "37b1da9d-b48c-4103-a393-2e095e734bd6", //optional

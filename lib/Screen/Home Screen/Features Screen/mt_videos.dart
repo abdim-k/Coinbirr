@@ -1,20 +1,25 @@
+import 'dart:io';
+
 import 'package:applovin_max/applovin_max.dart';
 import 'package:cash_rocket/Screen/Constant%20Data/constant.dart';
 import 'package:cash_rocket/Videos/Admob/admob.dart';
 import 'package:cash_rocket/Videos/AppLovin/applovin.dart';
 import 'package:cash_rocket/Videos/StartApp/startapp.dart';
+
 import 'package:facebook_audience_network/facebook_audience_network.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:ironsource_mediation/ironsource_mediation.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:stack_appodeal_flutter/stack_appodeal_flutter.dart';
-import 'package:startapp_sdk/startapp.dart';
+
 import 'package:cash_rocket/generated/l10n.dart' as lang;
-import 'package:unity_ads_plugin/unity_ads_plugin.dart';
-import 'package:vungle/vungle.dart';
+
+
 import '../../../Model/purchase_model.dart';
 import '../../../Model/user_profile_model.dart';
 import '../../../Provider/profile_provider.dart';
@@ -23,6 +28,53 @@ import '../../../Videos/Audience Network/audience_network.dart';
 import '../../../Videos/UnityAds/unity_ads.dart';
 import '../../../Videos/Vungle/vungle.dart';
 import '../no_internet_screen.dart';
+
+
+class Ironsource with IronSourceRewardedVideoListener {
+  @override
+  void onRewardedVideoAdClicked(IronSourceRVPlacement placement) {
+    print('onRewardedVideoAdClicked Placement: $placement');
+  }
+
+  @override
+  void onRewardedVideoAdClosed() {
+    print('onRewardedVideoAdClosed');
+  }
+
+  @override
+  void onRewardedVideoAdEnded() {
+    print('onRewardedVideoAdEnded');
+  }
+
+  @override
+  void onRewardedVideoAdOpened() {
+    print('onRewardedVideoAdOpened');
+  }
+
+  @override
+  void onRewardedVideoAdRewarded(IronSourceRVPlacement placement) {
+    print('onRewardedVideoAdRewarded Placement: $placement');
+    // Implement your logic to reward the user here
+  }
+
+  @override
+  void onRewardedVideoAdShowFailed(IronSourceError error) {
+    print('onRewardedVideoAdShowFailed Error: $error');
+  }
+
+  @override
+  void onRewardedVideoAdStarted() {
+    print('onRewardedVideoAdStarted');
+  }
+
+  @override
+  void onRewardedVideoAvailabilityChanged(bool isAvailable) {
+    print('onRewardedVideoAvailabilityChanged: $isAvailable');
+    // Update the UI based on the availability of rewarded videos
+  }
+}
+
+
 
 class Videos extends StatefulWidget {
   const Videos({Key? key}) : super(key: key);
@@ -35,78 +87,94 @@ enum AdLoadState { notLoaded, loading, loaded }
 
 class _VideosState extends State<Videos> {
   List<String> imageList = [
-   // 'images/bg1.png',
+    'images/bg1.png',
     'images/bg3.png',
     'images/bg2.png',
-   'images/bg4.png',
-   'images/bg2.png',
+  //  'images/bg4.png',
+  //  'images/bg2.png',
   ];
 
   List<String> logoList = [
-   // 'images/app.png',
+    'images/app.png',
     'images/am.png',
-   'images/adgem.png',
-    'images/adcolony.png',
-   'images/sa.png',
+    'images/adgem.png',
+  //  'images/adcolony.png',
+ //   'images/sa.png',
   ];
 
   List<String> titleList = [
-   // '',
+     '',
     '',
-   '',
-   '',
-  '',
+    '',
+ //   '',
+ //   '',
   ];
   List<String> subtitleList = [
-  //  'Watch views and get Points',
     'Watch views and get Points',
     'Watch views and get Points',
-   'Watch views and get Points',
-   'Watch views and get Points',
+    'Watch views and get Points',
+    'Watch views and get Points',
+    'Watch views and get Points',
   ];
 
   bool isBalanceShow = false;
- // FacebookRewardVideoAd facebookRewardVideoAd = FacebookRewardVideoAd();
 
-  var startAppSdk = StartAppSdk();
- VungleAd vungleAd = VungleAd();
+  // FacebookRewardVideoAd facebookRewardVideoAd = FacebookRewardVideoAd();
 
   // Check that interstitial
-  var isCanShow =  Appodeal.canShow(AppodealAdType.RewardedVideo);
+  var isCanShow = Appodeal.canShow(AppodealAdType.RewardedVideo);
+
 // Check that interstitial is loaded
-  var isLoaded =  Appodeal.isLoaded(AppodealAdType.RewardedVideo);
+  var isLoaded = Appodeal.isLoaded(AppodealAdType.RewardedVideo);
+
   // Admob admob = Admob();
 //  FacebookRewardVideoAd facebookRewardVideoAd = FacebookRewardVideoAd();
- //
-
-
-
-
+  //
 
   AppLovin appLovin = AppLovin();
-  StartApp startApp = StartApp();
-
-  AdManager adManager = AdManager();
 
   void initialization() async {
     await AppLovinMAX.initialize(sdkKey);
+    IronSource.validateIntegration();
+    IronSource.setAdaptersDebug(true);
+    Future<void> initIronSource() async {
+      final appKey = '1b67e4185'; // Use the provided App Key from your dashboard
 
-   /* FacebookAudienceNetwork.init(
+      try {
+        IronSource.setFlutterVersion('2.8.1'); // Must be called before init
+        IronSource.validateIntegration();
+        IronSource.setRVListener(Ironsource()); // Set the implemented listener
+        await IronSource.setAdaptersDebug(true);
+        await IronSource.shouldTrackNetworkState(true);
+
+        // Replace 'unique-application-user-id' with an actual user identifier
+        // This could be the user's account ID, a UUID, or any other identifier
+        await IronSource.setUserId('298631');
+
+        // Initialize ironSource with the app key and ad units
+        await IronSource.init(
+          appKey: appKey,
+          adUnits: [IronSourceAdUnit.RewardedVideo],
+        );
+      } on PlatformException catch (e) {
+        print(e);
+      }
+    }
+
+
+
+
+    /* FacebookAudienceNetwork.init(
       testingId: "a77955ee-3304-4635-be65-81029b0f5201",
       iOSAdvertiserTrackingEnabled: true,
     );
 
    */
 
-    vungleAd.loadVungle();
-
-
     Appodeal.initialize(
         appKey: "8abe453f94ee0c37eebaac9843e988973d535af009e5ebdd",
         adTypes: [
-
           AppodealAdType.RewardedVideo,
-
         ],
         onInitializationFinished: (errors) => {});
     // Set ad auto caching enabled or disabled
@@ -117,7 +185,8 @@ class _VideosState extends State<Videos> {
     Appodeal.setTesting(false); //default - false
 
 // Set Appodeal SDK logging level
-    Appodeal.setLogLevel(Appodeal.LogLevelVerbose); //default - Appodeal.LogLevelNone
+    Appodeal.setLogLevel(
+        Appodeal.LogLevelVerbose); //default - Appodeal.LogLevelNone
 
 // Enable or disable child direct threatment
     Appodeal.setChildDirectedTreatment(false); //default - false
@@ -136,10 +205,10 @@ class _VideosState extends State<Videos> {
             EasyLoading.show(status: 'Getting rewards');
             bool isValid = await PurchaseModel().isActiveBuyer();
             if (isValid) {
-              var response = await RewardRepo().addPoint('10', 'Appodeal Video Ads');
+              var response =
+                  await RewardRepo().addPoint('10', 'Appodeal Video Ads');
               if (response) {
                 EasyLoading.showSuccess('You Have Earned 10 Coins');
-
               } else {
                 EasyLoading.showError('Error Happened. Try Again');
               }
@@ -150,15 +219,9 @@ class _VideosState extends State<Videos> {
             EasyLoading.showError(e.toString());
           }
         },
-
         onRewardedVideoClosed: (isFinished) => {},
         onRewardedVideoExpired: () => {},
         onRewardedVideoClicked: () => {});
-
-
-
-
-
   }
 
   Future<void> checkInternet() async {
@@ -168,35 +231,40 @@ class _VideosState extends State<Videos> {
     }
   }
 
+
   @override
   void initState() {
     checkInternet();
 
     initialization();
-   // facebookRewardVideoAd.loadRewardedVideoAd();
+
+
+    // facebookRewardVideoAd.loadRewardedVideoAd();
     //  admob.createRewardedAd();
 
     appLovin.loadAds();
     super.initState();
-    UnityAds.init(
-      gameId: '5321840',
-      onComplete: () => print('Initialization Complete'),
-      onFailed: (error, message) =>
-          print('Initialization Failed: $error $message'),
-    );
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      // Create an instance of the AdManager class
-      await adManager.loadUnityAd3(); // Access the method through the instance
-    });
   }
 
-  bool isFirst = true;
+  Future<void> attemptToShowAd() async {
+    bool isVideoAvailable = await IronSource.isRewardedVideoAvailable();
+
+    if (!isVideoAvailable) {
+      Future.delayed(Duration(seconds: 1), () async {
+        await attemptToShowAd();  // Recursive call
+      });
+    } else {
+      IronSource.showRewardedVideo();
+      print('IronSource Video Displayed');
+    }
+  }
+
+
+
 
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (_, ref, watch) {
-      isFirst? startApp.loadRewardedVideoAd(ref: ref):null;
-      isFirst = true;
       AsyncValue<UserProfileModel> profile = ref.watch(personalProfileProvider);
       return profile.when(data: (info) {
         return Scaffold(
@@ -284,7 +352,13 @@ class _VideosState extends State<Videos> {
             body: SingleChildScrollView(
               child: Column(
                 children: [
-                  Text("እባክዎን የተለያዩ ቪዲዮዎችን ማየትዎን ያረጋግጡ። በዚህ መንገድ ማስታወቂያ ሁል ጊዜ የሚገኝ ይሆናል።", style: TextStyle(fontSize: 19, color: Colors.black, fontWeight: FontWeight.bold),),
+                  Text(
+                    "እባክዎን የተለያዩ ቪዲዮዎችን ማየትዎን ያረጋግጡ። በዚህ መንገድ ማስታወቂያ ሁል ጊዜ የሚገኝ ይሆናል።",
+                    style: TextStyle(
+                        fontSize: 19,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: GridView.count(
@@ -317,21 +391,27 @@ class _VideosState extends State<Videos> {
                                 }
                               }
 
-                              // Check if the user has already clicked the button 25 times within 24 hours
-                              if (buttonClickCount >= 30 &&
+                              print(
+                                  'Initial buttonClickCount: $buttonClickCount');
+                              print(
+                                  'Initial lastButtonClickTime: $lastButtonClickTime');
+
+                              // Check if the user has already clicked the button 50 times within 6 hours
+                              if (buttonClickCount >= 25 &&
                                   lastButtonClickTime != null &&
                                   DateTime.now()
                                           .difference(lastButtonClickTime)
                                           .inHours <
-                                      6) {
-                                // Show a dialog to inform the user about the click limit
+                                      22) {
+                                // Show a dialog...
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
                                     return AlertDialog(
                                       title: Text('Click Limit Reached'),
                                       content: Text(
-                                          'You have reached the maximum number of clicks allowed within 6 hours. \n እባክዎ ከ 6 ሰዓታት በኋላ ይመለሱ'),
+                                        'You have reached the maximum number of clicks allowed within 22 hours. \n እባክዎ ነገ ይመለሱ',
+                                      ),
                                       actions: <Widget>[
                                         TextButton(
                                           child: Text('OK'),
@@ -343,7 +423,20 @@ class _VideosState extends State<Videos> {
                                     );
                                   },
                                 );
+
+                                print('Click limit reached');
                                 return;
+                              }
+
+                              // Check if the user waited for 6 hours since the last click
+                              if (lastButtonClickTime != null &&
+                                  DateTime.now()
+                                          .difference(lastButtonClickTime)
+                                          .inHours >=
+                                      22) {
+                                buttonClickCount =
+                                    0; // Reset the click count to 0
+                                print('Click count reset to 0');
                               }
 
                               // Save the current button click time
@@ -352,37 +445,35 @@ class _VideosState extends State<Videos> {
 
                               // Increment the button click count
                               buttonClickCount++;
+
+                              // Commit the updated button click count to shared preferences
                               prefs.setInt(
                                   'buttonClickCount', buttonClickCount);
 
                               switch (i) {
                                 case 0:
-                                  startApp.showAds();
-
-                                  break;
-                                case 1:
 
                                   Appodeal.show(AppodealAdType.RewardedVideo);
-                                //  await AdManager.showIntAd3(ref: ref);
+                                  print('Showing startApp ads');
+                                  break;
+                                case 1:
+                                  appLovin.showAds(ref: ref);
+                                  print('Showing Appodeal Rewarded Video');
                                   break;
                                 case 2:
-                                  appLovin.showAds(ref: ref);
-
-
-                                //  facebookRewardVideoAd.showRewardedAd();
-
+                                  attemptToShowAd();
+                                  print('Showing appLovin ads');
                                   break;
                                 case 3:
-                                  vungleAd.onPlayAd();
-
-                                  //  // Show interstitial
+                                  print('Showing Vungle ad');
                                   break;
                                 case 4:
-                               //
-                                  //
+
+
+                                  // Handle case 4
                                   break;
                                 default:
-                                  await AdManager.showIntAd3(ref: ref);
+                                  Appodeal.show(AppodealAdType.RewardedVideo);
                               }
                             },
                             child: Stack(

@@ -374,9 +374,10 @@ class _MtQuizState extends State<MtQuiz> {
                     child: SingleChildScrollView(
                       physics: const AlwaysScrollableScrollPhysics(),
                       child: Padding(
-                        padding: const EdgeInsets.all(10.0),
+                        padding: const EdgeInsets.all(0.0),
                         child: Column(
                           children: [
+                            Text("\n አዲስ ጥያቄዎች ከቀኑ 5-7pm ይለቀቃሉ፣ ይከታተሉ እና ገንዘብ ያግኙ::\n\nGaaffiin haaraan guyyaa keessa sa\'aatii 5-7pm jidduutti ni gadhiifama, nu eegaa."),
                             const SizedBox(height: 10.0),
                             ListView.builder(
                                 itemCount: quiz.data?.categoryQuiz?.length ?? 0,
@@ -406,6 +407,7 @@ class _MtQuizState extends State<MtQuiz> {
                                         ),
                                       ),
                                       children: [
+
                                         ListView.builder(
                                             itemCount: quiz
                                                     .data
